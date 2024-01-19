@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta name="csrf-token" content="{{ csrf_token() }}" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/images/logo.jpeg') }}">
+    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/images/logo-icon-2.png') }}">
 
     <meta name="turbolinks-cache-control" content="no-cache">
     {{-- <script defer src="{{ mix('js/app.js') }}"></script>
@@ -40,7 +40,7 @@
     <script>
         var url = window.location.origin;
     </script>
-    <title>SiDiK</title>
+    <title>Taniline</title>
 </head>
 
 <body>
