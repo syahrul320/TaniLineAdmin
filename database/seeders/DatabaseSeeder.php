@@ -25,14 +25,14 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        Perusahaan::factory(1)->create();
-        Bank::factory(1)->create();
+        // Perusahaan::factory(1)->create();
+        // Bank::factory(1)->create();
         // Jenis_tagihan::factory(1)->create();
-        KategoriUser::factory(1)->create();
+        // KategoriUser::factory(1)->create();
 
         // UserCard::factory(5)->create();
 
-        RekPoling::factory(1)->create();
+        // RekPoling::factory(1)->create();
         // Lembaga::factory(2)->create();
         // Kelas::factory(2)->create();
         // Rekening::factory(5)->create();
