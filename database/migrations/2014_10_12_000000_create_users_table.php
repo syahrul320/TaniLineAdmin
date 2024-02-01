@@ -23,9 +23,12 @@ class CreateUsersTable extends Migration
             $table->string('number_telephone')->nullable();
             $table->string('username')->nullable();
             $table->string('password');
-            $table->enum('level', ['1', '2', '3', '4', '5', '6', '7', '8', '9']);
-            $table->string('nis_nip')->nullable();
-            $table->integer('id_perusahaan')->nullable();
+            $table->enum('level', ['pembeli', 'merchant', 'admin']);
+            $table->string('nama_merchant')->nullable();
+            $table->string('alamat');
+            $table->string('saldo')->nullable();
+            $table->string('lokasi');
+            $table->string('token');
             $table->rememberToken();
             $table->timestamps();
         });
