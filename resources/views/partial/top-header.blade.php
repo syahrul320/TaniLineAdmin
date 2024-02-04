@@ -37,21 +37,8 @@
                             <hr class="dropdown-divider">
                         </li>
                         <li>
-                            @if (Auth::user()->level==1)
-                            <a class="dropdown-item" href="{{ route('user') }}">
-                            @elseif (Auth::user()->level==2)
+                            {{-- <a class="dropdown-item" href="{{ route('user') }}"> --}}
                             <a class="dropdown-item" href="{{ route('user_admin') }}">
-                            @elseif (Auth::user()->level==3)
-                            <a class="dropdown-item" href="{{ route('user_admin') }}">
-                            @elseif (Auth::user()->level==4)
-                            <a class="dropdown-item" href="{{ route('user_admin') }}">
-                            @elseif (Auth::user()->level==5)
-                            <a class="dropdown-item" href="{{ route('user_admin') }}">
-                            @elseif (Auth::user()->level==6)
-                            <a class="dropdown-item" href="{{ route('user_admin') }}">
-                            @elseif (Auth::user()->level==7)
-                            <a class="dropdown-item" href="{{ route('user_admin') }}">
-                            @endif
                                 <div class="d-flex align-items-center">
                                     <div class="">
                                         <ion-icon name="person-outline"></ion-icon>

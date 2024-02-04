@@ -17,7 +17,6 @@ class CreateTopupsTable extends Migration
             $table->id();
             $table->string('rrn');
             $table->date('tgl_topup');
-            $table->string('keterangan');
             $table->integer('jumlah');
             $table->string('keterangan');
             $table->foreignId('id_user_merchant')->references('id')->on('users')->onDelete('cascade');

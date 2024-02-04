@@ -25,10 +25,10 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->enum('level', ['pembeli', 'merchant', 'admin']);
             $table->string('nama_merchant')->nullable();
-            $table->string('alamat');
+            $table->string('alamat')->nullable();
             $table->string('saldo')->nullable();
-            $table->string('lokasi');
-            $table->string('token');
+            $table->string('lokasi')->nullable();
+            $table->string('token')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
@@ -39,19 +39,19 @@ class CreateUsersTable extends Migration
             'number_telephone' => '08773736629',
             'username' => 'admin',
             'password' =>   Hash::make('123456'),
-            'level' => '1',
-            'nis_nip' => '123'
+            'level' => 'admin',
+            // 'nis_nip' => '123'
         ]);
 
-        User::create([
-            'name' => 'bank_ntbs',
-            'email' => 'callcenter@bankntb.co.id',
-            'number_telephone' => '(0370) 636331',
-            'username' => 'bank_ntbs',
-            'password' =>   Hash::make('bank_ntbs_123456'),
-            'level' => '9',
-            'nis_nip' => '-'
-        ]);
+        // User::create([
+        //     'name' => 'bank_ntbs',
+        //     'email' => 'callcenter@bankntb.co.id',
+        //     'number_telephone' => '(0370) 636331',
+        //     'username' => 'bank_ntbs',
+        //     'password' =>   Hash::make('bank_ntbs_123456'),
+        //     'level' => '9',
+        //     'nis_nip' => '-'
+        // ]);
     }
 
 
