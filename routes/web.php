@@ -99,9 +99,16 @@ Route::post('/kategori-edit-data', [KategoriController::class, 'edit'])->name('k
 Route::post('/kategori-update-data', [KategoriController::class, 'update'])->name('kategori.update.data')->middleware(['cekrole:admin']);
 Route::post('/kategori-delete-data', [KategoriController::class, 'destroy'])->name('kategori.delete.data')->middleware(['cekrole:admin']);
 
-// Data User Profile admin
+// Data User
 Route::get('/user', [UserController::class, 'index'])->name('user')->middleware(['cekrole:admin']);
 Route::post('/user-insert-data', [UserController::class, 'insert_data'])->name('user.insert.data')->middleware(['cekrole:admin']);
 Route::post('/user-edit-data', [UserController::class, 'edit'])->name('user.edit.data')->middleware(['cekrole:admin']);
 Route::post('/user-update-data', [UserController::class, 'update'])->name('user.update.data')->middleware(['cekrole:admin']);
 Route::post('/user-delete-data', [UserController::class, 'destroy'])->name('user.delete.data')->middleware(['cekrole:admin']);
+
+// Data Merchant
+Route::get('/data-merchant', [MerchantController::class, 'index'])->name('data-merchant')->middleware(['cekrole:admin']);
+Route::post('/data-merchant-insert-data', [MerchantController::class, 'insert_data'])->name('data-merchant.insert.data')->middleware(['cekrole:admin']);
+Route::post('/data-merchant-edit-data', [MerchantController::class, 'edit'])->name('data-merchant.edit.data')->middleware(['cekrole:admin']);
+Route::post('/data-merchant-update-data', [MerchantController::class, 'update'])->name('data-merchant.update.data')->middleware(['cekrole:admin']);
+Route::post('/data-merchant-delete-data', [MerchantController::class, 'destroy'])->name('data-merchant.delete.data')->middleware(['cekrole:admin']);

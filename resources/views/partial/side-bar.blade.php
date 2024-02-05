@@ -38,7 +38,7 @@
                     <ion-icon name="person-sharp"></ion-icon>Data User
                     </a>
                 </li>
-                <li> <a href="#">
+                <li> <a href="{{ route('data-merchant') }}">
                     <ion-icon name="storefront-sharp"></ion-icon>Data Merchant
                     </a>
                 </li>
