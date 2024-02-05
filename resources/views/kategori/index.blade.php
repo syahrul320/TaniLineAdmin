@@ -1,13 +1,13 @@
 @extends('template')
 @section('title')
-Taniline >> Data User
+Taniline >> Kategori
 @endsection
 @section('breadcrumb')
 <link href="{{ asset('assets/plugins/select2/css/select2.min.css') }}" rel="stylesheet" />
 <link href="{{ asset('assets/plugins/select2/css/select2-bootstrap4.css') }}" rel="stylesheet" />
 
 <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
-    <div class="breadcrumb-title pe-3">Data User</div>
+    <div class="breadcrumb-title pe-3">Kategori</div>
     <div class="ps-3">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb mb-0 p-0 align-items-center">
@@ -15,7 +15,7 @@ Taniline >> Data User
                         <ion-icon name="home-outline"></ion-icon>
                     </a>
                 </li>
-                <li class="breadcrumb-item active" aria-current="page">Data User</li>
+                <li class="breadcrumb-item active" aria-current="page">Kategori</li>
             </ol>
         </nav>
     </div>
@@ -32,37 +32,9 @@ Taniline >> Data User
                 <input type="hidden" id="id" class="form-control" name="id" value="">
                 <div class="card-body col-sm-12">
                     <div class="form-group has-feedback">
-                        <b><label>Nama User</label></b>
-                        <input type="text" id="name" class="form-control" placeholder="Nama User" name="name">
-                        <span class="text-danger" id="nameError"></span>
-                    </div>
-                </div>
-                <div class="card-body col-sm-12">
-                    <div class="form-group has-feedback">
-                        <b><label>Email</label></b>
-                        <input type="email" id="email" class="form-control" placeholder="Email" name="email">
-                        <span class="text-danger" id="emailError"></span>
-                    </div>
-                </div>
-                <div class="card-body col-sm-12">
-                    <div class="form-group has-feedback">
-                        <b><label>Nomor HP</label></b>
-                        <input type="text" id="number_telephone" class="form-control" placeholder="Nomor HP" name="number_telephone">
-                        <span class="text-danger" id="number_telephoneError"></span>
-                    </div>
-                </div>
-                <div class="card-body col-sm-12">
-                    <div class="form-group has-feedback">
-                        <b><label>Alamat</label></b>
-                        <input type="text" id="alamat" class="form-control" placeholder="Alamat" name="alamat">
-                        <span class="text-danger" id="alamatError"></span>
-                    </div>
-                </div>
-                <div class="card-body col-sm-12">
-                    <div class="form-group has-feedback">
-                        <b><label>Password</label></b>
-                        <input type="password" id="password" class="form-control" name="password">
-                        <span class="text-danger" id="passwordError"></span>
+                        <b><label>Nama Kategori</label></b>
+                        <input type="text" id="nama_kategori" class="form-control" placeholder="Nama Kategori" name="nama_kategori">
+                        <span class="text-danger" id="nama_kategoriError"></span>
                     </div>
                 </div>
                 <div class="card-footer text-center col-sm-12">
@@ -91,18 +63,12 @@ Taniline >> Data User
                     <thead>
                         <tr>
                             <th>No</th>
-                            <th>Nama User</th>
-                            <th>Email</th>
-                            <th>No HP</th>
-                            <th>Alamat</th>
+                            <th>Nama Kategori</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tfoot>
                         <tr>
-                            <th></th>
-                            <th></th>
-                            <th></th>
                             <th></th>
                             <th></th>
                             <th></th>
@@ -118,5 +84,5 @@ Taniline >> Data User
 @push('scripts')
 
 <script src="{{ asset('assets/js/sweetalert.min.js') }}"></script>
-<script src="{{  asset('assets/js/function/user.js') }}"></script>
+<script src="{{  asset('assets/js/function/kategori.js') }}"></script>
 @endpush

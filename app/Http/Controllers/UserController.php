@@ -2,12 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Device;
-use App\Models\Perusahaan;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Log;
 use Yajra\Datatables\Datatables;
 use Illuminate\Support\Facades\Validator;
 
@@ -16,30 +13,13 @@ class UserController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = Perusahaan::all();
-            return DataTables::of($data)->addColumn('actions', function ($row) {
-                $button = '<a href="user/' . encrypt($row->id) . '"><ion-icon name="newspaper-sharp"></ion-icon></a>';
-                return $button;
-            })
-                ->addIndexColumn()
-                ->removeColumn('id')
-                ->rawColumns(['actions', 'level_admins'])
-                ->make(true);
-        }
-        return view('user.index');
-    }
-
-    public function user(Request $request, $id)
-    {
-        $perusahaan = Perusahaan::findOrFail(decrypt($request->id));
-        if ($request->ajax()) {
-            $data = User::where('id_perusahaan', decrypt($id));
-
+            $data = User::where('level', '=', 'pembeli')->get();
             return DataTables::of($data)->addColumn('actions', function ($row) {
                 $button = '&nbsp;&nbsp;';
                 $button .= '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" onclick= edit("' . encrypt($row->id) . '") data-original-title="Edit"><span class="badge bg-success"> Edit</span></a>';
                 $button .= '&nbsp;&nbsp;';
                 $button .= '<a href="javascript:void(0)" onclick= destroy("' . encrypt($row->id) . '") ><span class="badge bg-warning"> Delete</span></a>';
+            
                 return $button;
             })
                 ->addIndexColumn()
@@ -47,21 +27,18 @@ class UserController extends Controller
                 ->rawColumns(['actions'])
                 ->make(true);
         }
-        return view('user.list', ['perusahaan' => $perusahaan]);
+        return view('user.index');
     }
 
     public function insert_data(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required',
-            'email' => 'required',
-            'number_telephone' => 'required',
-            'username' => 'required',
-            'level' => 'required',
-            'nis_nip' => 'required',
-            'id_perusahaan' => 'required',
+            'email' => 'required|email|max:255|unique:users',
+            'number_telephone' => 'required|numeric',
+            'password' => 'required|min:6',
+            'alamat' => 'required',
         ]);
-
 
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()]);
@@ -70,11 +47,10 @@ class UserController extends Controller
                 'name' => $request->name,
                 'email' => $request->email,
                 'number_telephone' => $request->number_telephone,
-                'username' => $request->username,
                 'password' => Hash::make($request->password),
-                'nis_nip' => $request->nis_nip,
-                'id_perusahaan' => $request->id_perusahaan,
-                'level' => $request->level,
+                'alamat' => $request->alamat,
+                'level' => 'pembeli',
+                'username' => $request->name,
             ]);
             return response()->json(['success' => TRUE]);
         }
@@ -91,12 +67,9 @@ class UserController extends Controller
         $user = User::findOrFail($request->id);
         $validator = Validator::make($request->all(), [
             'name' => 'required',
-            'email' => 'required',
-            'number_telephone' => 'required',
-            'username' => 'required',
-            'level' => 'required',
-            'nis_nip' => 'required',
-            'id_perusahaan' => 'required',
+            'email' => 'required|email|max:255|unique:users',
+            'number_telephone' => 'required|numeric',
+            'alamat' => 'required',
         ]);
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()]);
@@ -106,19 +79,15 @@ class UserController extends Controller
                     'name' => $request->name,
                     'email' => $request->email,
                     'number_telephone' => $request->number_telephone,
-                    'username' => $request->username,
-                    'level' => $request->level,
-                    'nis_nip' => $request->nis_nip,
+                    'alamat' => $request->alamat,
                 ]);
-            } {
+            }else{
                 $user->update([
                     'name' => $request->name,
                     'email' => $request->email,
                     'number_telephone' => $request->number_telephone,
-                    'username' => $request->username,
                     'password' => Hash::make($request->password),
-                    'level' => $request->level,
-                    'nis_nip' => $request->nis_nip,
+                    'alamat' => $request->alamat,
                 ]);
             }
         }

@@ -25,8 +25,11 @@ class User extends Authenticatable
         'username',
         'password',
         'level',
-        'nis_nip',
-        'id_perusahaan',
+        'nama_merchant',
+        'saldo',
+        'alamat',
+        'lokasi',
+        'token',
     ];
 
     /**

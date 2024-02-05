@@ -38,7 +38,7 @@
                         </li>
                         <li>
                             {{-- <a class="dropdown-item" href="{{ route('user') }}"> --}}
-                            <a class="dropdown-item" href="{{ route('user_admin') }}">
+                            <a class="dropdown-item" href="{{ route('user') }}">
                                 <div class="d-flex align-items-center">
                                     <div class="">
                                         <ion-icon name="person-outline"></ion-icon>

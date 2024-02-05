@@ -34,7 +34,7 @@
                 <div class="menu-title">Data</div>
             </a>
             <ul>
-                <li> <a href="#">
+                <li> <a href="{{ route('user') }}">
                     <ion-icon name="person-sharp"></ion-icon>Data User
                     </a>
                 </li>
@@ -46,7 +46,7 @@
                     <ion-icon name="storefront-sharp"></ion-icon>Data Produk
                     </a>
                 </li>
-                <li> <a href="#">
+                <li> <a href="{{ route('kategori') }}">
                     <ion-icon name="storefront-sharp"></ion-icon>Data Kategori
                     </a>
                 </li>
