@@ -6,6 +6,7 @@
     "license": "MIT",
     "require": {
         "php": "^7.3|^8.0",
+        "ext-json": "*",
         "fruitcake/laravel-cors": "^2.0",
         "goodnesskay/laravelpdfviewer": "^1.0",
         "guzzlehttp/guzzle": "^7.0.1",
@@ -16,8 +17,7 @@
         "laravel/tinker": "^2.5",
         "lorisleiva/laravel-actions": "*",
         "maatwebsite/excel": "^3.1",
-        "yajra/laravel-datatables-oracle": "~9.0",
-      "ext-json": "*"
+        "yajra/laravel-datatables-oracle": "~9.0"
     },
     "require-dev": {
         "facade/ignition": "^2.5",

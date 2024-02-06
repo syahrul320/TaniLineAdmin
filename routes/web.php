@@ -55,6 +55,7 @@ use App\Http\Controllers\SaldoMerchantMerchantController;
 use App\Http\Controllers\SaldoUserCardAdminController;
 use App\Http\Controllers\SaldoUserCardController;
 use App\Http\Controllers\SaldoUserCardMerchantController;
+use App\Http\Controllers\SettingController;
 use App\Http\Controllers\Tagihan_userAdminController;
 use App\Http\Controllers\Tagihan_userController;
 use App\Http\Controllers\TestBayarController;
@@ -112,3 +113,21 @@ Route::post('/data-merchant-insert-data', [MerchantController::class, 'insert_da
 Route::post('/data-merchant-edit-data', [MerchantController::class, 'edit'])->name('data-merchant.edit.data')->middleware(['cekrole:admin']);
 Route::post('/data-merchant-update-data', [MerchantController::class, 'update'])->name('data-merchant.update.data')->middleware(['cekrole:admin']);
 Route::post('/data-merchant-delete-data', [MerchantController::class, 'destroy'])->name('data-merchant.delete.data')->middleware(['cekrole:admin']);
+
+// Data User Admin
+Route::get('/useradmin', [UserAdminController::class, 'index'])->name('useradmin')->middleware(['cekrole:admin']);
+Route::post('/useradmin-insert-data', [UserAdminController::class, 'insert_data'])->name('useradmin.insert.data')->middleware(['cekrole:admin']);
+Route::post('/useradmin-edit-data', [UserAdminController::class, 'edit'])->name('useradmin.edit.data')->middleware(['cekrole:admin']);
+Route::post('/useradmin-update-data', [UserAdminController::class, 'update'])->name('useradmin.update.data')->middleware(['cekrole:admin']);
+Route::post('/useradmin-delete-data', [UserAdminController::class, 'destroy'])->name('useradmin.delete.data')->middleware(['cekrole:admin']);
+
+// Setting
+Route::get('/setting', [SettingController::class, 'index'])->name('setting')->middleware(['cekrole:admin']);
+Route::post('/setting-update-data', [SettingController::class, 'update'])->name('setting.update.data')->middleware(['cekrole:admin']);
+
+// Data Informasi
+Route::get('/informasi', [InformasiController::class, 'index'])->name('informasi')->middleware(['cekrole:admin']);
+Route::post('/informasi-insert-data', [InformasiController::class, 'insert_data'])->name('informasi.insert.data')->middleware(['cekrole:admin']);
+Route::post('/informasi-edit-data', [InformasiController::class, 'edit'])->name('informasi.edit.data')->middleware(['cekrole:admin']);
+Route::post('/informasi-update-data', [InformasiController::class, 'update'])->name('informasi.update.data')->middleware(['cekrole:admin']);
+Route::post('/informasi-delete-data', [InformasiController::class, 'destroy'])->name('informasi.delete.data')->middleware(['cekrole:admin']);

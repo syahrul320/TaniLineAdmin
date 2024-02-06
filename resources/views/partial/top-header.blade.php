@@ -37,13 +37,25 @@
                             <hr class="dropdown-divider">
                         </li>
                         <li>
-                            {{-- <a class="dropdown-item" href="{{ route('user') }}"> --}}
-                            <a class="dropdown-item" href="{{ route('user') }}">
+                            <a class="dropdown-item" href="{{ route('setting') }}">
                                 <div class="d-flex align-items-center">
                                     <div class="">
                                         <ion-icon name="person-outline"></ion-icon>
                                     </div>
                                     <div class="ms-3"><span>Setting</span></div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="{{ route('useradmin') }}">
+                                <div class="d-flex align-items-center">
+                                    <div class="">
+                                        <ion-icon name="person-outline"></ion-icon>
+                                    </div>
+                                    <div class="ms-3"><span>User Admin</span></div>
                                 </div>
                             </a>
                         </li>

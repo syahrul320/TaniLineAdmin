@@ -21,6 +21,7 @@ use Illuminate\Events\EventDispatcher;
 use Illuminate\Support\Carbon as IlluminateCarbon;
 use Illuminate\Support\Facades\Date;
 use Throwable;
+use Illuminate\Support\Facades\Blade;
 
 class ServiceProvider extends \Illuminate\Support\ServiceProvider
 {
@@ -56,6 +57,8 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
                 $service->updateLocale();
             });
         }
+
+        Blade::directive('currency', function ( $expression ) { return "Rp. <?php echo number_format($expression,0,',','.'); ?>"; });
     }
 
     public function updateLocale()

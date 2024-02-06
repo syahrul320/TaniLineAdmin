@@ -50,6 +50,10 @@
                     <ion-icon name="storefront-sharp"></ion-icon>Data Kategori
                     </a>
                 </li>
+                <li> <a href="{{ route('informasi') }}">
+                    <ion-icon name="storefront-sharp"></ion-icon>Data Informasi
+                    </a>
+                </li>
             </ul>
         </li>
 
