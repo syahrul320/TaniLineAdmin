@@ -42,7 +42,7 @@
                     <ion-icon name="storefront-sharp"></ion-icon>Data Merchant
                     </a>
                 </li>
-                <li> <a href="#">
+                <li> <a href="{{ route('produk') }}">
                     <ion-icon name="storefront-sharp"></ion-icon>Data Produk
                     </a>
                 </li>

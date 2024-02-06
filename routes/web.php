@@ -47,6 +47,7 @@ use App\Http\Controllers\PencairanMerchantController;
 use App\Http\Controllers\PerusahaanAdminController;
 use App\Http\Controllers\PerusahaanController;
 use App\Http\Controllers\PrivacyController;
+use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\RekeningMerchantAdminController;
 use App\Http\Controllers\RekeningPolingController;
 use App\Http\Controllers\SaldoMerchantAdminController;
@@ -131,3 +132,8 @@ Route::post('/informasi-insert-data', [InformasiController::class, 'insert_data'
 Route::post('/informasi-edit-data', [InformasiController::class, 'edit'])->name('informasi.edit.data')->middleware(['cekrole:admin']);
 Route::post('/informasi-update-data', [InformasiController::class, 'update'])->name('informasi.update.data')->middleware(['cekrole:admin']);
 Route::post('/informasi-delete-data', [InformasiController::class, 'destroy'])->name('informasi.delete.data')->middleware(['cekrole:admin']);
+
+// Data Produk
+Route::get('/produk', [ProdukController::class, 'index'])->name('produk')->middleware(['cekrole:admin']);
+Route::post('/produk-kategori-select', [ProdukController::class, 'getKategori'])->name('produk.kategori.select')->middleware(['cekrole:admin']);
+// Route::post('/produk-merchant-select', [ProdukController::class, 'getMerchant'])->name('produk.merchant.select')->middleware(['cekrole:admin']);
