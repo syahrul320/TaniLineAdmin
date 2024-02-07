@@ -33,12 +33,12 @@ Taniline >> Data Produk
                             <option value=''>-- Pilih Merchant --</option>
                         </select>
                     </div> --}}
-                    <div class="col-sm-3">
+                    {{-- <div class="col-sm-3">
                         <label>Nama Kategori</label>
                         <select id='id_kategori' class='form-control' name="id_kategori">
                             <option value=''>-- Pilih Kategori --</option>
                         </select>
-                    </div>
+                    </div> --}}
                 </div>
                 <table class="table table-striped table-bordered" id="dt_tbl" width="100%">
                     <thead>
