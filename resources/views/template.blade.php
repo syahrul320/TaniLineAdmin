@@ -40,7 +40,7 @@
     <script>
         var url = window.location.origin;
     </script>
-    <title>Taniline</title>
+    <title>TaniLine</title>
 </head>
 
 <body>

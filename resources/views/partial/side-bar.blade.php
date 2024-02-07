@@ -8,7 +8,7 @@
         </div>
         <div>
             <a href="{{ route('dashboard') }}" style="text-decoration: none">
-                <h4 class="logo-text">Taniline</h4>
+                <h4 class="logo-text">TaniLine</h4>
             </a>
         </div>
         <div class="toggle-icon ms-auto">
@@ -43,15 +43,15 @@
                     </a>
                 </li>
                 <li> <a href="{{ route('produk') }}">
-                    <ion-icon name="storefront-sharp"></ion-icon>Data Produk
+                    <ion-icon name="bag-handle-sharp"></ion-icon>Data Produk
                     </a>
                 </li>
                 <li> <a href="{{ route('kategori') }}">
-                    <ion-icon name="storefront-sharp"></ion-icon>Data Kategori
+                    <ion-icon name="grid"></ion-icon>Data Kategori
                     </a>
                 </li>
                 <li> <a href="{{ route('informasi') }}">
-                    <ion-icon name="storefront-sharp"></ion-icon>Data Informasi
+                    <ion-icon name="information-sharp"></ion-icon>Data Informasi
                     </a>
                 </li>
             </ul>

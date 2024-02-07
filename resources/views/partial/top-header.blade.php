@@ -40,7 +40,7 @@
                             <a class="dropdown-item" href="{{ route('setting') }}">
                                 <div class="d-flex align-items-center">
                                     <div class="">
-                                        <ion-icon name="person-outline"></ion-icon>
+                                        <ion-icon name="settings-sharp"></ion-icon>
                                     </div>
                                     <div class="ms-3"><span>Setting</span></div>
                                 </div>
@@ -53,7 +53,7 @@
                             <a class="dropdown-item" href="{{ route('useradmin') }}">
                                 <div class="d-flex align-items-center">
                                     <div class="">
-                                        <ion-icon name="person-outline"></ion-icon>
+                                        <ion-icon name="person-sharp"></ion-icon>
                                     </div>
                                     <div class="ms-3"><span>User Admin</span></div>
                                 </div>
@@ -66,7 +66,7 @@
                             <a class="dropdown-item" href="{{ route('logout') }}">
                                 <div class="d-flex align-items-center">
                                     <div class="">
-                                        <ion-icon name="log-out-outline"></ion-icon>
+                                        <ion-icon name="log-out-sharp"></ion-icon>
                                     </div>
                                     <div class="ms-3"><span>Logout</span></div>
                                 </div>
