@@ -33,7 +33,7 @@
                         <div class="card shadow-none">
                             <div class="card-body">
                                 <div class="text-center">
-                                    <a href="{{ route('dashboard') }}"><img src="{{ asset('assets/images/logo-icon-23.png') }}" width="200px" height="200px" class="logo-icon"
+                                    <a href="{{ route('dashboard') }}"><img src="{{ asset('assets/images/logo-icon-23.png') }}" width="150px" height="150px" class="logo-icon"
                                             alt="logo icon">
                                     </a>
                                     <h4>Sign In</h4>

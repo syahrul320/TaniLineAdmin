@@ -91,29 +91,29 @@ $(document).ready(function () {
       })
 
     //merchant
-    // $( "#id_user_merchant" ).select2({
-    //     ajax: { 
-    //       url: url + "/produk-merchant-select",
-    //       type: "post",
-    //       dataType: 'json',
-    //       delay: 250,
-    //       data: function (params) {
-    //         return {
-    //            search: params.term // search term
-    //         };
-    //       },
-    //       processResults: function (response) {
-    //         return {
-    //           results: response
-    //         };
-    //       },
-    //       cache: true
-    //     }
+    $( "#id_user_merchant" ).select2({
+        ajax: { 
+          url: url + "/produk-merchant-select",
+          type: "post",
+          dataType: 'json',
+          delay: 250,
+          data: function (params) {
+            return {
+               search: params.term // search term
+            };
+          },
+          processResults: function (response) {
+            return {
+              results: response
+            };
+          },
+          cache: true
+        }
 
-    //  });
+     });
 
-    //  $('#id_user_merchant').on('change', function() {
-    //     id_user_merchant = $('#id_user_merchant').val();
-    //     table.draw();
-    //   })
+     $('#id_user_merchant').on('change', function() {
+        id_user_merchant = $('#id_user_merchant').val();
+        table.draw();
+      })
     });

@@ -1303,7 +1303,7 @@ ul.categories-list li {
 
 .login-cover-wrapper {
     width: 25rem;
-    height: 59rem;
+    height: 41rem;
     margin: auto;
     display: flex;
     align-items: center;
@@ -1312,10 +1312,10 @@ ul.categories-list li {
 
 
 .login-cover-img {
-    background-image: url(../images/bg-login.png);
+    background-image: url(../images/au-sign-up-basic.png);
     background-position: center;
     background-size: cover;
-    width: 50%;
+    width: 100%;
     transform: skewX(-10deg);
 }
 

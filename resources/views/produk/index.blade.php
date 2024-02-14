@@ -27,18 +27,18 @@ Taniline >> Data Produk
         <div class="card">
             <div class="card-body">
                 <div class="row" style="margin-bottom: 25px">
-                    {{-- <div class="col-sm-3">
+                    <div class="col-sm-3">
                         <label>Nama Merchant</label>
                         <select id='id_user_merchant' class='form-control' name="id_user_merchant">
                             <option value=''>-- Pilih Merchant --</option>
                         </select>
-                    </div> --}}
-                    {{-- <div class="col-sm-3">
+                    </div>
+                    <div class="col-sm-3">
                         <label>Nama Kategori</label>
                         <select id='id_kategori' class='form-control' name="id_kategori">
                             <option value=''>-- Pilih Kategori --</option>
                         </select>
-                    </div> --}}
+                    </div>
                 </div>
                 <table class="table table-striped table-bordered" id="dt_tbl" width="100%">
                     <thead>

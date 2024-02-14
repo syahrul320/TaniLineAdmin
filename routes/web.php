@@ -136,4 +136,4 @@ Route::post('/informasi-delete-data', [InformasiController::class, 'destroy'])->
 // Data Produk
 Route::get('/produk', [ProdukController::class, 'index'])->name('produk')->middleware(['cekrole:admin']);
 Route::post('/produk-kategori-select', [ProdukController::class, 'getKategori'])->name('produk.kategori.select')->middleware(['cekrole:admin']);
-// Route::post('/produk-merchant-select', [ProdukController::class, 'getMerchant'])->name('produk.merchant.select')->middleware(['cekrole:admin']);
+Route::post('/produk-merchant-select', [ProdukController::class, 'getMerchant'])->name('produk.merchant.select')->middleware(['cekrole:admin']);
