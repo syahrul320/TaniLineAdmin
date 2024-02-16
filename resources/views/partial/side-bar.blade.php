@@ -65,7 +65,7 @@
                 <div class="menu-title">Transaksi</div>
             </a>
             <ul>
-                <li> <a href="#">
+                <li> <a href="{{ route('saldo-merchant') }}">
                     <ion-icon name="pricetags-sharp"></ion-icon>Saldo Merchant
                     </a>
                 </li>

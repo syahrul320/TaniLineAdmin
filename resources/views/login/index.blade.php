@@ -18,11 +18,16 @@
     <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/css/icons.css') }}" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        body {
+            width: 100%
+        }
+    </style>
 
     <title>TaniLine</title>
 </head>
 
-<body class="bg-white">
+<body class="bg-white" background="{{ asset('assets/images/login.png') }}">
 
     <!--start wrapper-->
     <div class="wrapper">
@@ -33,8 +38,9 @@
                         <div class="card shadow-none">
                             <div class="card-body">
                                 <div class="text-center">
-                                    <a href="{{ route('dashboard') }}"><img src="{{ asset('assets/images/logo-icon-23.png') }}" width="150px" height="150px" class="logo-icon"
-                                            alt="logo icon">
+                                    <a href="{{ route('dashboard') }}"><img
+                                            src="{{ asset('assets/images/logo-icon-23.png') }}" width="150px"
+                                            height="150px" class="logo-icon" alt="logo icon">
                                     </a>
                                     <h4>Sign In</h4>
                                     <p>Sign In to your account</p>
@@ -44,10 +50,10 @@
                                     <div class="col-12">
                                         <label for="inputEmail" class="form-label">Email</label>
                                         <input type="email" class="form-control" id="inputEmail" name="email">
-                                        @if(session()->has('loginError'))
-                                        <div class="text-danger">
-                                            <small> {{ session('loginError') }}</small>
-                                        </div>
+                                        @if (session()->has('loginError'))
+                                            <div class="text-danger">
+                                                <small> {{ session('loginError') }}</small>
+                                            </div>
                                         @endif
                                     </div>
                                     <div class="col-12">
@@ -82,7 +88,7 @@
                     </div>
                 </div>
                 <div class="col-xl-6 col-lg-12">
-                    <div class="position-absolute top-0 h-100 d-xl-block d-none login-cover-img">
+                    <div class="position-absolute top-0 h-100 d-xl-block d-none">
                         <div class="text-white p-5 w-100">
 
                         </div>

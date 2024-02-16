@@ -95,13 +95,11 @@ Taniline >> Data Merchant
                             <th>Email</th>
                             <th>No HP</th>
                             <th>Alamat</th>
-                            <th>Saldo</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tfoot>
                         <tr>
-                            <th></th>
                             <th></th>
                             <th></th>
                             <th></th>

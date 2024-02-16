@@ -25,7 +25,6 @@ $(document).ready(function () {
             { data: "email", name: "email" },
             { data: "number_telephone", name: "number_telephone" },
             { data: "alamat", name: "alamat" },
-            { data: "saldo", name: "saldo" },
             {
                 data: "actions",
                 name: "actions",
@@ -34,15 +33,9 @@ $(document).ready(function () {
                 sClass: "text-center",
             },
         ],
-        columnDefs: [
-            {
-                targets: 5,
-                render: $.fn.dataTable.render.number(",", ".", 0, ""),
-            },
-        ],
         initComplete: function () {
             this.api()
-                .columns([1, 2, 3, 4,5])
+                .columns([1, 2, 3, 4])
                 .every(function () {
                     var column = this;
                     var input = document.createElement("input");

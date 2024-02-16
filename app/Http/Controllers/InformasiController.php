@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Informasi;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Yajra\Datatables\Datatables;
@@ -27,6 +28,7 @@ class InformasiController extends Controller
                         asset("upload/informasi/$row->image") .'>';
                 })
                 ->addIndexColumn()
+                ->editColumn('created_at', function($row){ $formatedDate = Carbon::createFromFormat('Y-m-d H:i:s', $row->created_at)->format('d-m-Y H:i:s'); return $formatedDate; })
                 ->removeColumn('id')
                 ->rawColumns(['actions','image'])
                 ->make(true);

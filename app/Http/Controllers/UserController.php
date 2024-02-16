@@ -67,7 +67,7 @@ class UserController extends Controller
         $user = User::findOrFail($request->id);
         $validator = Validator::make($request->all(), [
             'name' => 'required',
-            'email' => 'required|email|max:255|unique:users',
+            'email' => 'required',
             'number_telephone' => 'required|numeric',
             'alamat' => 'required',
         ]);
