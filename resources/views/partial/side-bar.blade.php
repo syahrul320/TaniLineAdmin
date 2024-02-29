@@ -8,7 +8,7 @@
         </div>
         <div>
             <a href="{{ route('dashboard') }}" style="text-decoration: none">
-                <h4 class="logo-text">TaniLine</h4>
+                <h4 class="logo-text">{{ config('app.name', 'Laravel') }}</h4>
             </a>
         </div>
         <div class="toggle-icon ms-auto">
@@ -29,29 +29,29 @@
         <li>
             <a href="javascript:;" class="has-arrow">
                 <div class="parent-icon">
-                    <ion-icon name="server-outline"></ion-icon>
+                    <ion-icon name="list-sharp"></ion-icon>
                 </div>
                 <div class="menu-title">Data</div>
             </a>
             <ul>
                 <li> <a href="{{ route('user') }}">
-                    <ion-icon name="person-sharp"></ion-icon>Data User
+                        <ion-icon name="person-sharp"></ion-icon>Data User
                     </a>
                 </li>
                 <li> <a href="{{ route('data-merchant') }}">
-                    <ion-icon name="storefront-sharp"></ion-icon>Data Merchant
+                        <ion-icon name="storefront-sharp"></ion-icon>Data Merchant
                     </a>
                 </li>
                 <li> <a href="{{ route('produk') }}">
-                    <ion-icon name="bag-handle-sharp"></ion-icon>Data Produk
+                        <ion-icon name="bag-handle-sharp"></ion-icon>Data Produk
                     </a>
                 </li>
                 <li> <a href="{{ route('kategori') }}">
-                    <ion-icon name="grid"></ion-icon>Data Kategori
+                        <ion-icon name="list-sharp"></ion-icon>Data Kategori
                     </a>
                 </li>
                 <li> <a href="{{ route('informasi') }}">
-                    <ion-icon name="information-sharp"></ion-icon>Data Informasi
+                        <ion-icon name="information-sharp"></ion-icon>Data Informasi
                     </a>
                 </li>
             </ul>
@@ -60,21 +60,22 @@
         <li>
             <a href="javascript:;" class="has-arrow">
                 <div class="parent-icon">
-                    <ion-icon name="grid-outline"></ion-icon>
+                    <ion-icon name="swap-horizontal-sharp"></ion-icon>
                 </div>
                 <div class="menu-title">Transaksi</div>
             </a>
             <ul>
                 <li> <a href="{{ route('saldo-merchant') }}">
-                    <ion-icon name="pricetags-sharp"></ion-icon>Saldo Merchant
+                        <ion-icon name="cash-sharp"></ion-icon>Saldo Merchant
                     </a>
                 </li>
                 <li> <a href="#">
-                    <ion-icon name="pricetags-sharp"></ion-icon>Status Pesan
+                        <ion-icon name="map-sharp"></ion-icon>Map Merchant
+
                     </a>
                 </li>
                 <li> <a href="#">
-                    <ion-icon name="swap-horizontal-sharp"></ion-icon>Transaksi Merchant
+                        <ion-icon name="business-sharp"></ion-icon>Transaksi Merchant
                     </a>
                 </li>
             </ul>
@@ -82,13 +83,13 @@
         <li>
             <a href="javascript:;" class="has-arrow">
                 <div class="parent-icon">
-                    <ion-icon name="clipboard-outline"></ion-icon>
+                    <ion-icon name="newspaper"></ion-icon>
                 </div>
                 <div class="menu-title">Laporan</div>
             </a>
             <ul>
                 <li> <a href="#}">
-                    <ion-icon name="newspaper"></ion-icon>Laporan Per Merchant
+                        <ion-icon name="newspaper-sharp"></ion-icon>Laporan Merchant
                     </a>
                 </li>
             </ul>
@@ -97,4 +98,3 @@
     <!--end navigation-->
 </aside>
 <!--end sidebar -->
-
