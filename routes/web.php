@@ -93,6 +93,7 @@ Route::post('/auth', [LoginController::class, 'authenticate'])->name('auth')->mi
 Route::get('/dashboard', [Dashboard::class, 'index'])->name('dashboard')->middleware(['cekrole:admin']);
 Route::get('/blank-page', [BlankPage::class, 'index'])->name('blank-page')->middleware(['cekrole:admin']);
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout')->middleware(['cekrole:admin']);
+Route::get('/dashboard/pembayaran/', [Dashboard::class, 'pembayaran'])->name('pembayaran')->middleware(['cekrole:admin']);
 
 // Kategori 
 Route::get('/kategori', [KategoriController::class, 'index'])->name('kategori')->middleware(['cekrole:admin']);

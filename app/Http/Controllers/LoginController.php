@@ -24,9 +24,9 @@ class LoginController extends Controller
             $user = Auth::getProvider()->retrieveByCredentials($credentials);
             Auth::login($user, $request->get('remember'));
 
-            if(Auth::user()->level !=3 ){
-                return $this->authenticated($request, $user);
-            }
+            // if(Auth::user()->level !=3 ){
+            //     return $this->authenticated($request, $user);
+            // }
 
             return redirect()->intended('dashboard');
         }
