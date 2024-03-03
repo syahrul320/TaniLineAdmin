@@ -24,7 +24,7 @@
         }
     </style>
 
-    <title>TaniLine</title>
+    <title>{{ config('app.name', 'Laravel') }}</title>
 </head>
 
 <body class="bg-white" background="{{ asset('assets/images/login.png') }}">
@@ -78,7 +78,7 @@
                                     </div>
                                     <div class="col-12 col-lg-12">
                                         <div class="position-relative border-bottom my-3">
-                                            <div class="position-absolute seperator translate-middle-y">Taniline
+                                            <div class="position-absolute seperator translate-middle-y">{{ config('app.name', 'Laravel') }}
                                             </div>
                                         </div>
                                     </div>

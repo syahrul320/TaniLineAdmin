@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" class="light-theme hydrated">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="light-theme hydrated">
 
 <head>
     <!-- Required meta tags -->
@@ -40,7 +40,7 @@
     <script>
         var url = window.location.origin;
     </script>
-    <title>TaniLine</title>
+    <title>{{ config('app.name', 'Laravel') }}</title>
 </head>
 
 <body>
