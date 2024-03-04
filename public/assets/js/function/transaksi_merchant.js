@@ -17,7 +17,7 @@ $(document).ready(function () {
         orderCellsTop: true,
         lengthMenu: [10, 50, 100, 1000],
         ajax: {
-            url: url + "/transaksi-merchant/",
+            url: url + "/transaksi-pembeli/",
             data: function (d) {
                 (d.start_date = start_date),
                     (d.end_date = end_date),

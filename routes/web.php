@@ -148,5 +148,5 @@ Route::post('/produk-merchant-select', [ProdukController::class, 'getMerchant'])
 Route::get('/saldo-merchant', [SaldoMerchantController::class, 'index'])->name('saldo-merchant')->middleware(['cekrole:admin']);
 
 // Transaski Merchant
-Route::get('/transaksi-merchant', [TransaksiMerchantController::class, 'index'])->name('transaksi-merchant')->middleware(['cekrole:admin']);
+Route::get('/transaksi-pembeli', [TransaksiMerchantController::class, 'index'])->name('transaksi-pembeli')->middleware(['cekrole:admin']);
 Route::post('/transaksi-card-select', [TransaksiMerchantController::class, 'getProduk'])->name('transaksi.usercard.select')->middleware(['cekrole:admin']);

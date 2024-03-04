@@ -1,13 +1,13 @@
 @extends('template')
 @section('title')
-    Taniline >> Transaksi Merchant
+    Taniline >> Transaksi Pembeli
 @endsection
 @section('breadcrumb')
     <link href="{{ asset('assets/plugins/select2/css/select2.min.css') }}" rel="stylesheet" />
     <link href="{{ asset('assets/plugins/select2/css/select2-bootstrap4.css') }}" rel="stylesheet" />
 
     <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
-        <div class="breadcrumb-title pe-3">Transaksi Merchant</div>
+        <div class="breadcrumb-title pe-3">Transaksi Pembeli</div>
         <div class="ps-3">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb mb-0 p-0 align-items-center">
@@ -15,7 +15,7 @@
                             <ion-icon name="home-outline"></ion-icon>
                         </a>
                     </li>
-                    <li class="breadcrumb-item active" aria-current="page">Transaksi Merchant</li>
+                    <li class="breadcrumb-item active" aria-current="page">Transaksi Pembeli</li>
                 </ol>
             </nav>
         </div>
