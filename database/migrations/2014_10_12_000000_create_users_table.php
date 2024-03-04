@@ -27,7 +27,8 @@ class CreateUsersTable extends Migration
             $table->string('nama_merchant')->nullable();
             $table->string('alamat')->nullable();
             $table->string('saldo')->nullable();
-            $table->string('lokasi')->nullable();
+            $table->string('latitude ')->nullable();
+            $table->string('longitude')->nullable();
             $table->string('token')->nullable();
             $table->rememberToken();
             $table->timestamps();

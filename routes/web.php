@@ -30,6 +30,7 @@ use App\Http\Controllers\LapUserController;
 use App\Http\Controllers\LembagaAdminController;
 use App\Http\Controllers\LembagaController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\MapController;
 use App\Http\Controllers\Master_tagihanAdminController;
 use App\Http\Controllers\Master_tagihanController;
 use App\Http\Controllers\MerchantAdminController;
@@ -93,7 +94,8 @@ Route::post('/auth', [LoginController::class, 'authenticate'])->name('auth')->mi
 Route::get('/dashboard', [Dashboard::class, 'index'])->name('dashboard')->middleware(['cekrole:admin']);
 Route::get('/blank-page', [BlankPage::class, 'index'])->name('blank-page')->middleware(['cekrole:admin']);
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout')->middleware(['cekrole:admin']);
-Route::get('/dashboard/pembayaran/', [Dashboard::class, 'pembayaran'])->name('pembayaran')->middleware(['cekrole:admin']);
+Route::get('/dashboard/transaksi/', [Dashboard::class, 'transaksi'])->name('transaksi')->middleware(['cekrole:admin']);
+Route::get('/dashboard/topup/', [Dashboard::class, 'topup'])->name('topup')->middleware(['cekrole:admin']);
 
 // Kategori 
 Route::get('/kategori', [KategoriController::class, 'index'])->name('kategori')->middleware(['cekrole:admin']);
@@ -108,6 +110,9 @@ Route::post('/user-insert-data', [UserController::class, 'insert_data'])->name('
 Route::post('/user-edit-data', [UserController::class, 'edit'])->name('user.edit.data')->middleware(['cekrole:admin']);
 Route::post('/user-update-data', [UserController::class, 'update'])->name('user.update.data')->middleware(['cekrole:admin']);
 Route::post('/user-delete-data', [UserController::class, 'destroy'])->name('user.delete.data')->middleware(['cekrole:admin']);
+
+// Data User
+Route::get('/maps', [MapController::class, 'index'])->name('maps')->middleware(['cekrole:admin']);
 
 // Data Merchant
 Route::get('/data-merchant', [MerchantController::class, 'index'])->name('data-merchant')->middleware(['cekrole:admin']);

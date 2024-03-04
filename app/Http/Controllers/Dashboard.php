@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Produk;
+use App\Models\Topup;
 use App\Models\Transaksi;
 use App\Models\User;
 use Carbon\Carbon;
@@ -25,27 +26,73 @@ class Dashboard extends Controller
         return view('dashboard.index', compact('user', 'merchant', 'produk'));
     }
 
-    public function pembayaran(Request $request)
+    public function transaksi(Request $request)
     {
         $from = Carbon::createFromFormat('Y-m-d', $request->get('start_date'))->startOfDay();
         $to = Carbon::createFromFormat('Y-m-d', $request->get('end_date'))->endOfDay();
-        $pendaftaran = User::selectRaw('COUNT(*) AS result')
-            // ->where('status_lunas_daftar', 'Lunas')
+        $transaksi_selesai = Transaksi::selectRaw('SUM(harga) AS result')
+            ->whereBetween('tgl_transaksi', [$from, $to])
+            ->where('status_transaksi', 'selesai')
             ->first()->result;
-        // $daftar_ulang = User::selectRaw('COUNT(*) AS result')
-        //     ->where('status_lunas_daftar_ulang', 'Lunas')
-        //     ->first()->result;
+        $transaksi_diproses = Transaksi::selectRaw('SUM(harga) AS result')
+            ->whereBetween('tgl_transaksi', [$from, $to])
+            ->where('status_transaksi', 'diproses')
+            ->first()->result;
+        $transaksi_diterima = Transaksi::selectRaw('SUM(harga) AS result')
+            ->whereBetween('tgl_transaksi', [$from, $to])
+            ->where('status_transaksi', 'diterima')
+            ->first()->result;
+        $transaksi_batal = Transaksi::selectRaw('SUM(harga) AS result')
+            ->whereBetween('tgl_transaksi', [$from, $to])
+            ->where('status_transaksi', 'batal')
+            ->first()->result;
 
-        if (empty($pendaftaran)) {
-            $pendaftaran = 0;
+
+
+        if (empty($transaksi_selesai)) {
+            $transaksi_selesai = 0;
         }
-        // if (empty($daftar_ulang)) {
-        //     $daftar_ulang = 0;
-        // }
+        if (empty($transaksi_diproses)) {
+            $transaksi_diproses = 0;
+        }
+        if (empty($transaksi_diterima)) {
+            $transaksi_diterima = 0;
+        }
+        if (empty($transaksi_batal)) {
+            $transaksi_batal = 0;
+        }
         $data = array(
-            'pendaftaran' => $pendaftaran,
+            'transaksi_selesai' => $transaksi_selesai,
+            'transaksi_diproses' => $transaksi_diproses,
+            'transaksi_diterima' => $transaksi_diterima,
+            'transaksi_batal' => $transaksi_batal,
         );
 
+
+        echo json_encode($data);
+    }
+
+    public function topup(Request $request)
+    {
+        $from = Carbon::createFromFormat('Y-m-d', $request->get('start_date'))->startOfDay();
+        $to = Carbon::createFromFormat('Y-m-d', $request->get('end_date'))->endOfDay();
+        $topup = Topup::selectRaw('SUM(jumlah) AS result')
+            ->whereBetween('tgl_topup', [$from, $to])
+            ->first()->result;
+        $biaya_admin = Transaksi::selectRaw('SUM(biaya_admin) AS result')
+            ->whereBetween('tgl_transaksi', [$from, $to])
+            ->first()->result;
+
+        if (empty($topup)) {
+            $topup = 0;
+        }
+        if (empty($biaya_admin)) {
+            $biaya_admin = 0;
+        }
+        $data = array(
+            'topup' => $topup,
+            'biaya_admin' => $biaya_admin,
+        );
 
         echo json_encode($data);
     }

@@ -42,6 +42,10 @@
                         <ion-icon name="storefront-sharp"></ion-icon>Data Merchant
                     </a>
                 </li>
+                <li> <a href="{{ route('maps') }}">
+                        <ion-icon name="map-sharp"></ion-icon>Map Merchant
+                    </a>
+                </li>
                 <li> <a href="{{ route('produk') }}">
                         <ion-icon name="bag-handle-sharp"></ion-icon>Data Produk
                     </a>
@@ -67,11 +71,6 @@
             <ul>
                 <li> <a href="{{ route('saldo-merchant') }}">
                         <ion-icon name="cash-sharp"></ion-icon>Saldo Merchant
-                    </a>
-                </li>
-                <li> <a href="#">
-                        <ion-icon name="map-sharp"></ion-icon>Map Merchant
-
                     </a>
                 </li>
                 <li> <a href="#">

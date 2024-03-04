@@ -77,7 +77,7 @@
                 <div class="card radius-10 overflow-hidden w-100">
                     <div class="card-body">
                         <div class="d-flex align-items-center mb-3">
-                            <h6 class="mb-0"><b>Pembayaran Pendaftaran</b></h6>
+                            <h6 class="mb-0"><b>Transaksi</b></h6>
                             <div class="dropdown options ms-auto">
                                 <div id="nominal_date"
                                     style="background: #fff; cursor: pointer; font-size:8px; font-style:bold; padding: 5px 10px; border: 1px solid #ccc; width: 100%">
@@ -88,18 +88,26 @@
                         </div>
                         <div class="chart-container3">
                             <div class="container">
-                                <canvas id="pembayaran"></canvas>
+                                <canvas id="transaksi"></canvas>
                             </div>
                         </div>
                     </div>
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item d-flex justify-content-between align-items-center border-top">
-                            Pendaftaran Lunas
-                            <span class="badge bg-tiffany rounded-pill" id="pendaftaran_nominal">0</span>
+                            Transaksi Selesai
+                            <span class="badge bg-tiffany rounded-pill" id="transaksi_selesai">0</span>
                         </li>
                         <li class="list-group-item d-flex justify-content-between align-items-center">
-                            Daftar Ulang Lunas
-                            <span class="badge bg-tiffany rounded-pill" id="daftar_ulang_nominal">0</span>
+                            Transaksi Diproses
+                            <span class="badge bg-tiffany rounded-pill" id="transaksi_diproses">0</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Transaksi Batal
+                            <span class="badge bg-tiffany rounded-pill" id="transaksi_batal">0</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Transaksi Diterima
+                            <span class="badge bg-tiffany rounded-pill" id="transaksi_diterima">0</span>
                         </li>
                     </ul>
                 </div>
@@ -110,7 +118,7 @@
                         <div class="d-flex align-items-center mb-3">
                             <h6 class="mb-0"><b>Topup</b></h6>
                             <div class="dropdown options ms-auto">
-                                <div id="nominal_date"
+                                <div id="jumlah_date"
                                     style="background: #fff; cursor: pointer; font-size:8px; font-style:bold; padding: 5px 10px; border: 1px solid #ccc; width: 100%">
                                     <i class="fa fa-calendar"></i>&nbsp;
                                     <span></span> <i class="fa fa-caret-down"></i>
@@ -125,13 +133,12 @@
                     </div>
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item d-flex justify-content-between align-items-center border-top">
-                            Produk Terjual
-                            <span class="badge bg-tiffany rounded-pill" id="produk_terjual">0</span>
+                            Total Topup
+                            <span class="badge bg-tiffany rounded-pill" id="topup_nominal">0</span>
                         </li>
                         <li class="list-group-item d-flex justify-content-between align-items-center">
-                            Produk Terjual
-                            <span class="badge bg-tiffany rounded-pill" id="produk_terjual">0</span>
-                        </li>
+                            Total Biaya Admin
+                            <span class="badge bg-tiffany rounded-pill" id="biaya_admin">0</span>
                     </ul>
                 </div>
             </div>
@@ -189,17 +196,19 @@
 
         const data = {
             labels: [
-                'Pembayaran Pendaftaran Lunas',
-                'Pembayaran Daftar Ulang Lunas',
+                'Selesai',
+                'Diproses',
+                'Batal',
+                'Diterima'
             ],
             datasets: [{
                 label: 'My First Dataset',
-                data: [0, 0, 0],
+                data: [0, 0, 0, 0],
                 backgroundColor: [
                     'rgb(255, 99, 132)',
                     'rgb(54, 162, 235)',
-                    // 'rgb(255, 205, 86)',
-                    // 'rgb(255, 172, 86)',
+                    'rgb(255, 205, 86)',
+                    'rgb(255, 172, 86)',
                 ],
                 hoverOffset: 4
             }]
@@ -210,7 +219,7 @@
         };
 
         var nominal = new Chart(
-            document.getElementById('pembayaran'),
+            document.getElementById('transaksi'),
             config,
         );
 
@@ -219,16 +228,117 @@
 
         function nominal_chart(start, end) {
             $.ajax({
-                url: url + "/dashboard/pembayaran?start_date=" + start + "&end_date=" + end,
+                url: url + "/dashboard/transaksi?start_date=" + start + "&end_date=" + end,
                 method: "GET",
                 dataType: "JSON",
                 success: function(param) {
-                    nominal.data.datasets[0].data = [param.pendaftaran, param.daftar_ulang];
+                    nominal.data.datasets[0].data = [param.transaksi_selesai, param.transaksi_diproses, param
+                        .transaksi_batal, param.transaksi_diterima
+                    ];
                     nominal.update();
-                    $('#pendaftaran_nominal').html(param.pendaftaran.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.'));
-                    $('#daftar_ulang_nominal').html(param.daftar_ulang.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.'));
+                    $('#transaksi_selesai').html(param.transaksi_selesai.toString().replace(
+                        /\B(?=(\d{3})+(?!\d))/g, '.'));
+                    $('#transaksi_diproses').html(param.transaksi_diproses.toString().replace(
+                        /\B(?=(\d{3})+(?!\d))/g, '.'));
+                    $('#transaksi_batal').html(param.transaksi_batal.toString().replace(/\B(?=(\d{3})+(?!\d))/g,
+                        '.'));
+                    $('#transaksi_diterima').html(param.transaksi_diterima.toString().replace(
+                        /\B(?=(\d{3})+(?!\d))/g, '.'));
                 }
             });
         }
+
+        const data2 = {
+            labels: [
+                'Topup',
+                "Biaya Admin"
+            ],
+            datasets: [{
+                label: 'My First Dataset',
+                data: [0.0],
+                backgroundColor: [
+                    'rgb(255, 99, 132)',
+                    'rgb(54, 162, 235)',
+                ],
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                },
+                hoverOffset: 4
+            }]
+        };
+        const config2 = {
+            type: 'pie',
+            data: data2,
+        };
+
+        var nominal2 = new Chart(
+            document.getElementById('topup'),
+            config2,
+        );
+
+        nominal2.canvas.parentNode.style.height = '310px';
+        nominal2.canvas.parentNode.style.width = '310px';
+
+        function jumlah_chart(start, end) {
+            $.ajax({
+                url: url + "/dashboard/topup?start_date=" + start + "&end_date=" + end,
+                method: "GET",
+                dataType: "JSON",
+                success: function(param) {
+                    nominal2.data.datasets[0].data = [param.topup, param.biaya_admin];
+                    nominal2.update();
+                    $('#topup_nominal').html(param.topup.toString().replace(
+                        /\B(?=(\d{3})+(?!\d))/g, '.'));
+                    $('#biaya_admin').html(param.biaya_admin.toString().replace(
+                        /\B(?=(\d{3})+(?!\d))/g, '.'));
+                }
+            });
+        }
+
+        $(function() {
+
+            var start2 = moment().subtract(29, 'days');
+            var end2 = moment();
+
+
+
+            function cb2(start2, end2) {
+                $('#jumlah_date span').html(start2.format('YYYY-MM-DD') + ' &#8594; ' + end2.format('YYYY-MM-DD'));
+                jumlah_chart(start2.format('YYYY-MM-DD'), end2.format('YYYY-MM-DD'));
+            }
+
+            $('#jumlah_date').daterangepicker({
+                startDate: start2,
+                endDate: end2,
+                ranges: {
+                    'Today': [moment(), moment()],
+                    'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                    'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                    'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                    'This Month': [moment().startOf('month'), moment().endOf('month')],
+                    'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1,
+                        'month').endOf('month')]
+                }
+            }, cb2);
+
+            cb2(start2, end2);
+
+            $('#jumlah_date').on('apply.daterangepicker', function(ev, picker) {
+                console.log(picker.Date.format('YYYY-MM-DD'));
+                console.log(picker.endDate.format('YYYY-MM-DD'));
+                start_date2 = picker.startDate.format('YYYY-MM-DD');
+                end_date2 = picker.endDate.format('YYYY-MM-DD');
+                jumlah_chart(start_date, end_date);
+            });
+
+        });
     </script>
 @endpush
