@@ -17,6 +17,7 @@ class CreateProduksTable extends Migration
             $table->id();
             $table->string('nama_produk');
             $table->integer('harga');
+            $table->text('image');
             $table->foreignId('id_kategori')->references('id')->on('kategoris')->onDelete('cascade');
             $table->foreignId('id_user_merchant')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
