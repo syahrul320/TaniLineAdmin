@@ -22,12 +22,20 @@
         body {
             width: 100%
         }
+
+        .gambar {
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-image: url('assets/images/login.png');
+        }
     </style>
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 </head>
 
-<body class="bg-white" background="{{ asset('assets/images/login.png') }}">
+<body class="bg-white gambar">
 
     <!--start wrapper-->
     <div class="wrapper">
