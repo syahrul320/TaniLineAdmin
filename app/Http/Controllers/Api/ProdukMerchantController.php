@@ -50,7 +50,7 @@ class ProdukMerchantController extends Controller
 
         if ($request->hasFile('image')) {
             $image = $request->file('image');
-            $imageName = time().'.'.$request->image->extension();
+            $imageName = time() . '.' . $request->image->extension();
             $request->image->move(public_path('upload/produk'), $imageName);
         }
 
@@ -63,5 +63,19 @@ class ProdukMerchantController extends Controller
         ]);
 
         return response()->json($produk, 201);
+    }
+
+    public function destroy($id)
+    {
+        $produk = Produk::findOrFail($id);
+
+        $imagePath = public_path('upload/produk/' . $produk->image);
+        if (file_exists($imagePath)) {
+            unlink($imagePath);
+        }
+
+        $produk->delete();
+
+        return response()->json(['message' => 'Product deleted successfully']);
     }
 }
