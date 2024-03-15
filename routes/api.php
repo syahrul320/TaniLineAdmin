@@ -39,6 +39,10 @@ Route::get('/transaksi/status/{status}', [\App\Http\Controllers\Api\TransaksiCon
 //     return $request->user();
 // });
 
+// merchant
 Route::post('/login-merchant', [\App\Http\Controllers\Api\LoginMerchantController::class, 'login']);
 Route::post('/register-merchant', [\App\Http\Controllers\Api\LoginMerchantController::class, 'register']);
 Route::post('/logout-merchant', [\App\Http\Controllers\Api\LoginMerchantController::class, 'logout']);
+Route::get('/produk-merchant/{id}', [\App\Http\Controllers\Api\ProdukMerchantController::class, 'show']);
+Route::get('/detail-produk-merchant/{id}', [\App\Http\Controllers\Api\ProdukMerchantController::class, 'detail']);
+Route::get('/kategori-merchant', [\App\Http\Controllers\Api\ProdukMerchantController::class, 'showKategori']);
