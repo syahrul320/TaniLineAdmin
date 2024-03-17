@@ -78,4 +78,33 @@ class ProdukMerchantController extends Controller
 
         return response()->json(['message' => 'Product deleted successfully']);
     }
+
+    // public function update(Request $request, $id)
+    // {
+    //     $produk = Produk::findOrFail($id);
+
+    //     $request->validate([
+    //         'nama_produk' => 'required',
+    //         'id_kategori' => 'required',
+    //         'id_user_merchant' => 'required',
+    //         'harga' => 'required',
+    //         'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+    //     ]);
+
+    //     if ($request->hasFile('image')) {
+    //         $image = $request->file('image');
+    //         $imageName = time() . '.' . $request->image->extension();
+    //         $request->image->move(public_path('upload/produk'), $imageName);
+    //     }
+
+    //     $produk->update([
+    //         'nama_produk' => $request->nama_produk,
+    //         'id_kategori' => $request->id_kategori,
+    //         'id_user_merchant' => $request->id_user_merchant,
+    //         'harga' => $request->harga,
+    //         'image' => $imageName
+    //     ]);
+
+    //     return response()->json($produk, 200);
+    // }
 }

@@ -64,13 +64,6 @@ class Kernel extends HttpKernel
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
-        'perusahaan' => \App\Http\Middleware\IsPerusahaan::class,
-        'admin' => \App\Http\Middleware\IsAdmin::class,
-        'merchant' => \App\Http\Middleware\IsMerchant::class,
-        'cs' => \App\Http\Middleware\IsCs::class,
-        'teller' => \App\Http\Middleware\IsTeller::class,
-        'usercard' => \App\Http\Middleware\IsUserCard::class,
-        'mart' => \App\Http\Middleware\IsMart::class,
         'cekrole' => \App\Http\Middleware\CekRole::class,
     ];
 }

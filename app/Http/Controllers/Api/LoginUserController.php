@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
-class LoginMerchantController extends Controller
+class LoginUserController extends Controller
 {
     public function login(Request $request)
     {
@@ -57,6 +57,7 @@ class LoginMerchantController extends Controller
             'email' => 'required|email|unique:users,email',
             'password' => 'required',
             'number_telephone' => 'required',
+            'alamat' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -66,11 +67,10 @@ class LoginMerchantController extends Controller
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
-            'level' => 'merchant',
-            'saldo' => 0, // Saldo default 0
+            'level' => 'pembeli',
             'username' => $request->name,
-            'nama_merchant' => $request->name,
             'number_telephone' => $request->number_telephone,
+            'alamat' => $request->alamat,
             'password' => Hash::make($request->password),
         ]);
 
