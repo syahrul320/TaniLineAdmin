@@ -17,11 +17,7 @@ class CreateTransaksisTable extends Migration
             $table->id();
             $table->string('kode_transaksi');
             $table->foreignId('id_user_pembeli')->references('id')->on('users')->onDelete('cascade');
-            $table->foreignId('id_produk')->references('id')->on('produks')->onDelete('cascade');
-            $table->integer('qty');
-            $table->integer('harga');
             $table->integer('biaya_admin');
-            $table->integer('total_biaya');
             $table->date('tgl_transaksi');
             $table->enum('status_transaksi', ['batal', 'diterima', 'diproses','selesai']);
             $table->timestamps();

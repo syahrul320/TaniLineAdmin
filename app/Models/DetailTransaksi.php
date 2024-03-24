@@ -5,15 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Transaksi extends Model
+class DetailTransaksi extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'kode_transaksi',
-        'id_user_pembeli',
-        'biaya_admin',
-        'tgl_transaksi',
-        'status_transaksi'
+        'id_user_merchant',
+        'id_produk',
+        'id_transaksi',
+        'harga_jual',
+        'qty'
     ];
 }
