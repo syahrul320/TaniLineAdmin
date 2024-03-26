@@ -21,7 +21,7 @@ $(document).ready(function () {
             data: function (d) {
                 (d.start_date = start_date),
                     (d.end_date = end_date),
-                    (d.id_produk = $("#id_produk option:selected").val());
+                    (d.id_user = $("#id_user option:selected").val());
             },
         },
         // ajax: url + "/produk/",
@@ -33,22 +33,28 @@ $(document).ready(function () {
                 serachable: false,
                 sClass: "text-center",
             },
+            { data: "kode_transaksi", name: "kode_transaksi" },
             { data: "name", name: "name" },
-            { data: "nama_produk", name: "nama_produk" },
-            { data: "qty", name: "qty" },
-            { data: "harga", name: "harga" },
-            { data: "status_transaksi", name: "status_transaksi" },
+            { data: "biaya_admin", name: "biaya_admin" },
             { data: "tgl_transaksi", name: "tgl_transaksi" },
+            { data: "status_transaksi", name: "status_transaksi" },
+            {
+                data: "actions",
+                name: "actions",
+                orderable: false,
+                serachable: false,
+                sClass: "text-center",
+            },
         ],
         columnDefs: [
             {
-                targets: 4,
+                targets: 3,
                 render: $.fn.dataTable.render.number(",", ".", 0, ""),
             },
         ],
         initComplete: function () {
             this.api()
-                .columns([1, 2, 3, 4, 5, 6])
+                .columns([1, 2, 3, 4, 5])
                 .every(function () {
                     var column = this;
                     var input = document.createElement("input");
@@ -65,7 +71,7 @@ $(document).ready(function () {
     });
 
     //Kategori
-    $("#id_produk").select2({
+    $("#id_user").select2({
         ajax: {
             url: url + "/transaksi-card-select",
             type: "post",
@@ -85,8 +91,8 @@ $(document).ready(function () {
         },
     });
 
-    $("#id_produk").on("change", function () {
-        id_produk = $("#id_produk").val();
+    $("#id_user").on("change", function () {
+        id_user = $("#id_user").val();
         table.draw();
     });
 });

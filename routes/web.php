@@ -1,78 +1,19 @@
 <?php
 
-use App\Http\Controllers\AnjunganMandiriController;
-use App\Http\Controllers\AutoDebetBayarController;
-use App\Http\Controllers\BankAdminController;
-use App\Http\Controllers\BankController;
-use App\Http\Controllers\BannerController;
 use App\Http\Controllers\BlankPage;
 use App\Http\Controllers\Dashboard;
-use App\Http\Controllers\DataTopUpController;
-use App\Http\Controllers\DataTransaksiUserController;
-use App\Http\Controllers\Det_tagihanAdminController;
-use App\Http\Controllers\Det_tagihanController;
-use App\Http\Controllers\DeviceAdminController;
-use App\Http\Controllers\DeviceController;
-use App\Http\Controllers\HistorySehatAdminController;
-use App\Http\Controllers\HistorySehatController;
-use App\Http\Controllers\HistorySehatMerchantController;
-use App\Http\Controllers\ImportUserController;
-use App\Http\Controllers\InformasiAdminController;
 use App\Http\Controllers\InformasiController;
-use App\Http\Controllers\JenisTagihanAdminController;
-use App\Http\Controllers\JenisTagihanController;
-use App\Http\Controllers\KasKeluarController;
 use App\Http\Controllers\KategoriController;
-use App\Http\Controllers\KategoriUserAdminController;
-use App\Http\Controllers\KategoriUserController;
-use App\Http\Controllers\KelasController;
-use App\Http\Controllers\LapUserController;
-use App\Http\Controllers\LembagaAdminController;
-use App\Http\Controllers\LembagaController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MapController;
-use App\Http\Controllers\Master_tagihanAdminController;
-use App\Http\Controllers\Master_tagihanController;
-use App\Http\Controllers\MerchantAdminController;
 use App\Http\Controllers\MerchantController;
-use App\Http\Controllers\MerchantMerchantController;
-use App\Http\Controllers\MutasiMerchantAdminController;
-use App\Http\Controllers\MutasiMerchantController;
-use App\Http\Controllers\MutasiMerchantMerchantController;
-use App\Http\Controllers\MutasiRekeningAdminController;
-use App\Http\Controllers\MutasiRekeningController;
-use App\Http\Controllers\MutasiRekeningMerchantController;
-use App\Http\Controllers\MutasiRekeningPerUserController;
-use App\Http\Controllers\PencairanController;
-use App\Http\Controllers\PencairanMerchantController;
-use App\Http\Controllers\PerusahaanAdminController;
-use App\Http\Controllers\PerusahaanController;
-use App\Http\Controllers\PrivacyController;
 use App\Http\Controllers\ProdukController;
-use App\Http\Controllers\RekeningMerchantAdminController;
-use App\Http\Controllers\RekeningPolingController;
-use App\Http\Controllers\SaldoMerchantAdminController;
 use App\Http\Controllers\SaldoMerchantController;
-use App\Http\Controllers\SaldoMerchantMerchantController;
-use App\Http\Controllers\SaldoUserCardAdminController;
-use App\Http\Controllers\SaldoUserCardController;
-use App\Http\Controllers\SaldoUserCardMerchantController;
 use App\Http\Controllers\SettingController;
-use App\Http\Controllers\Tagihan_userAdminController;
-use App\Http\Controllers\Tagihan_userController;
-use App\Http\Controllers\TestBayarController;
-use App\Http\Controllers\TransaksiMerchantAdminController;
-use App\Http\Controllers\TransaksiMerchantController;
-use App\Http\Controllers\TransaksiMerchantMerchantController;
-use App\Http\Controllers\TransaksiPembayaranAdminController;
-use App\Http\Controllers\TransaksiPembayaranController;
+use App\Http\Controllers\TransaksiController;
 use App\Http\Controllers\UserAdminController;
-use App\Http\Controllers\UserCardAdminController;
-use App\Http\Controllers\UserCardController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
-
-
 
 
 /*
@@ -148,5 +89,7 @@ Route::post('/produk-merchant-select', [ProdukController::class, 'getMerchant'])
 Route::get('/saldo-merchant', [SaldoMerchantController::class, 'index'])->name('saldo-merchant')->middleware(['cekrole:admin']);
 
 // Transaski Merchant
-Route::get('/transaksi-pembeli', [TransaksiMerchantController::class, 'index'])->name('transaksi-pembeli')->middleware(['cekrole:admin']);
-Route::post('/transaksi-card-select', [TransaksiMerchantController::class, 'getProduk'])->name('transaksi.usercard.select')->middleware(['cekrole:admin']);
+Route::get('/transaksi-pembeli', [TransaksiController::class, 'index'])->name('transaksi-pembeli')->middleware(['cekrole:admin']);
+Route::post('/transaksi-card-select', [TransaksiController::class, 'getUser'])->name('transaksi.usercard.select')->middleware(['cekrole:admin']);
+Route::post('/transaksi-produk-select', [TransaksiController::class, 'getProduk'])->name('transaksi.produk.select')->middleware(['cekrole:admin']);
+Route::get('/transaksi-pembeli/transaksi_detail/{id}', [TransaksiController::class, 'transaksi_detail'])->name('transaksi-detail')->middleware(['cekrole:admin']);
