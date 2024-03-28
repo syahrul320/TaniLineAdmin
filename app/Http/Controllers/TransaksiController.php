@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\DetailTransaksi;
 use App\Models\Transaksi;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Yajra\Datatables\Datatables;
@@ -53,5 +54,28 @@ class TransaksiController extends Controller
                 ->make(true);
         }
         return view('transaksi.transaksi_detail');
+    }
+
+    public function getUser(Request $request)
+    {
+        $search = $request->search;
+        if ($search == '') {
+            $merchant = User::orderby('name', 'asc')->select('id', 'name')
+                ->where('level', 'pembeli')
+                ->limit(5)->get();
+            } else {
+                $merchant = User::orderby('name', 'asc')->select('id', 'name')
+                ->where('level', 'pembeli')
+                ->where('id_user', 'like', '%' . $search . '%')->limit(5)->get();
+            }
+
+        $response = array();
+        foreach ($merchant as $merchants) {
+            $response[] = array(
+                "id" => $merchants->id,
+                "text" => $merchants->name,
+            );
+        }
+        return response()->json($response);
     }
 }

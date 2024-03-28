@@ -1,5 +1,5 @@
 var table;
-var id_produk = "";
+var id_user = "";
 var start_date;
 var end_date;
 $(document).ready(function () {
