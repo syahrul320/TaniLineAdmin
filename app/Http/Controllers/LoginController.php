@@ -19,14 +19,17 @@ class LoginController extends Controller
             'password' => ['required'],
         ]);
 
+        
+
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
             $user = Auth::getProvider()->retrieveByCredentials($credentials);
             Auth::login($user, $request->get('remember'));
 
-            // if(Auth::user()->level !=3 ){
-            //     return $this->authenticated($request, $user);
-            // }
+            if($user->level != 'admin'){
+                Auth::logout();
+                return back()->with('loginError', 'Login hanya untuk admin');
+            }
 
             return redirect()->intended('dashboard');
         }

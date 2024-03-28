@@ -23,6 +23,9 @@ class LoginMerchantController extends Controller
         }
         
         $users = User::where('email', $request->email)->first();
+        if ($users->level != 'merchant') {
+            return response()->json(['message' => 'Bukan Akun Merchant'], 401);
+        }
         if (!Hash::check($request->password, $users->password)) {
             return response()->json(['error' => 'Invalid password'], 401);
         }
