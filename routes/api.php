@@ -37,5 +37,5 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/kategori-merchant', [\App\Http\Controllers\Api\ProdukMerchantController::class, 'showKategori']);
     Route::post('/create-produk-merchant', [\App\Http\Controllers\Api\ProdukMerchantController::class, 'store']);
     Route::delete('/destroy-produk-merchant/{id}', [\App\Http\Controllers\Api\ProdukMerchantController::class, 'destroy']);
-    // Route::put('/update-produk-merchant/{id}', [\App\Http\Controllers\Api\ProdukMerchantController::class, 'update']);
+    Route::put('/update-produk-merchant/{id}', [\App\Http\Controllers\Api\ProdukMerchantController::class, 'update']);
 });

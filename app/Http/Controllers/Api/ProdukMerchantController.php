@@ -6,105 +6,148 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Models\Produk;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class ProdukMerchantController extends Controller
 {
     public function show($id)
     {
-        $produk = DB::table('produks')
-            ->where('produks.id_user_merchant', '=', $id)
-            ->select(['nama_produk', 'users.name', 'kategoris.nama_kategori', 'produks.id'])
-            ->join('users', 'produks.id_user_merchant', '=', 'users.id')
-            ->join('kategoris', 'produks.id_kategori', '=', 'kategoris.id')
-            ->orderByDesc('produks.id')
-            ->paginate(30);
-        return response()->json($produk);
+        try {
+            $produk = DB::table('produks')
+                ->where('produks.id_user_merchant', '=', $id)
+                ->select(['nama_produk', 'users.name', 'kategoris.nama_kategori', 'produks.id'])
+                ->join('users', 'produks.id_user_merchant', '=', 'users.id')
+                ->join('kategoris', 'produks.id_kategori', '=', 'kategoris.id')
+                ->orderByDesc('produks.id')
+                ->paginate(30);
+            return response()->json($produk);
+        } catch (\Throwable $th) {
+            return response()->json(['error' => $th->getMessage()], 401);
+        }
     }
 
     public function detail($id)
     {
-        $produk = DB::table('produks')
-            ->where('produks.id', '=', $id)
-            ->select(['nama_produk', 'users.name', 'kategoris.nama_kategori', 'produks.id'])
-            ->join('users', 'produks.id_user_merchant', '=', 'users.id')
-            ->join('kategoris', 'produks.id_kategori', '=', 'kategoris.id')
-            ->first();
-        return response()->json($produk);
+        try {
+            $produk = DB::table('produks')
+                ->where('produks.id', '=', $id)
+                ->select(['nama_produk', 'users.name', 'kategoris.nama_kategori', 'produks.id'])
+                ->join('users', 'produks.id_user_merchant', '=', 'users.id')
+                ->join('kategoris', 'produks.id_kategori', '=', 'kategoris.id')
+                ->first();
+            return response()->json($produk);
+        } catch (\Throwable $th) {
+            return response()->json(['error' => $th->getMessage()], 401);
+        }
     }
 
     public function showKategori()
     {
-        $kategoris = DB::table('kategoris')->get();
-        return response()->json($kategoris);
+        try {
+            $kategoris = DB::table('kategoris')->get();
+            return response()->json($kategoris);
+        } catch (\Throwable $th) {
+            return response()->json(['error' => $th->getMessage()], 401);
+        }
     }
 
     public function store(Request $request)
     {
-        $request->validate([
-            'nama_produk' => 'required',
-            'id_kategori' => 'required',
-            'id_user_merchant' => 'required',
-            'harga' => 'required',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
-        ]);
+        try {
+            $validator = Validator::make($request->all(), [
+                'nama_produk' => 'required',
+                'id_kategori' => 'required',
+                'id_user_merchant' => 'required',
+                'harga' => 'required',
+                'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
+            ]);
 
-        if ($request->hasFile('image')) {
+            if ($validator->fails()) {
+                return response()->json(['error' => $validator->errors()], 401);
+            }
+
             $image = $request->file('image');
             $imageName = time() . '.' . $request->image->extension();
             $request->image->move(public_path('upload/produk'), $imageName);
+
+            $produk = new Produk();
+            $produk->nama_produk = $request->nama_produk;
+            $produk->id_kategori = $request->id_kategori;
+            $produk->id_user_merchant = $request->id_user_merchant;
+            $produk->harga = $request->harga;
+            $produk->image = $imageName;
+            $produk->save();
+
+            return response()->json($produk, $status = 200);
+        } catch (\Throwable $th) {
+            return response()->json(['error' => $th->getMessage()], 401);
         }
+    }
 
-        $produk = Produk::create([
-            'nama_produk' => $request->nama_produk,
-            'id_kategori' => $request->id_kategori,
-            'id_user_merchant' => $request->id_user_merchant,
-            'harga' => $request->harga,
-            'image' => $imageName
-        ]);
+    public function update(Request $request, $id)
+    {
+        try {
+            $validator = Validator::make($request->all(), [
+                'nama_produk' => 'required',
+                'id_kategori' => 'required',
+                'id_user_merchant' => 'required',
+                'harga' => 'required',
+            ]);
 
-        return response()->json($produk, 201);
+            if ($validator->fails()) {
+                return response()->json(['error' => $validator->errors()], 401);
+            }
+
+            $produk = Produk::findOrFail($id);
+
+            if ($request->hasFile('image')) {
+                $imagePath = public_path('upload/produk/' . $produk->image);
+                if (file_exists($imagePath)) {
+                    unlink($imagePath);
+                }
+
+                $image = $request->file('image');
+                $imageName = time() . '.' . $request->image->extension();
+                $request->image->move(public_path('upload/produk'), $imageName);
+                $produk->image = $imageName;
+
+                $produk->update([
+                    'nama_produk' => $request->nama_produk,
+                    'id_kategori' => $request->id_kategori,
+                    'id_user_merchant' => $request->id_user_merchant,
+                    'harga' => $request->harga,
+                    'image' => $imageName,
+                ]);
+            }else if (!$request->hasFile('image')) {
+                $produk->update([
+                    'nama_produk' => $request->nama_produk,
+                    'id_kategori' => $request->id_kategori,
+                    'id_user_merchant' => $request->id_user_merchant,
+                    'harga' => $request->harga,
+                ]);
+            }
+
+            return response()->json($produk, $status = 200);
+        } catch (\Throwable $th) {
+            return response()->json(['error' => $th->getMessage()], 401);
+        }
     }
 
     public function destroy($id)
     {
-        $produk = Produk::findOrFail($id);
+        try {
+            $produk = Produk::findOrFail($id);
 
-        $imagePath = public_path('upload/produk/' . $produk->image);
-        if (file_exists($imagePath)) {
-            unlink($imagePath);
+            $imagePath = public_path('upload/produk/' . $produk->image);
+            if (file_exists($imagePath)) {
+                unlink($imagePath);
+            }
+
+            $produk->delete();
+
+            return response()->json(['message' => 'Product deleted successfully']);
+        } catch (\Throwable $th) {
+            return response()->json(['error' => $th->getMessage()], 401);
         }
-
-        $produk->delete();
-
-        return response()->json(['message' => 'Product deleted successfully']);
     }
-
-    // public function update(Request $request, $id)
-    // {
-    //     $produk = Produk::findOrFail($id);
-
-    //     $request->validate([
-    //         'nama_produk' => 'required',
-    //         'id_kategori' => 'required',
-    //         'id_user_merchant' => 'required',
-    //         'harga' => 'required',
-    //         'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
-    //     ]);
-
-    //     if ($request->hasFile('image')) {
-    //         $image = $request->file('image');
-    //         $imageName = time() . '.' . $request->image->extension();
-    //         $request->image->move(public_path('upload/produk'), $imageName);
-    //     }
-
-    //     $produk->update([
-    //         'nama_produk' => $request->nama_produk,
-    //         'id_kategori' => $request->id_kategori,
-    //         'id_user_merchant' => $request->id_user_merchant,
-    //         'harga' => $request->harga,
-    //         'image' => $imageName
-    //     ]);
-
-    //     return response()->json($produk, 200);
-    // }
 }
