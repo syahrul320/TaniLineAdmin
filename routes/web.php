@@ -4,6 +4,7 @@ use App\Http\Controllers\BlankPage;
 use App\Http\Controllers\Dashboard;
 use App\Http\Controllers\InformasiController;
 use App\Http\Controllers\KategoriController;
+use App\Http\Controllers\LaporanMerchantController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MapController;
 use App\Http\Controllers\MerchantController;
@@ -93,3 +94,8 @@ Route::get('/transaksi-pembeli', [TransaksiController::class, 'index'])->name('t
 Route::post('/transaksi-card-select', [TransaksiController::class, 'getUser'])->name('transaksi.usercard.select')->middleware(['cekrole:admin']);
 Route::post('/transaksi-produk-select', [TransaksiController::class, 'getProduk'])->name('transaksi.produk.select')->middleware(['cekrole:admin']);
 Route::get('/transaksi-pembeli/transaksi_detail/{id}', [TransaksiController::class, 'transaksi_detail'])->name('transaksi-detail')->middleware(['cekrole:admin']);
+
+// Laporan Merchant
+Route::get('/laporan-merchant', [LaporanMerchantController::class, 'index'])->name('laporan-merchant')->middleware(['cekrole:admin']);
+Route::post('/merchant-select', [LaporanMerchantController::class, 'getMerchant'])->name('merchant.select')->middleware(['cekrole:admin']);
+Route::get('/laporan-merchant/export', [LaporanMerchantController::class, 'export'])->name('laporan-merchant.export')->middleware(['cekrole:admin']);

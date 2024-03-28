@@ -3,9 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\DetailTransaksi;
-use App\Models\Produk;
 use App\Models\Transaksi;
-use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Yajra\Datatables\Datatables;
@@ -41,21 +39,11 @@ class TransaksiController extends Controller
         return view('transaksi.index');
     }
 
-    public function transaksi_detail(Request $request, $id)
+    public function transaksi_detail(Request $request)
     {
-        $data = DetailTransaksi::join('users', 'detail_transaksis.id_user_merchant', '=', 'users.id');
         if ($request->ajax()) {
-            $user = $request->id_produk;
-            if ($user != '') {
-                $data = $data->where('produks.id', $user);
-            }
-            if ($request->get('start_date') != "") {
-                $from = Carbon::createFromFormat('Y-m-d', $request->get('start_date'))->startOfDay();
-                $to = Carbon::createFromFormat('Y-m-d', $request->get('end_date'))->endOfDay();
-                $data =  $data->whereDate('tgl_transaksi', '>=', $from)
-                    ->whereDate('tgl_transaksi', '<=', $to);
-            }
-            $data->join('produks', 'detail_transaksis.id_produk', '=', 'produks.id')
+            $data = DetailTransaksi::join('users', 'detail_transaksis.id_user_merchant', '=', 'users.id')
+                ->join('produks', 'detail_transaksis.id_produk', '=', 'produks.id')
                 ->join('transaksis', 'detail_transaksis.id_transaksi', '=', 'transaksis.id')
                 ->select('users.name', 'produks.nama_produk', 'detail_transaksis.qty', 'detail_transaksis.harga_jual', 'transaksis.*')
                 ->where('users.level', 'merchant');
@@ -65,49 +53,5 @@ class TransaksiController extends Controller
                 ->make(true);
         }
         return view('transaksi.transaksi_detail');
-    }
-
-    // public function getProduk(Request $request)
-    // {
-    //     $search = $request->id_produk;
-    //     if ($search == '') {
-    //         $produk = Produk::orderby('nama_produk', 'asc')->select('id', 'nama_produk')
-    //             ->limit(5)->get();
-    //     } else {
-    //         $produk = Produk::orderby('nama_produk', 'asc')->select('id', 'nama_produk')
-    //             ->where('id_produk', 'like', '%' . $search . '%')->limit(5)->get();
-    //     }
-
-    //     $response = array();
-    //     foreach ($produk as $produks) {
-    //         $response[] = array(
-    //             "id" => $produks->id,
-    //             "text" => $produks->nama_produk,
-    //         );
-    //     }
-    //     return response()->json($response);
-    // }
-
-    public function getUser(Request $request)
-    {
-        $search = $request->id_user;
-        if ($search == '') {
-            $user = User::orderby('name', 'asc')->select('id', 'name')
-                ->where('users.level', 'pembeli')
-                ->limit(5)->get();
-        } else {
-            $user = User::orderby('name', 'asc')->select('id', 'name')
-                ->where('users.level', 'pembeli')
-                ->where('id_user', 'like', '%' . $search . '%')->limit(5)->get();
-        }
-
-        $response = array();
-        foreach ($user as $users) {
-            $response[] = array(
-                "id" => $users->id,
-                "text" => $users->name,
-            );
-        }
-        return response()->json($response);
     }
 }

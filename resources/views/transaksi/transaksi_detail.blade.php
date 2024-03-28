@@ -27,22 +27,6 @@
             <div class="card">
                 <div class="card-header">
                     <div class="card-body">
-                        <div class="row" style="margin-bottom: 25px">
-                            {{-- <div class="col-sm-6">
-                                <label>Nama User</label>
-                                <select id='id_produk' class='form-control' name="id_produk">
-                                    <option value=''>-- Pilih Produk --</option>
-                                </select>
-                            </div> --}}
-                            <div class="col-sm-6">
-                                <label>Range</label>
-                                <div id="reportrange"
-                                    style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%">
-                                    <i class="fa fa-calendar"></i>&nbsp;
-                                    <span></span> <i class="fa fa-caret-down"></i>
-                                </div>
-                            </div>
-                        </div>
                         <table class="table table-striped table-bordered" id="dt_tbl" width="100%">
                             <thead>
                                 <tr>

@@ -16,13 +16,8 @@ $(document).ready(function () {
         serverSide: true,
         orderCellsTop: true,
         lengthMenu: [10, 50, 100, 1000],
-        ajax: {
-            url: window.location,
-            data: function (d) {
-                (d.start_date = start_date),
-                    (d.end_date = end_date);
-                    // (d.id_produk = $("#id_produk option:selected").val());
-            },
+        ajax : {
+            url : window.location,
         },
         columns: [
             {
@@ -59,76 +54,5 @@ $(document).ready(function () {
                         });
                 });
         },
-    });
-
-    //produk
-    // $("#id_produk").select2({
-    //     ajax: {
-    //         url: url + "/transaksi-produk-select",
-    //         type: "post",
-    //         dataType: "json",
-    //         delay: 250,
-    //         data: function (params) {
-    //             return {
-    //                 search: params.term, // search term
-    //             };
-    //         },
-    //         processResults: function (response) {
-    //             return {
-    //                 results: response,
-    //             };
-    //         },
-    //         cache: true,
-    //     },
-    // });
-
-    // $("#id_produk").on("change", function () {
-    //     id_produk = $("#id_produk").val();
-    //     table.draw();
-    // });
-});
-
-$(function () {
-    var start = moment().subtract(29, "days");
-    var end = moment();
-
-    function cb(start, end) {
-        $("#reportrange span").html(
-            start.format("YYYY-MM-DD") + " &#8594; " + end.format("YYYY-MM-DD")
-        );
-    }
-
-    $("#reportrange").daterangepicker(
-        {
-            startDate: start,
-            endDate: end,
-            ranges: {
-                Today: [moment(), moment()],
-                Yesterday: [
-                    moment().subtract(1, "days"),
-                    moment().subtract(1, "days"),
-                ],
-                "Last 7 Days": [moment().subtract(6, "days"), moment()],
-                "Last 30 Days": [moment().subtract(29, "days"), moment()],
-                "This Month": [
-                    moment().startOf("month"),
-                    moment().endOf("month"),
-                ],
-                "Last Month": [
-                    moment().subtract(1, "month").startOf("month"),
-                    moment().subtract(1, "month").endOf("month"),
-                ],
-            },
-        },
-        cb
-    );
-
-    cb(start, end);
-    $("#reportrange").on("apply.daterangepicker", function (ev, picker) {
-        console.log(picker.startDate.format("YYYY-MM-DD"));
-        console.log(picker.endDate.format("YYYY-MM-DD"));
-        start_date = picker.startDate.format("YYYY-MM-DD");
-        end_date = picker.endDate.format("YYYY-MM-DD");
-        table.draw();
     });
 });
