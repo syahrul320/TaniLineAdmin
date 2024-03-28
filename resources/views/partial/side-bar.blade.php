@@ -74,7 +74,7 @@
                     </a>
                 </li>
                 <li> <a href="{{ route('transaksi-pembeli') }}">
-                        <ion-icon name="business-sharp"></ion-icon>Transaksi Pembeli
+                        <ion-icon name="business-sharp"></ion-icon>Transaksi
                     </a>
                 </li>
             </ul>
@@ -87,7 +87,7 @@
                 <div class="menu-title">Laporan</div>
             </a>
             <ul>
-                <li> <a href="#}">
+                <li> <a href="{{ route('laporan-merchant') }}">
                         <ion-icon name="newspaper-sharp"></ion-icon>Laporan Merchant
                     </a>
                 </li>

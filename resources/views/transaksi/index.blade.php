@@ -29,9 +29,9 @@
                     <div class="card-body">
                         <div class="row" style="margin-bottom: 25px">
                             <div class="col-sm-6">
-                                <label>Nama Produk</label>
-                                <select id='id_produk' class='form-control' name="id_produk">
-                                    <option value=''>-- Pilih Produk --</option>
+                                <label>Nama User</label>
+                                <select id='id_user' class='form-control' name="id_user">
+                                    <option value=''>-- Pilih User --</option>
                                 </select>
                             </div>
                             <div class="col-sm-6">
@@ -47,12 +47,12 @@
                             <thead>
                                 <tr>
                                     <th>No</th>
-                                    <th>Nama Pembeli</th>
-                                    <th>Nama Produk</th>
-                                    <th>QTY</th>
-                                    <th>Harga</th>
-                                    <th>Status</th>
+                                    <th>Kode Transaksi</th>
+                                    <th>Nama User</th>
+                                    <th>Biaya Admin</th>
                                     <th>Tanggal Transaksi</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tfoot>
@@ -80,5 +80,5 @@
     <script src="{{ asset('assets/js/sweetalert.min.js') }}"></script>
     <script src="{{ asset('assets/plugins/select2/js/select2.min.js') }}"></script>
     <script src="{{ asset('assets/js/form-select2.js') }}"></script>
-    <script src="{{ asset('assets/js/function/transaksi_merchant.js') }}"></script>
+    <script src="{{ asset('assets/js/function/transaksi.js') }}"></script>
 @endpush
