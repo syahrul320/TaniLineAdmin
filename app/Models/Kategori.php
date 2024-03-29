@@ -9,6 +9,6 @@ class Kategori extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'id', 'nama_kategori'
+        'id', 'nama_kategori', 'image'
     ];
 }
