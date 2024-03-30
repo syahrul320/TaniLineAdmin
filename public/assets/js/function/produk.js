@@ -38,6 +38,7 @@ $(document).ready(function () {
             { data: "nama_kategori", name: "nama_kategori" },
             { data: "nama_merchant", name: "nama_merchant" },
             { data: "harga", name: "harga" },
+            { data: "image", name: "image" },
         ],
         columnDefs: [
             {
@@ -47,7 +48,7 @@ $(document).ready(function () {
         ],
         initComplete: function () {
             this.api()
-                .columns([1, 2, 3, 4])
+                .columns([1])
                 .every(function () {
                     var column = this;
                     var input = document.createElement("input");

@@ -27,8 +27,13 @@ class ProdukController extends Controller
                 ->select(['users.nama_merchant', 'users.level', 'produks.*', 'kategoris.nama_kategori'])
                 ->where('users.level', 'merchant');
             return DataTables::of($data)
+                ->addColumn('image', function ($row) {
+                    return '<img width=60 height=60 class=img-thumbnail src=' .
+                        asset("upload/produk/$row->image") . '>';
+                })
                 ->addIndexColumn()
                 ->removeColumn('id')
+                ->rawColumns(['image'])
                 ->make(true);
         }
         return view('produk.index');

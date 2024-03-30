@@ -48,10 +48,12 @@ Taniline >> Data Produk
                             <th>Nama Kategori</th>
                             <th>Nama Merchant</th>
                             <th>Harga</th>
+                            <th>Gambar</th>
                         </tr>
                     </thead>
                     <tfoot>
                         <tr>
+                            <th></th>
                             <th></th>
                             <th></th>
                             <th></th>

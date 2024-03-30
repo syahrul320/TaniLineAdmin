@@ -22,6 +22,7 @@ $(document).ready(function () {
                 sClass: "text-center",
             },
             { data: "nama_kategori", name: "nama_kategori" },
+            { data: "image", name: "image" },
             {
                 data: "actions",
                 name: "actions",
@@ -86,10 +87,14 @@ $(document).ready(function () {
             success: (data) => {
                 $("#submit").attr("disabled", false);
                 $("#nama_kategoriError").html("");
+                $("#imageError").html("");
                 if (data.errors) {
                     $("#submit").html(action);
                     if (data.errors.nama_kategori) {
                         $("#nama_kategoriError").html(data.errors.nama_kategori[0]);
+                    }
+                    if (data.errors.image) {
+                        $("#imageError").html(data.errors.image[0]);
                     }
                 }
 
@@ -150,6 +155,7 @@ function edit(id) {
         success: function (data) {
             $("#id").val(data.data.id);
             $("#nama_kategori").val(data.data.nama_kategori);
+            $("#preview").attr("src", url+"/upload/kategori/"+data.data.image);
             $("#submit").html("Update");
             $("#card-form").show(1000);
         },

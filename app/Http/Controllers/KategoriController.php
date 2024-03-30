@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Validator;
 
 class KategoriController extends Controller
 {
-    
+
 
     public function index(Request $request)
     {
@@ -20,12 +20,16 @@ class KategoriController extends Controller
                 $button .= '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="' . $row->id . '" onclick= edit("' . encrypt($row->id) . '") data-original-title="Edit"><span class="badge bg-success"> Edit</span></a>';
                 $button .= '&nbsp;&nbsp;';
                 $button .= '<a href="javascript:void(0)" onclick= destroy("' . encrypt($row->id) . '") ><span class="badge bg-warning"> Delete</span></a>';
-            
+
                 return $button;
             })
+                ->addColumn('image', function ($row) {
+                    return '<img width=60 height=60 class=img-thumbnail src=' .
+                        asset("upload/kategori/$row->image") . '>';
+                })
                 ->addIndexColumn()
                 ->removeColumn('id')
-                ->rawColumns(['actions', 'code'])
+                ->rawColumns(['actions', 'image'])
                 ->make(true);
         }
         return view('kategori.index');
@@ -35,14 +39,17 @@ class KategoriController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'nama_kategori' => 'required',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
         ]);
 
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()]);
         } else {
-
+            $imageName = time().'.'.$request->image->extension();
+            $request->image->move(public_path('upload/kategori'), $imageName);
             $kategori = Kategori::create([
                 'nama_kategori' => $request->nama_kategori,
+                'image' => $imageName,
             ]);
             return response()->json(['success' => TRUE]);
         }
