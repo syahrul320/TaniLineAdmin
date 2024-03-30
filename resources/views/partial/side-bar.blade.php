@@ -73,6 +73,10 @@
                         <ion-icon name="cash-sharp"></ion-icon>Saldo Merchant
                     </a>
                 </li>
+                <li> <a href="{{ route('cashout-merchant') }}">
+                        <ion-icon name="cash-outline"></ion-icon>Cashout Merchant
+                    </a>
+                </li>
                 <li> <a href="{{ route('transaksi-pembeli') }}">
                         <ion-icon name="business-sharp"></ion-icon>Transaksi
                     </a>

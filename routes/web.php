@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BlankPage;
+use App\Http\Controllers\CashOutMerchantController;
 use App\Http\Controllers\Dashboard;
 use App\Http\Controllers\InformasiController;
 use App\Http\Controllers\KategoriController;
@@ -99,3 +100,10 @@ Route::get('/transaksi-pembeli/transaksi_detail/{id}', [TransaksiController::cla
 Route::get('/laporan-merchant', [LaporanMerchantController::class, 'index'])->name('laporan-merchant')->middleware(['cekrole:admin']);
 Route::post('/merchant-select', [LaporanMerchantController::class, 'getMerchant'])->name('merchant.select')->middleware(['cekrole:admin']);
 Route::get('/laporan-merchant/export', [LaporanMerchantController::class, 'export'])->name('laporan-merchant.export')->middleware(['cekrole:admin']);
+
+// Cashout Merchant
+Route::get('/cashout-merchant', [CashOutMerchantController::class, 'index'])->name('cashout-merchant')->middleware(['cekrole:admin']);
+Route::post('/cashout-merchant-insert-data', [CashOutMerchantController::class, 'insert_data'])->name('cashout-merchant.insert.data')->middleware(['cekrole:admin']);
+Route::post('/cashout-merchant-delete-data', [CashOutMerchantController::class, 'destroy'])->name('cashout-merchant.delete.data')->middleware(['cekrole:admin']);
+Route::get('/cashout-merchant-saldo/{id}', [CashOutMerchantController::class, 'saldo'])->name('cashout-merchant.saldo')->middleware(['cekrole:admin']);
+Route::get('cashout-merchant-cetak/{id}', [CashOutMerchantController::class, 'print'])->name('cashout-merchant.print')->middleware(['cekrole:admin']);
