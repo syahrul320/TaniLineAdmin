@@ -25,6 +25,6 @@ class SettingController extends Controller
         ]);
         // return redirect()->back();
 
-        return redirect('setting')->with('success');
+        return redirect('setting')->with('success', 'Data berhasil diupdate');
     }
 }
