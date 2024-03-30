@@ -75,6 +75,7 @@ class LoginMerchantController extends Controller
             'nama_merchant' => $request->name,
             'number_telephone' => $request->number_telephone,
             'password' => Hash::make($request->password),
+            'alamat'=> $request->alamat,
         ]);
 
         $token = $user->createToken('authToken')->plainTextToken;
