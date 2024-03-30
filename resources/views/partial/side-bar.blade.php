@@ -35,27 +35,27 @@
             </a>
             <ul>
                 <li> <a href="{{ route('user') }}">
-                        <ion-icon name="person-sharp"></ion-icon>Data User
+                        <ion-icon name="person-outline"></ion-icon>Data User
                     </a>
                 </li>
                 <li> <a href="{{ route('data-merchant') }}">
-                        <ion-icon name="storefront-sharp"></ion-icon>Data Merchant
+                        <ion-icon name="storefront-outline"></ion-icon>Data Merchant
                     </a>
                 </li>
                 <li> <a href="{{ route('maps') }}">
-                        <ion-icon name="map-sharp"></ion-icon>Map Merchant
+                        <ion-icon name="map-outline"></ion-icon>Map Merchant
                     </a>
                 </li>
                 <li> <a href="{{ route('produk') }}">
-                        <ion-icon name="bag-handle-sharp"></ion-icon>Data Produk
+                        <ion-icon name="bag-handle-outline"></ion-icon>Data Produk
                     </a>
                 </li>
                 <li> <a href="{{ route('kategori') }}">
-                        <ion-icon name="list-sharp"></ion-icon>Data Kategori
+                        <ion-icon name="list-outline"></ion-icon>Data Kategori
                     </a>
                 </li>
                 <li> <a href="{{ route('informasi') }}">
-                        <ion-icon name="information-sharp"></ion-icon>Data Informasi
+                        <ion-icon name="information-outline"></ion-icon>Data Informasi
                     </a>
                 </li>
             </ul>
@@ -70,7 +70,7 @@
             </a>
             <ul>
                 <li> <a href="{{ route('saldo-merchant') }}">
-                        <ion-icon name="cash-sharp"></ion-icon>Saldo Merchant
+                        <ion-icon name="wallet-outline"></ion-icon>Saldo Merchant
                     </a>
                 </li>
                 <li> <a href="{{ route('cashout-merchant') }}">
@@ -78,7 +78,7 @@
                     </a>
                 </li>
                 <li> <a href="{{ route('transaksi-pembeli') }}">
-                        <ion-icon name="business-sharp"></ion-icon>Transaksi
+                        <ion-icon name="business-outline"></ion-icon>Transaksi
                     </a>
                 </li>
             </ul>
@@ -92,7 +92,11 @@
             </a>
             <ul>
                 <li> <a href="{{ route('laporan-merchant') }}">
-                        <ion-icon name="newspaper-sharp"></ion-icon>Laporan Merchant
+                        <ion-icon name="newspaper-outline"></ion-icon>Laporan Merchant
+                    </a>
+                </li>
+                <li> <a href="{{ route('mutasi-merchant') }}">
+                        <ion-icon name="archive-outline"></ion-icon>Mutasi Merchant
                     </a>
                 </li>
             </ul>

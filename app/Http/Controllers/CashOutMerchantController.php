@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cashout;
+use App\Models\MutasiMerchant;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -21,9 +22,9 @@ class CashOutMerchantController extends Controller
                 ->get();
             return DataTables::of($data)->addColumn('actions', function ($row) {
                 $button = '&nbsp;&nbsp;';
-                $button .= '<a href="javascript:void(0)" onclick= destroy("' . encrypt($row->id) . '") ><span class="badge bg-warning"> Delete</span></a>';
+                $button .= '<a href="javascript:void(0)" onclick= destroy("' . encrypt($row->id) . '") ><ion-icon name="trash-outline"></ion-icon></a>';
                 $button .= '&nbsp;&nbsp;';
-                $button = '<a href="cashout-merchant-cetak/' . encrypt($row->id) . '" target="_blank"><ion-icon name="print-outline"></ion-icon></a>';
+                $button .= '<a href="cashout-merchant-cetak/' . encrypt($row->id) . '" target="_blank"><ion-icon name="print-outline"></ion-icon></a>';
                 
                 return $button;
             })
@@ -70,7 +71,7 @@ class CashOutMerchantController extends Controller
         }
         $user = User::select('saldo')->where('id', $request->id_user_merchant)->first();
 
-        if ($user->saldo < $request->jumlah) {
+        if ($user->saldo <= $request->jumlah) {
             return response()->json(['errors' => ['jumlah' => ['Saldo tidak mencukupi']]]);
         } else {
             $cashout = new Cashout();
@@ -83,6 +84,13 @@ class CashOutMerchantController extends Controller
             $user->saldo = $user->saldo - $request->jumlah;
             $user->save();
 
+            MutasiMerchant::create([
+                'id_user_merchant' => $request->id_user_merchant,
+                'debet' => $request->jumlah,
+                'kredit' => 0,
+                'keterangan' => "Cashout ".$request->keterangan,
+            ]);
+
             return response()->json(['success' => 'Cashout added successfully.']);
         }
     }
@@ -94,6 +102,12 @@ class CashOutMerchantController extends Controller
         $user = User::where('id', $cashout->id_user_merchant)->first();
         $user->saldo = $user->saldo + $cashout->jumlah;
         $user->save();
+        $mutasi = MutasiMerchant::create([
+            'id_user_merchant' => $cashout->id_user_merchant,
+            'debet' => 0,
+            'kredit' => $cashout->jumlah,
+            'keterangan' => "Refund Cashout ".$cashout->keterangan,
+        ]);
         $cashout->delete();
         return response()->json(['success' => 'Cashout deleted successfully.']);
     }

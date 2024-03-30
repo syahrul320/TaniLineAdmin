@@ -9,6 +9,7 @@ use App\Http\Controllers\LaporanMerchantController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MapController;
 use App\Http\Controllers\MerchantController;
+use App\Http\Controllers\MutasiMerchantController;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\SaldoMerchantController;
 use App\Http\Controllers\SettingController;
@@ -107,3 +108,7 @@ Route::post('/cashout-merchant-insert-data', [CashOutMerchantController::class, 
 Route::post('/cashout-merchant-delete-data', [CashOutMerchantController::class, 'destroy'])->name('cashout-merchant.delete.data')->middleware(['cekrole:admin']);
 Route::get('/cashout-merchant-saldo/{id}', [CashOutMerchantController::class, 'saldo'])->name('cashout-merchant.saldo')->middleware(['cekrole:admin']);
 Route::get('cashout-merchant-cetak/{id}', [CashOutMerchantController::class, 'print'])->name('cashout-merchant.print')->middleware(['cekrole:admin']);
+
+// Mutasi Merchant
+Route::get('/mutasi-merchant', [MutasiMerchantController::class, 'index'])->name('mutasi-merchant')->middleware(['cekrole:admin']);
+Route::get('/mutasi-merchant/export', [MutasiMerchantController::class, 'export'])->name('mutasi-merchant.export')->middleware(['cekrole:admin']);
