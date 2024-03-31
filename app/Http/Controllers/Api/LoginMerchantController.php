@@ -39,7 +39,8 @@ class LoginMerchantController extends Controller
         $user['name'] = $users->name;
 
         return response()->json([
-            'data' => $user,
+            'id' => $user['id'],
+            'name' => $user['name'],                    
             'message' => 'success',
             'access_token' => $token,
             'token_type' => 'Bearer'
