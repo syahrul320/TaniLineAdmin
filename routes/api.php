@@ -16,15 +16,30 @@ use Illuminate\Http\Request;
 
 // User
 Route::post('/login', [\App\Http\Controllers\Api\LoginUserController::class, 'login']);
-Route::post('/register', [\App\Http\Controllers\Api\LoginUserController::class, 'register']);
+// Route::post('/register', [\App\Http\Controllers\Api\LoginUserController::class, 'register']);
 Route::post('/logout', [\App\Http\Controllers\Api\LoginUserController::class, 'logout']);
 // Route::middleware('auth:sanctum')->group(function () {
-    Route::get('/produk/{id}', [\App\Http\Controllers\Api\ProdukController::class, 'show']);
-    Route::get('/produk/detail/{id}', [\App\Http\Controllers\Api\ProdukController::class, 'detail']);
-    Route::get('/kategori', [\App\Http\Controllers\Api\KategoriController::class, 'show']);
-    Route::get('/transaksi/{id}', [\App\Http\Controllers\Api\TransaksiController::class, 'showTransaksi']);
-    Route::get('/transaksi/status/{status}', [\App\Http\Controllers\Api\TransaksiController::class, 'showTransaksiByStatus']);
+    // Route::get('/produk/{id}', [\App\Http\Controllers\Api\ProdukController::class, 'show']);
+    // Route::get('/produk/detail/{id}', [\App\Http\Controllers\Api\ProdukController::class, 'detail']);
+    // Route::get('/kategori', [\App\Http\Controllers\Api\KategoriController::class, 'show']);
+    // Route::get('/transaksi/{id}', [\App\Http\Controllers\Api\TransaksiController::class, 'showTransaksi']);
+    // Route::get('/transaksi/status/{status}', [\App\Http\Controllers\Api\TransaksiController::class, 'showTransaksiByStatus']);
 // });
+
+Route::get('/produk-terlaris', [\App\Http\Controllers\Api\ProdukController::class, 'produk_terlaris']);
+Route::get('/kategori', [\App\Http\Controllers\Api\KategoriController::class, 'show']);
+Route::get('/informasi-terbaru', [\App\Http\Controllers\Api\InformasiController::class, 'show']);
+Route::get('/keranjang-belanja', [\App\Http\Controllers\Api\KeranjangBelanjaController::class, 'show']);
+Route::post('/registrasi', [\App\Http\Controllers\Api\RegistrasiController::class, 'register']);
+Route::post('/ubah-nama', [\App\Http\Controllers\Api\RegistrasiController::class, 'update_nama']);
+Route::get('/get-nama-pengguna/{id}', [\App\Http\Controllers\Api\RegistrasiController::class, 'get_nama_pengguna']);
+Route::post('/ubah-email', [\App\Http\Controllers\Api\RegistrasiController::class, 'update_email']);
+Route::get('/get-email-pengguna/{id}', [\App\Http\Controllers\Api\RegistrasiController::class, 'get_email_pengguna']);
+Route::post('/ubah-password', [\App\Http\Controllers\Api\RegistrasiController::class, 'update_password']);
+Route::get('/get-alamat-pengguna/{id}', [\App\Http\Controllers\Api\RegistrasiController::class, 'get_alamat_pengguna']);
+Route::post('/ubah-alamat', [\App\Http\Controllers\Api\RegistrasiController::class, 'update_alamat']);
+Route::delete('/delete-keranjang-belanja', [\App\Http\Controllers\Api\KeranjangBelanjaController::class, 'delete']);
+
 
 
 // merchant

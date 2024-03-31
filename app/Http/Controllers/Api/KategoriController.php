@@ -10,7 +10,7 @@ class KategoriController extends Controller
     public function show()
     {
         $kategori = DB::table('kategoris')
-            ->get('nama_kategori','image', 'kategoris.id');
+            ->get('*');
         return response()->json($kategori);
     }
 }
