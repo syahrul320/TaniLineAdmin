@@ -40,7 +40,7 @@ class LoginMerchantController extends Controller
 
         return response()->json([
             'id' => $user['id'],
-            'name' => $user['name'];                    
+            'name' => $user['name'],                    
             'message' => 'success',
             'access_token' => $token,
             'token_type' => 'Bearer'
