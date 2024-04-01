@@ -1,6 +1,6 @@
 var table;
-var id_kategori='';
-var id_user_merchant='';
+var id_kategori = "";
+var id_user_merchant = "";
 $(document).ready(function () {
     $.ajaxSetup({
         headers: {
@@ -14,18 +14,17 @@ $(document).ready(function () {
         scrollX: true,
         serverSide: true,
         orderCellsTop: true,
-        lengthMenu:[10, 50, 100,1000], 
-        ajax:{
+        lengthMenu: [10, 50, 100, 1000],
+        ajax: {
             url: url + "/produk/",
             data: function (d) {
                 //   d.status = $('#status').val(),
                 //   d.start_date = start_date,
                 //   d.end_date = end_date,
-                  d.id_kategori = $("#id_kategori option:selected").val(),
-                  d.id_user_merchant = $("#id_user_merchant option:selected").val()
-              }
-          },
-        // ajax: url + "/produk/",
+                (d.id_kategori = $("#id_kategori option:selected").val()),
+                    (d.id_user_merchant = $("#id_user_merchant option:selected").val());
+            },
+        },
         columns: [
             {
                 data: "DT_RowIndex",
@@ -63,58 +62,56 @@ $(document).ready(function () {
                 });
         },
     });
-    
+
     //Kategori
-    $( "#id_kategori" ).select2({
-        ajax: { 
-          url: url + "/produk-kategori-select",
-          type: "post",
-          dataType: 'json',
-          delay: 250,
-          data: function (params) {
-            return {
-               search: params.term // search term
-            };
-          },
-          processResults: function (response) {
-            return {
-              results: response
-            };
-          },
-          cache: true
-        }
-
-     });
-
-     $('#id_kategori').on('change', function() {
-        id_kategori = $('#id_kategori').val();
-        table.draw();
-      })
-
-    //merchant
-    $( "#id_user_merchant" ).select2({
-        ajax: { 
-          url: url + "/produk-merchant-select",
-          type: "post",
-          dataType: 'json',
-          delay: 250,
-          data: function (params) {
-            return {
-               search: params.term // search term
-            };
-          },
-          processResults: function (response) {
-            return {
-              results: response
-            };
-          },
-          cache: true
-        }
-
-     });
-
-     $('#id_user_merchant').on('change', function() {
-        id_user_merchant = $('#id_user_merchant').val();
-        table.draw();
-      })
+    $("#id_kategori").select2({
+        ajax: {
+            url: url + "/produk-kategori-select",
+            type: "post",
+            dataType: "json",
+            delay: 250,
+            data: function (params) {
+                return {
+                    search: params.term, // search term
+                };
+            },
+            processResults: function (response) {
+                return {
+                    results: response,
+                };
+            },
+            cache: true,
+        },
     });
+
+    $("#id_kategori").on("change", function () {
+        id_kategori = $("#id_kategori").val();
+        table.draw();
+    });
+
+    //Merchant
+    $("#id_user_merchant").select2({
+        ajax: {
+            url: url + "/produk-merchant-select",
+            type: "post",
+            dataType: "json",
+            delay: 250,
+            data: function (params) {
+                return {
+                    search: params.term, // search term
+                };
+            },
+            processResults: function (response) {
+                return {
+                    results: response,
+                };
+            },
+            cache: true,
+        },
+    });
+
+    $("#id_user_merchant").on("change", function () {
+        id_user_merchant = $("#id_user_merchant").val();
+        table.draw();
+    });
+});
