@@ -62,7 +62,7 @@ class ProdukController extends Controller
 
     public function getMerchant(Request $request)
     {
-        $search = $request->search;
+        $search = $request->id_user_merchant;
         if ($search == '') {
             $merchant = User::orderby('nama_merchant', 'asc')->select('id', 'nama_merchant')
                 ->limit(5)->get();
