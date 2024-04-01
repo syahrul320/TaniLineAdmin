@@ -64,10 +64,12 @@ class ProdukController extends Controller
     {
         $search = $request->id_user_merchant;
         if ($search == '') {
-            $merchant = User::orderby('nama_merchant', 'asc')->select('id', 'nama_merchant')
+            $merchant = User::orderby('name', 'asc')->select('id', 'name')
+                ->where('level', 'merchant')
                 ->limit(5)->get();
         } else {
-            $merchant = User::orderby('nama_merchant', 'asc')->select('id', 'nama_merchant')
+            $merchant = User::orderby('name', 'asc')->select('id', 'name')
+                ->where('level', 'merchant')
                 ->where('id_user_merchant', 'like', '%' . $search . '%')->limit(5)->get();
         }
 
@@ -75,7 +77,7 @@ class ProdukController extends Controller
         foreach ($merchant as $merchants) {
             $response[] = array(
                 "id" => $merchants->id,
-                "text" => $merchants->nama_merchant,
+                "text" => $merchants->name,
             );
         }
         return response()->json($response);
