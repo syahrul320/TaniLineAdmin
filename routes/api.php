@@ -56,5 +56,5 @@ Route::post('/logout-merchant', [\App\Http\Controllers\Api\LoginMerchantControll
 // });
 
 // Flip
-Route::post('/payment/{id}', [\App\Http\Controllers\Api\TopupController::class, 'store']);
-Route::post('/payment/notification', [\App\Http\Controllers\Api\TopupController::class, 'notification']);
+Route::post('/topup', [\App\Http\Controllers\Api\TopupController::class, 'store']);
+Route::post('/topup/notification', [\App\Http\Controllers\Api\TopupController::class, 'notification']);

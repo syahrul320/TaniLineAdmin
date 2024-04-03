@@ -3,13 +3,14 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\MutasiMerchant;
 use App\Models\Topup;
 use App\Models\User;
 use Illuminate\Http\Request;
 
 class TopupController extends Controller
 {
-    public function store(Request $request, $id)
+    public function store(Request $request)
     {
         try {
             //code...
@@ -46,7 +47,7 @@ class TopupController extends Controller
             $dataResponse = json_decode($response);
 
             $topup = new Topup();
-            $topup->id_user_merchant = $id;
+            $topup->id_user_merchant = $request->id_user_merchant;
             $topup->title = $request->title;
             $topup->amount = $request->amount;
             $topup->status = 'pending';
@@ -63,20 +64,33 @@ class TopupController extends Controller
 
     function notification(Request $request)
     {
-        $response = $request->data;
-        $data = json_decode($response);
-        $topup = Topup::where('external_id', $data->bill_link_id)->first();
+        try {
+            //code...
+            $response = $request->data;
+            $data = json_decode($response);
+            $topup = Topup::where('external_id', $data->bill_link_id)->first();
+    
+            if ($topup && $topup->status == 'pending') {
+                $topup->status = strtolower($data->status);
+                $topup->save();
+                $merchant = User::find($topup->id_user_merchant);
+                $merchant->update([
+                    'saldo' => $merchant->saldo + $topup->amount
+                ]);
 
-        if ($topup && $topup->status == 'pending') {
-            $topup->status = strtolower($data->status);
-            $topup->save();
+                $mutasi = MutasiMerchant::create([
+                    'id_user_merchant' => $topup->id_user_merchant,
+                    'debet' => $topup->amount,
+                    'kredit' => 0,
+                    'keterangan' => "TOPUP ".$data->status
+                ]);
+            } else {
+                return response()->json(['message' => 'Topup not found']);
+            }
+            return response()->json([$topup]);
+        } catch (\Throwable $th) {
+            //throw $th;
+            return response()->json(['message' => $th->getMessage()]);
         }
-
-        // $merchant = User::find($id);
-        // $merchant->update([
-        //     'saldo' => $merchant->saldo + $request->amount
-        // ]);
-
-        return response()->json(['message' => 'success']);
     }
 }
