@@ -24,7 +24,7 @@ class TopupController extends Controller
             curl_setopt($ch, CURLOPT_POST, TRUE);
 
             $payloads = [
-                "title" => $request->title,
+                "title" => "Topup Taniline",
                 "amount" => $request->amount,
                 "type" => "SINGLE",
                 "redirect_url" => "https://testing.sidikty.com",
@@ -48,7 +48,7 @@ class TopupController extends Controller
 
             $topup = new Topup();
             $topup->id_user_merchant = $request->id_user_merchant;
-            $topup->title = $request->title;
+            $topup->title = $dataResponse->title;
             $topup->amount = $request->amount;
             $topup->status = 'pending';
             $topup->external_id = $dataResponse->link_id;
