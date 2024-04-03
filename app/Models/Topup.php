@@ -8,4 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class Topup extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'title',
+        'amount',
+        'status',
+        'external_id',
+        'url'
+    ];
 }

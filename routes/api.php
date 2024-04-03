@@ -54,3 +54,7 @@ Route::post('/logout-merchant', [\App\Http\Controllers\Api\LoginMerchantControll
     Route::delete('/destroy-produk-merchant/{id}', [\App\Http\Controllers\Api\ProdukMerchantController::class, 'destroy']);
     Route::put('/update-produk-merchant/{id}', [\App\Http\Controllers\Api\ProdukMerchantController::class, 'update']);
 // });
+
+// Flip
+Route::post('/payment/{id}', [\App\Http\Controllers\Api\TopupController::class, 'store']);
+Route::post('/payment/notification', [\App\Http\Controllers\Api\TopupController::class, 'notification']);
