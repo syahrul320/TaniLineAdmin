@@ -72,10 +72,10 @@ class TopupController extends Controller
             $topup->save();
         }
 
-        $merchant = User::find($id);
-        $merchant->update([
-            'saldo' => $merchant->saldo + $request->amount
-        ]);
+        // $merchant = User::find($id);
+        // $merchant->update([
+        //     'saldo' => $merchant->saldo + $request->amount
+        // ]);
 
         return response()->json(['message' => 'success']);
     }
