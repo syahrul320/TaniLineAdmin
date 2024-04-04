@@ -13,6 +13,7 @@ use App\Http\Controllers\MutasiMerchantController;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\SaldoMerchantController;
 use App\Http\Controllers\SettingController;
+use App\Http\Controllers\TopupController;
 use App\Http\Controllers\TransaksiController;
 use App\Http\Controllers\UserAdminController;
 use App\Http\Controllers\UserController;
@@ -113,3 +114,6 @@ Route::get('cashout-merchant-cetak/{id}', [CashOutMerchantController::class, 'pr
 // Mutasi Merchant
 Route::get('/mutasi-merchant', [MutasiMerchantController::class, 'index'])->name('mutasi-merchant')->middleware(['cekrole:admin']);
 Route::get('/mutasi-merchant/export', [MutasiMerchantController::class, 'export'])->name('mutasi-merchant.export')->middleware(['cekrole:admin']);
+
+// Topup
+Route::get('/topup', [TopupController::class, 'index'])->name('topup')->middleware(['cekrole:admin']);

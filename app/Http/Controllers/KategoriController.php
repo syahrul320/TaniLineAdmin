@@ -80,6 +80,7 @@ class KategoriController extends Controller
     public function destroy(Request $request)
     {
         $kategori = Kategori::findOrFail(decrypt($request->id));
+        unlink('upload/kategori/' . $kategori->image);
         $kategori->delete();
         return response()->json(['success' => 'Kategori deleted successfully.']);
     }
