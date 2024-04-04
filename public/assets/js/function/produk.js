@@ -18,11 +18,10 @@ $(document).ready(function () {
         ajax: {
             url: url + "/produk/",
             data: function (d) {
-                //   d.status = $('#status').val(),
-                //   d.start_date = start_date,
-                //   d.end_date = end_date,
                 (d.id_kategori = $("#id_kategori option:selected").val()),
-                    (d.id_user_merchant = $("#id_user_merchant option:selected").val());
+                    (d.id_user_merchant = $(
+                        "#id_user_merchant option:selected"
+                    ).val());
             },
         },
         columns: [
@@ -38,6 +37,13 @@ $(document).ready(function () {
             { data: "nama_merchant", name: "nama_merchant" },
             { data: "harga", name: "harga" },
             { data: "image", name: "image" },
+            {
+                data: "actions",
+                name: "actions",
+                orderable: false,
+                serachable: false,
+                sClass: "text-center",
+            },
         ],
         columnDefs: [
             {
@@ -115,3 +121,33 @@ $(document).ready(function () {
         table.draw();
     });
 });
+
+function destroy(id) {
+    swal({
+        title: "Are you sure?",
+        text: "Once deleted, you will not be able to recover this data!",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+    }).then((willDelete) => {
+        if (willDelete) {
+            $.ajax({
+                type: "DELETE",
+                url: url + "/produk-delete-data",
+                data: { id: id },
+                method: "POST",
+                success: function (data) {
+                    table.draw();
+                    swal("Success Delete Data", {
+                        icon: "success",
+                    });
+                },
+                error: function (data) {
+                    console.log("Error:", data);
+                },
+            });
+        } else {
+            swal("Your data is safe!");
+        }
+    });
+}

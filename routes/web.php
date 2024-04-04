@@ -87,6 +87,7 @@ Route::post('/informasi-delete-data', [InformasiController::class, 'destroy'])->
 Route::get('/produk', [ProdukController::class, 'index'])->name('produk')->middleware(['cekrole:admin']);
 Route::post('/produk-kategori-select', [ProdukController::class, 'getKategori'])->name('produk.kategori.select')->middleware(['cekrole:admin']);
 Route::post('/produk-merchant-select', [ProdukController::class, 'getMerchant'])->name('produk.merchant.select')->middleware(['cekrole:admin']);
+Route::post('/produk-delete-data', [ProdukController::class, 'destroy'])->name('produk.delete.data')->middleware(['cekrole:admin']);
 
 // Saldo Merchant
 Route::get('/saldo-merchant', [SaldoMerchantController::class, 'index'])->name('saldo-merchant')->middleware(['cekrole:admin']);
