@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Kategori;
 use App\Models\Topup;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
-use Illuminate\Support\Facades\Validator;
+use Carbon\Carbon;
 
 class TopupController extends Controller
 {
@@ -20,8 +19,11 @@ class TopupController extends Controller
                 ->where('users.level', 'merchant');
             return DataTables::of($data)
                 ->addIndexColumn()
+                ->editColumn('created_at', function ($row) {
+                    $formatedDate = Carbon::createFromFormat('Y-m-d H:i:s', $row->created_at)->format('d-m-Y H:i:s');
+                    return $formatedDate;
+                })
                 ->removeColumn('id')
-                // ->rawColumns(['actions'])
                 ->make(true);
         }
         return view('topup.index');

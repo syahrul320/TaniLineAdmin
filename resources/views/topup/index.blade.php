@@ -36,10 +36,12 @@
                                 <th>Status</th>
                                 <th>External ID</th>
                                 <th>Url</th>
+                                <th>Tangal</th>
                             </tr>
                         </thead>
                         <tfoot>
                             <tr>
+                                <th></th>
                                 <th></th>
                                 <th></th>
                                 <th></th>

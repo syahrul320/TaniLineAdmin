@@ -27,6 +27,7 @@ $(document).ready(function () {
             { data: "status", name: "status" },
             { data: "external_id", name: "external_id" },
             { data: "url", name: "url" },
+            { data: "created_at", name: "created_at" },
         ],
         initComplete: function () {
             this.api()
