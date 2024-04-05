@@ -73,6 +73,9 @@ class TopupController extends Controller
             if ($topup && $topup->status == 'pending') {
                 $topup->status = strtolower($data->status);
                 $topup->save();
+            }elseif ($topup && $topup->status == 'successful') {
+                $topup->status = strtolower($data->status);
+                $topup->save();
                 $merchant = User::find($topup->id_user_merchant);
                 $merchant->update([
                     'saldo' => $merchant->saldo + $topup->amount
