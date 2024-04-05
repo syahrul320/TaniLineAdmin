@@ -69,24 +69,23 @@ class TopupController extends Controller
             $response = $request->data;
             $data = json_decode($response);
             $topup = Topup::where('external_id', $data->bill_link_id)->first();
-    
+
             if ($topup && $topup->status == 'pending') {
                 $topup->status = strtolower($data->status);
                 $topup->save();
-            }elseif ($topup && $topup->status == 'successful') {
-                $topup->status = strtolower($data->status);
-                $topup->save();
-                $merchant = User::find($topup->id_user_merchant);
-                $merchant->update([
-                    'saldo' => $merchant->saldo + $topup->amount
-                ]);
+                if ($topup->status == 'successful') {
+                    $merchant = User::find($topup->id_user_merchant);
+                    $merchant->update([
+                        'saldo' => $merchant->saldo + $topup->amount
+                    ]);
 
-                $mutasi = MutasiMerchant::create([
-                    'id_user_merchant' => $topup->id_user_merchant,
-                    'debet' => $topup->amount,
-                    'kredit' => 0,
-                    'keterangan' => "TOPUP ".$data->status
-                ]);
+                    $mutasi = MutasiMerchant::create([
+                        'id_user_merchant' => $topup->id_user_merchant,
+                        'debet' => $topup->amount,
+                        'kredit' => 0,
+                        'keterangan' => "TOPUP " . $data->status
+                    ]);
+                }
             } else {
                 return response()->json(['message' => 'Topup not found']);
             }
