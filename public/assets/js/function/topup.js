@@ -29,9 +29,15 @@ $(document).ready(function () {
             { data: "url", name: "url" },
             { data: "created_at", name: "created_at" },
         ],
+        columnDefs: [
+            {
+                targets: 3,
+                render: $.fn.dataTable.render.number(",", ".", 0, ""),
+            },
+        ],
         initComplete: function () {
             this.api()
-                .columns([])
+                .columns([1, 4])
                 .every(function () {
                     var column = this;
                     var input = document.createElement("input");
