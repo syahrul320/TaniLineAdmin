@@ -20,6 +20,8 @@ class CreateTransaksisTable extends Migration
             $table->integer('biaya_admin');
             $table->date('tgl_transaksi');
             $table->enum('status_transaksi', ['batal', 'diterima', 'diproses','selesai']);
+            $table->string('total_harga');
+            $table->string('ongkir');
             $table->timestamps();
         });
     }

@@ -14,6 +14,8 @@ class Transaksi extends Model
         'id_user_pembeli',
         'biaya_admin',
         'tgl_transaksi',
-        'status_transaksi'
+        'status_transaksi',
+        'total_harga',
+        'ongkir'
     ];
 }

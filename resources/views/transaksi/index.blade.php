@@ -50,13 +50,17 @@
                                     <th>Kode Transaksi</th>
                                     <th>Nama User</th>
                                     <th>Biaya Admin</th>
+                                    <th>Ongkir</th>
                                     <th>Tanggal Transaksi</th>
                                     <th>Status</th>
+                                    <th>Total</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
                             <tfoot>
                                 <tr>
+                                    <th></th>
+                                    <th></th>
                                     <th></th>
                                     <th></th>
                                     <th></th>
