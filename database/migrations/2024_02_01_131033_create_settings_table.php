@@ -29,7 +29,7 @@ class CreateSettingsTable extends Migration
             'token' => '123456',
             'tgl_expired' => '2025-12-31',
             'biaya_admin' => 2000,
-            'biaya_kirim' => 1000,
+            'biaya_kirim' => 5000,
         ]);
     }
 
