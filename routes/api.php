@@ -58,3 +58,6 @@ Route::post('/logout-merchant', [\App\Http\Controllers\Api\LoginMerchantControll
 // Flip
 Route::post('/topup', [\App\Http\Controllers\Api\TopupController::class, 'store']);
 Route::post('/topup/notification', [\App\Http\Controllers\Api\TopupController::class, 'notification']);
+
+//lokasi 
+Route::put('/lokasi-merchant/{id}', [\App\Http\Controllers\Api\LokasiMerchantController::class, 'update']);
