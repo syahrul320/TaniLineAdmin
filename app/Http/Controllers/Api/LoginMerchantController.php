@@ -37,6 +37,8 @@ class LoginMerchantController extends Controller
         $token = $users->createToken('auth_token')->plainTextToken;
         // $user['id'] = $users->id;
         // $user['name'] = $users->name;
+        $users['access_token'] = $token;
+        $users['token_type'] = 'Bearer';
 
         return json_encode(($users));
             
