@@ -686,6 +686,7 @@ class ComposerStaticInitc3048ce0c00c4a1d0db79afbd05d932b
         'App\\Http\\Controllers\\Api\\KeranjangBelanjaController' => __DIR__ . '/../..' . '/app/Http/Controllers/Api/KeranjangBelanjaController.php',
         'App\\Http\\Controllers\\Api\\LoginMerchantController' => __DIR__ . '/../..' . '/app/Http/Controllers/Api/LoginMerchantController.php',
         'App\\Http\\Controllers\\Api\\LoginUserController' => __DIR__ . '/../..' . '/app/Http/Controllers/Api/LoginUserController.php',
+        'App\\Http\\Controllers\\Api\\PesananController' => __DIR__ . '/../..' . '/app/Http/Controllers/Api/PesananController.php',
         'App\\Http\\Controllers\\Api\\ProdukController' => __DIR__ . '/../..' . '/app/Http/Controllers/Api/ProdukController.php',
         'App\\Http\\Controllers\\Api\\ProdukMerchantController' => __DIR__ . '/../..' . '/app/Http/Controllers/Api/ProdukMerchantController.php',
         'App\\Http\\Controllers\\Api\\RegistrasiController' => __DIR__ . '/../..' . '/app/Http/Controllers/Api/RegistrasiController.php',

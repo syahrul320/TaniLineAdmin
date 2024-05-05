@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddKeteranganToKeranjangBelanjas extends Migration
+class AddOngkirToTransaksis extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AddKeteranganToKeranjangBelanjas extends Migration
      */
     public function up()
     {
-        Schema::table('keranjang_belanjas', function (Blueprint $table) {
-            $table->string('keterangan')->after('total_harga')->nullable();
+        Schema::table('transaksis', function (Blueprint $table) {
+            $table->integer('ongkir')->after('biaya_admin')->nullable();
         });
     }
 
@@ -25,8 +25,8 @@ class AddKeteranganToKeranjangBelanjas extends Migration
      */
     public function down()
     {
-        Schema::table('keranjang_belanjas', function (Blueprint $table) {
-            $table->dropColumn('keterangan');
+        Schema::table('transaksi', function (Blueprint $table) {
+            $table->dropColumn('ongkir');
         });
     }
 }

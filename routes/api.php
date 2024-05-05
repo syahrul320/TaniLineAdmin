@@ -26,19 +26,41 @@ Route::post('/logout', [\App\Http\Controllers\Api\LoginUserController::class, 'l
     // Route::get('/transaksi/status/{status}', [\App\Http\Controllers\Api\TransaksiController::class, 'showTransaksiByStatus']);
 // });
 
-Route::get('/produk-terlaris', [\App\Http\Controllers\Api\ProdukController::class, 'produk_terlaris']);
+Route::get('/produk-terlaris/{lat}/{long}', [\App\Http\Controllers\Api\ProdukController::class, 'produk_terlaris']);
+Route::get('/list-produk/{lat}/{long}', [\App\Http\Controllers\Api\ProdukController::class, 'list_produk']);
 Route::get('/kategori', [\App\Http\Controllers\Api\KategoriController::class, 'show']);
 Route::get('/informasi-terbaru', [\App\Http\Controllers\Api\InformasiController::class, 'show']);
-Route::get('/keranjang-belanja', [\App\Http\Controllers\Api\KeranjangBelanjaController::class, 'show']);
+
+//KERANJANG BELANJA
+Route::get('/keranjang-belanja/{id_user}', [\App\Http\Controllers\Api\KeranjangBelanjaController::class, 'show']);
+Route::post('/tambah-keranjang-belanja', [\App\Http\Controllers\Api\KeranjangBelanjaController::class, 'store']);
+Route::post('/keranjang-belanja-delete', [\App\Http\Controllers\Api\KeranjangBelanjaController::class, 'destroy']);
+Route::get('/pesan/{id}', [\App\Http\Controllers\Api\PesananController::class, 'pesan']);
+
+
+Route::get('/pencarian/{keyword}/{lat}/{long}', [\App\Http\Controllers\Api\ProdukController::class, 'pencarian']);
+Route::get('/detail-produk/{id}', [\App\Http\Controllers\Api\ProdukController::class, 'detail']);
+
+
+Route::get('/transaksi/{id}', [\App\Http\Controllers\Api\TransaksiController::class, 'showTransaksi']);
+Route::get('/transaksi/status/{status}', [\App\Http\Controllers\Api\TransaksiController::class, 'showTransaksiByStatus']);
+Route::post('/transaksi', [\App\Http\Controllers\Api\TransaksiController::class, 'store']);
+
+
+
+
 Route::post('/registrasi', [\App\Http\Controllers\Api\RegistrasiController::class, 'register']);
 Route::post('/ubah-nama', [\App\Http\Controllers\Api\RegistrasiController::class, 'update_nama']);
 Route::get('/get-nama-pengguna/{id}', [\App\Http\Controllers\Api\RegistrasiController::class, 'get_nama_pengguna']);
 Route::post('/ubah-email', [\App\Http\Controllers\Api\RegistrasiController::class, 'update_email']);
 Route::get('/get-email-pengguna/{id}', [\App\Http\Controllers\Api\RegistrasiController::class, 'get_email_pengguna']);
-Route::post('/ubah-password', [\App\Http\Controllers\Api\RegistrasiController::class, 'update_password']);
+Route::post('/ubah-password/{id}', [\App\Http\Controllers\Api\RegistrasiController::class, 'update_password']);
 Route::get('/get-alamat-pengguna/{id}', [\App\Http\Controllers\Api\RegistrasiController::class, 'get_alamat_pengguna']);
 Route::post('/ubah-alamat', [\App\Http\Controllers\Api\RegistrasiController::class, 'update_alamat']);
-Route::delete('/delete-keranjang-belanja', [\App\Http\Controllers\Api\KeranjangBelanjaController::class, 'delete']);
+
+
+Route::get('/pesanan/{id}', [\App\Http\Controllers\Api\PesananController::class, 'show']);
+
 
 
 

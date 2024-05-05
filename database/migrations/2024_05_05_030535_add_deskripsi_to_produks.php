@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddKeteranganToKeranjangBelanjas extends Migration
+class AddDeskripsiToProduks extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,9 @@ class AddKeteranganToKeranjangBelanjas extends Migration
      */
     public function up()
     {
-        Schema::table('keranjang_belanjas', function (Blueprint $table) {
-            $table->string('keterangan')->after('total_harga')->nullable();
+        Schema::table('produks', function (Blueprint $table) {
+            $table->integer('stok')->after('nama_produk')->nullable();
+            $table->string('deskripsi')->after('stok')->nullable();
         });
     }
 
@@ -25,8 +26,8 @@ class AddKeteranganToKeranjangBelanjas extends Migration
      */
     public function down()
     {
-        Schema::table('keranjang_belanjas', function (Blueprint $table) {
-            $table->dropColumn('keterangan');
+        Schema::table('produks', function (Blueprint $table) {
+            $table->dropColumn('deskripsi');
         });
     }
 }
