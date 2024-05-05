@@ -35,16 +35,20 @@ class LoginMerchantController extends Controller
             ]);
         }
         $token = $users->createToken('auth_token')->plainTextToken;
-        $user['id'] = $users->id;
-        $user['name'] = $users->name;
+        // $user['id'] = $users->id;
+        // $user['name'] = $users->name;
+        $users['access_token'] = $token;
+        $users['token_type'] = 'Bearer';
 
-        return response()->json([
-            'id' => $user['id'],
-            'name' => $user['name'],                    
-            'message' => 'success',
-            'access_token' => $token,
-            'token_type' => 'Bearer'
-        ]);
+        return json_encode(($users));
+            
+        // return response()->json([
+        //     'id' => $user['id'],
+        //     'name' => $user['name'],                    
+        //     'message' => 'success',
+        //     'access_token' => $token,
+        //     'token_type' => 'Bearer'
+        // ]);
     }
 
     public function logout(Request $request)
