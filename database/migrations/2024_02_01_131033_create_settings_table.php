@@ -20,7 +20,7 @@ class CreateSettingsTable extends Migration
             $table->string('token');
             $table->date('tgl_expired');
             $table->integer('biaya_admin');
-            $table->string('biaya_kirim');
+            $table->string('ongkir');
             $table->timestamps();
         });
 
@@ -29,7 +29,7 @@ class CreateSettingsTable extends Migration
             'token' => '123456',
             'tgl_expired' => '2025-12-31',
             'biaya_admin' => 2000,
-            'biaya_kirim' => 5000,
+            'ongkir' => 5000,
         ]);
     }
 
