@@ -28,4 +28,18 @@ class TransaksiController extends Controller
             ->paginate(30);
         return response()->json($transaksi);
     }
+
+    public function store(Request $request)
+    {
+        $transaksi = new Transaksi();
+        $transaksi->id_user_pembeli = $request->id_user_pembeli;
+        $transaksi->id_produk = $request->id_produk;
+        $transaksi->qty = $request->qty;
+        $transaksi->harga = $request->harga;
+        $transaksi->biaya_admin = $request->biaya_admin;
+        $transaksi->total_biaya = $request->total_biaya;
+        $transaksi->status_transaksi = $request->status_transaksi;
+        $transaksi->save();
+        return response()->json(['success' => TRUE]);
+    }
 }
