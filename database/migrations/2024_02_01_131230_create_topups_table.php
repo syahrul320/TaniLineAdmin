@@ -14,12 +14,13 @@ class CreateTopupsTable extends Migration
     public function up()
     {
         Schema::create('topups', function (Blueprint $table) {
-            $table->id();
-            $table->string('rrn');
-            $table->date('tgl_topup');
-            $table->integer('jumlah');
-            $table->string('keterangan');
+            $table->id();            
             $table->foreignId('id_user_merchant')->references('id')->on('users')->onDelete('cascade');
+            $table->string('title');
+            $table->float('amount');
+            $table->string('status');
+            $table->string('external_id');
+            $table->string('url');
             $table->timestamps();
         });
     }

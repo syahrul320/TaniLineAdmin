@@ -69,6 +69,10 @@
                 <div class="menu-title">Transaksi</div>
             </a>
             <ul>
+                <li> <a href="{{ route('topup') }}">
+                        <ion-icon name="wallet-outline"></ion-icon>Topup
+                    </a>
+                </li>
                 <li> <a href="{{ route('saldo-merchant') }}">
                         <ion-icon name="wallet-outline"></ion-icon>Saldo Merchant
                     </a>

@@ -36,8 +36,10 @@ $(document).ready(function () {
             { data: "kode_transaksi", name: "kode_transaksi" },
             { data: "name", name: "name" },
             { data: "biaya_admin", name: "biaya_admin" },
+            { data: "ongkir", name: "ongkir" },
             { data: "tgl_transaksi", name: "tgl_transaksi" },
             { data: "status_transaksi", name: "status_transaksi" },
+            { data: "total_harga", name: "total_harga" },
             {
                 data: "actions",
                 name: "actions",
@@ -51,10 +53,18 @@ $(document).ready(function () {
                 targets: 3,
                 render: $.fn.dataTable.render.number(",", ".", 0, ""),
             },
+            {
+                targets: 4,
+                render: $.fn.dataTable.render.number(",", ".", 0, ""),
+            },
+            {
+                targets: 7,
+                render: $.fn.dataTable.render.number(",", ".", 0, ""),
+            },
         ],
         initComplete: function () {
             this.api()
-                .columns([1, 2, 3, 4, 5])
+                .columns([1, 2, 3, 4, 5, 6])
                 .every(function () {
                     var column = this;
                     var input = document.createElement("input");

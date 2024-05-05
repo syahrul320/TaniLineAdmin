@@ -40,7 +40,7 @@ class InformasiController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'informasi'         => 'required',
-            'image'             => 'required|image|mimes:png,jpg,jpeg',
+            'image'             => 'required|image|mimes:png,jpg,jpeg|max:3048',
         ]);
 
 
@@ -68,6 +68,7 @@ class InformasiController extends Controller
         $informasi = Informasi::findOrFail($request->id);
         $validator = Validator::make($request->all(), [
             'informasi'         => 'required',
+            'image'             => 'image|mimes:png,jpg,jpeg|max:3048',
         ]);
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()]);

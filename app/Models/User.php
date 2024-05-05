@@ -28,7 +28,8 @@ class User extends Authenticatable
         'nama_merchant',
         'saldo',
         'alamat',
-        'lokasi',
+        'longitude',
+        'latitude',
         'token',
     ];
 

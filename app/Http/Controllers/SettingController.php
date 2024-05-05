@@ -22,6 +22,7 @@ class SettingController extends Controller
             'nama_aplikasi' => $request->nama_aplikasi,
             'tgl_expired' => $request->tgl_expired,
             'biaya_admin' => $request->biaya_admin,
+            'biaya_kirim' => $request->biaya_kirim,
         ]);
         // return redirect()->back();
 

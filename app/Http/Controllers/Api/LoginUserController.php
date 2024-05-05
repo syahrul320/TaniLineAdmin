@@ -27,7 +27,7 @@ class LoginUserController extends Controller
             return response()->json(['message' => 'Bukan Akun Merchant'], 401);
         }
         if (!Hash::check($request->password, $users->password)) {
-            return response()->json(['error' => 'Invalid password'], 401);
+            return response()->json(['message' => 'Invalid password'], 401);
         }
         if (!Auth::attempt($request->only('email', 'password'))) {
             return response()->json([

@@ -26,14 +26,19 @@ class ProdukController extends Controller
             $data->join('kategoris', 'produks.id_kategori', '=', 'kategoris.id')
                 ->select(['users.nama_merchant', 'users.level', 'produks.*', 'kategoris.nama_kategori'])
                 ->where('users.level', 'merchant');
-            return DataTables::of($data)
+            return DataTables::of($data)->addColumn('actions', function ($row) {
+                $button = '&nbsp;&nbsp;';
+                $button .= '<a href="javascript:void(0)" onclick= destroy("' . encrypt($row->id) . '") ><span class="badge bg-warning"> Delete</span></a>';
+
+                return $button;
+            })
                 ->addColumn('image', function ($row) {
                     return '<img width=60 height=60 class=img-thumbnail src=' .
                         asset("upload/produk/$row->image") . '>';
                 })
                 ->addIndexColumn()
                 ->removeColumn('id')
-                ->rawColumns(['image'])
+                ->rawColumns(['actions', 'image'])
                 ->make(true);
         }
         return view('produk.index');
@@ -62,12 +67,14 @@ class ProdukController extends Controller
 
     public function getMerchant(Request $request)
     {
-        $search = $request->search;
+        $search = $request->id_user_merchant;
         if ($search == '') {
-            $merchant = User::orderby('nama_merchant', 'asc')->select('id', 'nama_merchant')
+            $merchant = User::orderby('name', 'asc')->select('id', 'name')
+                ->where('level', 'merchant')
                 ->limit(5)->get();
         } else {
-            $merchant = User::orderby('nama_merchant', 'asc')->select('id', 'nama_merchant')
+            $merchant = User::orderby('name', 'asc')->select('id', 'name')
+                ->where('level', 'merchant')
                 ->where('id_user_merchant', 'like', '%' . $search . '%')->limit(5)->get();
         }
 
@@ -75,9 +82,17 @@ class ProdukController extends Controller
         foreach ($merchant as $merchants) {
             $response[] = array(
                 "id" => $merchants->id,
-                "text" => $merchants->nama_merchant,
+                "text" => $merchants->name,
             );
         }
         return response()->json($response);
+    }
+
+    public function destroy(Request $request)
+    {
+        $produk = Produk::findOrFail(decrypt($request->id));
+        unlink('upload/produk/' . $produk->image);
+        $produk->delete();
+        return response()->json(['message' => 'Produk deleted successfully']);
     }
 }

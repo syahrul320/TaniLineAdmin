@@ -13,6 +13,7 @@ use App\Http\Controllers\MutasiMerchantController;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\SaldoMerchantController;
 use App\Http\Controllers\SettingController;
+use App\Http\Controllers\TopupController;
 use App\Http\Controllers\TransaksiController;
 use App\Http\Controllers\UserAdminController;
 use App\Http\Controllers\UserController;
@@ -87,6 +88,7 @@ Route::post('/informasi-delete-data', [InformasiController::class, 'destroy'])->
 Route::get('/produk', [ProdukController::class, 'index'])->name('produk')->middleware(['cekrole:admin']);
 Route::post('/produk-kategori-select', [ProdukController::class, 'getKategori'])->name('produk.kategori.select')->middleware(['cekrole:admin']);
 Route::post('/produk-merchant-select', [ProdukController::class, 'getMerchant'])->name('produk.merchant.select')->middleware(['cekrole:admin']);
+Route::post('/produk-delete-data', [ProdukController::class, 'destroy'])->name('produk.delete.data')->middleware(['cekrole:admin']);
 
 // Saldo Merchant
 Route::get('/saldo-merchant', [SaldoMerchantController::class, 'index'])->name('saldo-merchant')->middleware(['cekrole:admin']);
@@ -112,3 +114,6 @@ Route::get('cashout-merchant-cetak/{id}', [CashOutMerchantController::class, 'pr
 // Mutasi Merchant
 Route::get('/mutasi-merchant', [MutasiMerchantController::class, 'index'])->name('mutasi-merchant')->middleware(['cekrole:admin']);
 Route::get('/mutasi-merchant/export', [MutasiMerchantController::class, 'export'])->name('mutasi-merchant.export')->middleware(['cekrole:admin']);
+
+// Topup
+Route::get('/topup', [TopupController::class, 'index'])->name('topup')->middleware(['cekrole:admin']);
