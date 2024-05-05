@@ -35,6 +35,7 @@ class KeranjangBelanjaController extends Controller
         $keranjang->id_user = $request->id_user;
         $keranjang->id_produk = $request->id_produk;
         $keranjang->jumlah = $request->jumlah;
+        $keranjang->id_user_merchant = $request->id_user_merchant;
         $keranjang->harga = $request->harga;
         $keranjang->total_harga = $request->harga*$request->jumlah;
         $keranjang->keterangan = $request->keterangan;
