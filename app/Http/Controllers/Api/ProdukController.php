@@ -27,7 +27,7 @@ class ProdukController extends Controller
             ->join('kategoris', 'produks.id_kategori', '=', 'kategoris.id')
             ->leftjoin('detail_transaksis', 'produks.id', '=', 'detail_transaksis.id_produk')
             ->groupBy('produks.id')
-            ->having('distance', '<', 30)
+            ->having('distance', '<', 10)
             ->orderBy('distance')
             ->paginate(10);
 
