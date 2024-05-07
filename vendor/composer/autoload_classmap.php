@@ -17,6 +17,7 @@ return array(
     'App\\Http\\Controllers\\Api\\KeranjangBelanjaController' => $baseDir . '/app/Http/Controllers/Api/KeranjangBelanjaController.php',
     'App\\Http\\Controllers\\Api\\LoginMerchantController' => $baseDir . '/app/Http/Controllers/Api/LoginMerchantController.php',
     'App\\Http\\Controllers\\Api\\LoginUserController' => $baseDir . '/app/Http/Controllers/Api/LoginUserController.php',
+    'App\\Http\\Controllers\\Api\\PesananController' => $baseDir . '/app/Http/Controllers/Api/PesananController.php',
     'App\\Http\\Controllers\\Api\\ProdukController' => $baseDir . '/app/Http/Controllers/Api/ProdukController.php',
     'App\\Http\\Controllers\\Api\\ProdukMerchantController' => $baseDir . '/app/Http/Controllers/Api/ProdukMerchantController.php',
     'App\\Http\\Controllers\\Api\\RegistrasiController' => $baseDir . '/app/Http/Controllers/Api/RegistrasiController.php',

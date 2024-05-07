@@ -9,6 +9,6 @@ class KeranjangBelanja extends Model
 {
     use HasFactory;
     protected  $fillable = [
-        'id', 'id_produk', 'id_user', 'jumlah', 'total_harga'
+        'id', 'id_produk', 'id_user', 'jumlah', 'total_harga', 'harga', 'keterangan', 'id_user_merchant'
     ];
 }

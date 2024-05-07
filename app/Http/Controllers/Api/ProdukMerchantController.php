@@ -15,7 +15,7 @@ class ProdukMerchantController extends Controller
         try {
             $produk = DB::table('produks')
                 ->where('produks.id_user_merchant', '=', $id)
-                ->select(['nama_produk', 'users.name', 'kategoris.nama_kategori', 'produks.id'])
+                ->select(['nama_produk', 'users.name', 'kategoris.nama_kategori', 'produks.*'])
                 ->join('users', 'produks.id_user_merchant', '=', 'users.id')
                 ->join('kategoris', 'produks.id_kategori', '=', 'kategoris.id')
                 ->orderByDesc('produks.id')

@@ -9,6 +9,6 @@ class Setting extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'id', 'nama_aplikasi','token','tgl_expired','biaya_admin','biaya_kirim'
+        'id', 'nama_aplikasi','token','tgl_expired','biaya_admin','ongkir'
     ];
 }

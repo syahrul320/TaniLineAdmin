@@ -78,7 +78,7 @@ class RegistrasiController extends Controller
     }
 
 
-    public function update_password(Request $request)
+    public function update_password(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
             'password' => 'required',
@@ -87,7 +87,7 @@ class RegistrasiController extends Controller
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()]);
         } else {
-            $user = User::find(2);
+            $user = User::find($id);
             if (Hash::check($request->password, $user->password)) { 
                 $user->fill([
                      'password' => Hash::make($request->new_password)
