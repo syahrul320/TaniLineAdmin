@@ -37,6 +37,9 @@ class LoginUserController extends Controller
         $token = $users->createToken('auth_token')->plainTextToken;
         $user['id'] = $users->id;
         $user['name'] = $users->name;
+        $user['email'] = $users->email;
+        $user['level'] = $users->level;
+        $user['alamat'] = $users->alamat;
 
         return response()->json([
             'data' => $user,
