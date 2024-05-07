@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Models\DetailTransaksi;
+use Illuminate\Http\Request;
 
 class TransaksiController extends Controller
 {
@@ -29,17 +31,26 @@ class TransaksiController extends Controller
         return response()->json($transaksi);
     }
 
-    public function store(Request $request)
+    public function showDetailTransaksiMerchant($id)
     {
-        $transaksi = new Transaksi();
-        $transaksi->id_user_pembeli = $request->id_user_pembeli;
-        $transaksi->id_produk = $request->id_produk;
-        $transaksi->qty = $request->qty;
-        $transaksi->harga = $request->harga;
-        $transaksi->biaya_admin = $request->biaya_admin;
-        $transaksi->total_biaya = $request->total_biaya;
-        $transaksi->status_transaksi = $request->status_transaksi;
-        $transaksi->save();
-        return response()->json(['success' => TRUE]);
+        $detailTransaksi = DetailTransaksi::where('id_transaksi', '=', $id)
+            ->join('produks', 'detail_transaksis.id_produk', '=', 'produks.id')
+            ->select(['produks.nama_produk', 'produks.image', 'detail_transaksis.*'])
+            ->get();
+        return response()->json($detailTransaksi);
     }
+    
+    // public function store(Request $request)
+    // {
+    //     $transaksi = new Transaksi();
+    //     $transaksi->id_user_pembeli = $request->id_user_pembeli;
+    //     $transaksi->id_produk = $request->id_produk;
+    //     $transaksi->qty = $request->qty;
+    //     $transaksi->harga = $request->harga;
+    //     $transaksi->biaya_admin = $request->biaya_admin;
+    //     $transaksi->total_biaya = $request->total_biaya;
+    //     $transaksi->status_transaksi = $request->status_transaksi;
+    //     $transaksi->save();
+    //     return response()->json(['success' => TRUE]);
+    // }
 }

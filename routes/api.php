@@ -75,11 +75,11 @@ Route::post('/logout-merchant', [\App\Http\Controllers\Api\LoginMerchantControll
     Route::post('/create-produk-merchant', [\App\Http\Controllers\Api\ProdukMerchantController::class, 'store']);
     Route::delete('/destroy-produk-merchant/{id}', [\App\Http\Controllers\Api\ProdukMerchantController::class, 'destroy']);
     Route::put('/update-produk-merchant/{id}', [\App\Http\Controllers\Api\ProdukMerchantController::class, 'update']);
+    Route::get('/show-transaksi-merchant/{id}', [\App\Http\Controllers\Api\TransaksiController::class, 'showDetailTransaksiMerchant']);
+    // Flip
+    Route::post('/topup', [\App\Http\Controllers\Api\TopupController::class, 'store']);
+    Route::post('/topup/notification', [\App\Http\Controllers\Api\TopupController::class, 'notification']);
+    //lokasi 
+    Route::put('/lokasi-merchant/{id}', [\App\Http\Controllers\Api\LokasiMerchantController::class, 'update']);
 // });
 
-// Flip
-Route::post('/topup', [\App\Http\Controllers\Api\TopupController::class, 'store']);
-Route::post('/topup/notification', [\App\Http\Controllers\Api\TopupController::class, 'notification']);
-
-//lokasi 
-Route::put('/lokasi-merchant/{id}', [\App\Http\Controllers\Api\LokasiMerchantController::class, 'update']);
