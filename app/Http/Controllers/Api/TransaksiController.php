@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Models\DetailTransaksi;
 
 class TransaksiController extends Controller
 {
@@ -27,5 +28,14 @@ class TransaksiController extends Controller
             ->orderByDesc('transaksis.id')
             ->paginate(30);
         return response()->json($transaksi);
+    }
+
+    public function showDetailTransaksiMerchant($id)
+    {
+        $detailTransaksi = DetailTransaksi::where('id_transaksi', '=', $id)
+            ->join('produks', 'detail_transaksis.id_produk', '=', 'produks.id')
+            ->select(['produks.nama_produk', 'produks.image', 'detail_transaksis.*'])
+            ->get();
+        return response()->json($detailTransaksi);
     }
 }
