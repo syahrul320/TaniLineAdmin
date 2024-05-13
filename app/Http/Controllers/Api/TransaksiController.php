@@ -20,6 +20,18 @@ class TransaksiController extends Controller
         return response()->json($transaksi);
     }
 
+
+    public function showTransaksiMerchant($id)
+    {
+        $transaksi = DB::table('transaksis')
+            ->where('transaksis.id_user_merchant', '=', $id)
+            ->select(['transaksis.kode_transaksi', 'produks.nama_produk', 'transaksis.qty', 'transaksis.harga', 'transaksis.biaya_admin', 'transaksis.total_biaya', 'transaksis.tgl_transaksi', 'transaksis.status_transaksi'])
+            ->join('produks', 'transaksis.id_produk', '=', 'produks.id')
+            ->orderByDesc('transaksis.id')
+            ->paginate(30);
+        return response()->json($transaksi);
+    }
+
     public function showTransaksiByStatus($status)
     {
         $transaksi = DB::table('transaksis')
@@ -39,6 +51,7 @@ class TransaksiController extends Controller
             ->get();
         return response()->json($detailTransaksi);
     }
+
     
     // public function store(Request $request)
     // {
