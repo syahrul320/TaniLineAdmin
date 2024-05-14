@@ -82,5 +82,6 @@ Route::post('/logout-merchant', [\App\Http\Controllers\Api\LoginMerchantControll
     //lokasi 
     Route::put('/lokasi-merchant/{id}', [\App\Http\Controllers\Api\LokasiMerchantController::class, 'update']);
     Route::get('/transaksi_merchant/{id}', [\App\Http\Controllers\Api\TransaksiController::class, 'showTransaksiMerchant']);
+    Route::get('/detail-transaksi-merchant/{kode}', [\App\Http\Controllers\Api\TransaksiController::class, 'detailTransaksiMerchant']);
 // });
 

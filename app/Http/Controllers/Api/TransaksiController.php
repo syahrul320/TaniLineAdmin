@@ -27,13 +27,13 @@ class TransaksiController extends Controller
             ->select([
                 'transaksis.kode_transaksi',
                 'transaksis.id as id_transaksi',
-                'produks.nama_produk', 
-                'detail_transaksis.qty', 
-                'produks.image', 
-                'detail_transaksis.harga_jual', 
-                'transaksis.tgl_transaksi', 
-                'transaksis.status_transaksi', 
-                'transaksis.id_user_merchant', 
+                'produks.nama_produk',
+                'detail_transaksis.qty',
+                'produks.image',
+                'detail_transaksis.harga_jual',
+                'transaksis.tgl_transaksi',
+                'transaksis.status_transaksi',
+                'transaksis.id_user_merchant',
                 'transaksis.total',
                 'transaksis.ongkir'
             ])
@@ -41,6 +41,24 @@ class TransaksiController extends Controller
             ->join('transaksis', 'detail_transaksis.id_transaksi', '=', 'transaksis.id')
             ->orderByDesc('transaksis.id')
             ->paginate(30);
+        return response()->json($transaksi_merchant);
+    }
+
+    public function detailTransaksiMerchant($kode_transaksi)
+    {
+        $transaksi_merchant = DB::table('detail_transaksis')
+            ->where('transaksis.kode_transaksi', '=', $kode_transaksi)
+            ->join('produks', 'detail_transaksis.id_produk', '=', 'produks.id')
+            ->join('transaksis', 'detail_transaksis.id_transaksi', '=', 'transaksis.id')
+            ->select([
+                'transaksis.kode_transaksi',
+                'produks.nama_produk',
+                'produks.image',
+                'detail_transaksis.qty',
+                'detail_transaksis.harga_jual',
+                'detail_transaksis.id_transaksi'
+            ])
+            ->get();
         return response()->json($transaksi_merchant);
     }
 
