@@ -4,8 +4,6 @@ namespace App\Http\Controllers\Api;
 
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use App\Models\DetailTransaksi;
-use Illuminate\Http\Request;
 
 class TransaksiController extends Controller
 {
@@ -23,13 +21,27 @@ class TransaksiController extends Controller
 
     public function showTransaksiMerchant($id)
     {
-        $transaksi = DB::table('transaksis')
-            ->where('transaksis.id_user_merchant', '=', $id)
-            ->select(['transaksis.kode_transaksi', 'produks.nama_produk', 'transaksis.qty', 'transaksis.harga', 'transaksis.biaya_admin', 'transaksis.total_biaya', 'transaksis.tgl_transaksi', 'transaksis.status_transaksi'])
-            ->join('produks', 'transaksis.id_produk', '=', 'produks.id')
+        $transaksi_merchant = DB::table('detail_transaksis')
+            ->where('detail_transaksis.id_user_merchant', '=', $id)
+            ->where('transaksis.status_transaksi', 'diterima')
+            ->select([
+                'transaksis.kode_transaksi',
+                'transaksis.id as id_transaksi',
+                'produks.nama_produk', 
+                'detail_transaksis.qty', 
+                'produks.image', 
+                'detail_transaksis.harga_jual', 
+                'transaksis.tgl_transaksi', 
+                'transaksis.status_transaksi', 
+                'transaksis.id_user_merchant', 
+                'transaksis.total',
+                'transaksis.ongkir'
+            ])
+            ->join('produks', 'detail_transaksis.id_produk', '=', 'produks.id')
+            ->join('transaksis', 'detail_transaksis.id_transaksi', '=', 'transaksis.id')
             ->orderByDesc('transaksis.id')
             ->paginate(30);
-        return response()->json($transaksi);
+        return response()->json($transaksi_merchant);
     }
 
     public function showTransaksiByStatus($status)
@@ -42,28 +54,4 @@ class TransaksiController extends Controller
             ->paginate(30);
         return response()->json($transaksi);
     }
-
-    public function showDetailTransaksiMerchant($id)
-    {
-        $detailTransaksi = DetailTransaksi::where('id_transaksi', '=', $id)
-            ->join('produks', 'detail_transaksis.id_produk', '=', 'produks.id')
-            ->select(['produks.nama_produk', 'produks.image', 'detail_transaksis.*'])
-            ->get();
-        return response()->json($detailTransaksi);
-    }
-
-    
-    // public function store(Request $request)
-    // {
-    //     $transaksi = new Transaksi();
-    //     $transaksi->id_user_pembeli = $request->id_user_pembeli;
-    //     $transaksi->id_produk = $request->id_produk;
-    //     $transaksi->qty = $request->qty;
-    //     $transaksi->harga = $request->harga;
-    //     $transaksi->biaya_admin = $request->biaya_admin;
-    //     $transaksi->total_biaya = $request->total_biaya;
-    //     $transaksi->status_transaksi = $request->status_transaksi;
-    //     $transaksi->save();
-    //     return response()->json(['success' => TRUE]);
-    // }
 }

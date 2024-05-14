@@ -14,7 +14,7 @@ class AddIdUserMerchantToTransaksis extends Migration
     public function up()
     {
         Schema::table('transaksis', function (Blueprint $table) {
-            $table->integer('id_user_merchant')->after('id_user')->nullable();
+            $table->foreignId('id_user_merchant')->references('id')->on('users')->onDelete('cascade')->after('id_user_pembeli')->nullable();
         });
     }
 
