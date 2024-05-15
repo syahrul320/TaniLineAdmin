@@ -17,6 +17,7 @@ class Transaksi extends Model
         'status_transaksi',
         'total_harga',
         'ongkir',
-        'id_user_merchant'
+        'id_user_merchant',
+        'total',
     ];
 }

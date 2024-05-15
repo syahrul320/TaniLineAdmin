@@ -77,4 +77,88 @@ class TransaksiController extends Controller
             ->paginate(30);
         return response()->json($transaksi);
     }
+
+    public function showPesananDiterima($id)
+    {
+        $transaksi = DB::table('transaksis')
+            ->where('transaksis.id_user_merchant', '=', $id)
+            ->where('transaksis.status_transaksi', '=', 'diterima')
+            ->join('users', 'transaksis.id_user_pembeli', '=', 'users.id')
+            ->select([
+                'transaksis.kode_transaksi',
+                'users.name as nama_pembeli',
+                'transaksis.biaya_admin',
+                'transaksis.total_harga',
+                'transaksis.tgl_transaksi',
+                'transaksis.status_transaksi',
+                'transaksis.total',
+                'transaksis.ongkir'
+            ])
+            ->orderByDesc('transaksis.id')
+            ->paginate(30);
+        return response()->json($transaksi);
+    }
+
+    public function showPesananSelesai($id)
+    {
+        $transaksi = DB::table('transaksis')
+            ->where('transaksis.id_user_merchant', '=', $id)
+            ->where('transaksis.status_transaksi', '=', 'selesai')
+            ->join('users', 'transaksis.id_user_pembeli', '=', 'users.id')
+            ->select([
+                'transaksis.kode_transaksi',
+                'users.name as nama_pembeli',
+                'transaksis.biaya_admin',
+                'transaksis.total_harga',
+                'transaksis.tgl_transaksi',
+                'transaksis.status_transaksi',
+                'transaksis.total',
+                'transaksis.ongkir'
+            ])
+            ->orderByDesc('transaksis.id')
+            ->paginate(30);
+        return response()->json($transaksi);
+    }
+
+    public function showPesananDiproses($id)
+    {
+        $transaksi = DB::table('transaksis')
+            ->where('transaksis.id_user_merchant', '=', $id)
+            ->where('transaksis.status_transaksi', '=', 'diproses')
+            ->join('users', 'transaksis.id_user_pembeli', '=', 'users.id')
+            ->select([
+                'transaksis.kode_transaksi',
+                'users.name as nama_pembeli',
+                'transaksis.biaya_admin',
+                'transaksis.total_harga',
+                'transaksis.tgl_transaksi',
+                'transaksis.status_transaksi',
+                'transaksis.total',
+                'transaksis.ongkir'
+            ])
+            ->orderByDesc('transaksis.id')
+            ->paginate(30);
+        return response()->json($transaksi);
+    }
+
+    public function showPesananDibatalkan($id)
+    {
+        $transaksi = DB::table('transaksis')
+            ->where('transaksis.id_user_merchant', '=', $id)
+            ->where('transaksis.status_transaksi', '=', 'batal')
+            ->join('users', 'transaksis.id_user_pembeli', '=', 'users.id')
+            ->select([
+                'transaksis.kode_transaksi',
+                'users.name as nama_pembeli',
+                'transaksis.biaya_admin',
+                'transaksis.total_harga',
+                'transaksis.tgl_transaksi',
+                'transaksis.status_transaksi',
+                'transaksis.total',
+                'transaksis.ongkir'
+            ])
+            ->orderByDesc('transaksis.id')
+            ->paginate(30);
+        return response()->json($transaksi);
+    }
 }
