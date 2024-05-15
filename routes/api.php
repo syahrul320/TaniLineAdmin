@@ -85,5 +85,7 @@ Route::post('/logout-merchant', [\App\Http\Controllers\Api\LoginMerchantControll
     Route::get('/detail-transaksi-merchant/{kode}', [\App\Http\Controllers\Api\TransaksiController::class, 'detailTransaksiMerchant']);
     //setting
     Route::get('/setting-merchant/{id}', [\App\Http\Controllers\Api\SettingController::class, 'showSetting']);
+    Route::put('/setting-merchant/{id}', [\App\Http\Controllers\Api\SettingController::class, 'updateSetting']);
+    Route::put('/setting-merchant/update-password/{id}', [\App\Http\Controllers\Api\SettingController::class, 'update_password']);
 // });
 
