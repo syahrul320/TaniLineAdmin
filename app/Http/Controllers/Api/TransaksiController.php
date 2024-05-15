@@ -50,13 +50,18 @@ class TransaksiController extends Controller
             ->where('transaksis.kode_transaksi', '=', $kode_transaksi)
             ->join('produks', 'detail_transaksis.id_produk', '=', 'produks.id')
             ->join('transaksis', 'detail_transaksis.id_transaksi', '=', 'transaksis.id')
+            ->join('users', 'transaksis.id_user_pembeli', '=', 'users.id')
             ->select([
                 'transaksis.kode_transaksi',
                 'produks.nama_produk',
                 'produks.image',
                 'detail_transaksis.qty',
                 'detail_transaksis.harga_jual',
-                'detail_transaksis.id_transaksi'
+                'detail_transaksis.id_transaksi',
+                'transaksis.tgl_transaksi',
+                'transaksis.id_user_pembeli',
+                'users.name as nama_pembeli',
+                'users.alamat as alamat_pembeli',
             ])
             ->get();
         return response()->json($transaksi_merchant);
