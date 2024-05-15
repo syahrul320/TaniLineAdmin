@@ -81,7 +81,7 @@ class TransaksiController extends Controller
     public function showPesananDiterima($id)
     {
         $transaksi = DB::table('transaksis')
-            ->where('transaksis.id_user_merchant', '=', $id)
+            ->where('transaksis.kode_transaksi', '=', $id)
             ->where('transaksis.status_transaksi', '=', 'diterima')
             ->join('users', 'transaksis.id_user_pembeli', '=', 'users.id')
             ->select([
@@ -102,7 +102,7 @@ class TransaksiController extends Controller
     public function showPesananSelesai($id)
     {
         $transaksi = DB::table('transaksis')
-            ->where('transaksis.id_user_merchant', '=', $id)
+            ->where('transaksis.kode_transaksi', '=', $id)
             ->where('transaksis.status_transaksi', '=', 'selesai')
             ->join('users', 'transaksis.id_user_pembeli', '=', 'users.id')
             ->select([
@@ -123,7 +123,7 @@ class TransaksiController extends Controller
     public function showPesananDiproses($id)
     {
         $transaksi = DB::table('transaksis')
-            ->where('transaksis.id_user_merchant', '=', $id)
+            ->where('transaksis.kode_transaksi', '=', $id)
             ->where('transaksis.status_transaksi', '=', 'diproses')
             ->join('users', 'transaksis.id_user_pembeli', '=', 'users.id')
             ->select([
@@ -144,7 +144,7 @@ class TransaksiController extends Controller
     public function showPesananDibatalkan($id)
     {
         $transaksi = DB::table('transaksis')
-            ->where('transaksis.id_user_merchant', '=', $id)
+            ->where('transaksis.kode_transaksi', '=', $id)
             ->where('transaksis.status_transaksi', '=', 'batal')
             ->join('users', 'transaksis.id_user_pembeli', '=', 'users.id')
             ->select([
