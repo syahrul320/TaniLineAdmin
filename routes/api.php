@@ -89,9 +89,10 @@ Route::post('/logout-merchant', [\App\Http\Controllers\Api\LoginMerchantControll
     //transaksi
     Route::get('/transaksi_merchant/{id}', [\App\Http\Controllers\Api\TransaksiController::class, 'showTransaksiMerchant']);
     Route::get('/detail-transaksi-merchant/{kode}', [\App\Http\Controllers\Api\TransaksiController::class, 'detailTransaksiMerchant']);
-    Route::get('/pesanan-diterima-merchant/{id}', [\App\Http\Controllers\Api\TransaksiController::class, 'showPesananDiterima']);
-    Route::get('/pesanan-selesai-merchant/{id}', [\App\Http\Controllers\Api\TransaksiController::class, 'showPesananSelesai']);
-    Route::get('/pesanan-dibatalkan-merchant/{id}', [\App\Http\Controllers\Api\TransaksiController::class, 'showPesananDibatalkan']);
-    Route::get('/pesanan-diproses-merchant/{id}', [\App\Http\Controllers\Api\TransaksiController::class, 'showPesananDiproses']);
+    Route::get('/pesanan-diterima-merchant/{kode}', [\App\Http\Controllers\Api\TransaksiController::class, 'showPesananDiterima']);
+    Route::get('/pesanan-selesai-merchant/{kode}', [\App\Http\Controllers\Api\TransaksiController::class, 'showPesananSelesai']);
+    Route::get('/pesanan-dibatalkan-merchant/{kode}', [\App\Http\Controllers\Api\TransaksiController::class, 'showPesananDibatalkan']);
+    Route::get('/pesanan-diproses-merchant/{kode}', [\App\Http\Controllers\Api\TransaksiController::class, 'showPesananDiproses']);
+    Route::put('/update-status-transaksi/{kode}', [\App\Http\Controllers\Api\TransaksiController::class, 'updateStatusTransaksi']);
 // });
 

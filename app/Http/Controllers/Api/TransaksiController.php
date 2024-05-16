@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Api;
 
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Models\Transaksi;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class TransaksiController extends Controller
 {
@@ -161,4 +164,25 @@ class TransaksiController extends Controller
             ->paginate(30);
         return response()->json($transaksi);
     }
+
+    public function updateStatusTransaksi(Request $request, $kode_transaksi)
+    {
+        $validator = Validator::make($request->all(), [
+            'status_transaksi' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 400);
+        }
+
+        $transaksi = Transaksi::where('kode_transaksi', $kode_transaksi)->first();
+        $transaksi->status_transaksi = $request->status_transaksi;
+        $transaksi->save();
+
+        return response()->json([
+            'message' => 'Status transaksi berhasil diubah',
+            'data' => $transaksi
+        ]);
+    }
+    
 }
