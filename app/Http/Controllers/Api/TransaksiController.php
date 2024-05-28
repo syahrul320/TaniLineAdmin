@@ -108,6 +108,8 @@ class TransaksiController extends Controller
             ->where('transaksis.id_user_merchant', '=', $id)
             ->where('transaksis.status_transaksi', '=', 'selesai')
             ->join('users', 'transaksis.id_user_pembeli', '=', 'users.id')
+            ->join('detail_transaksis', 'transaksis.id', '=', 'detail_transaksis.id_transaksi')
+            ->join('produks', 'detail_transaksis.id_produk', '=', 'produks.id')
             ->select([
                 'transaksis.kode_transaksi',
                 'users.name as nama_pembeli',
@@ -116,7 +118,10 @@ class TransaksiController extends Controller
                 'transaksis.tgl_transaksi',
                 'transaksis.status_transaksi',
                 'transaksis.total',
-                'transaksis.ongkir'
+                'transaksis.ongkir',
+                'detail_transaksis.id as id_detail_transaksi',
+                'detail_transaksis.qty',
+                'produks.nama_produk',
             ])
             ->orderByDesc('transaksis.id')
             ->paginate(30);
