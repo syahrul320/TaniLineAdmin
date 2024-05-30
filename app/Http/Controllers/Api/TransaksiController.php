@@ -128,6 +128,32 @@ class TransaksiController extends Controller
         return response()->json($transaksi);
     }
 
+    public function showBillingselesai($id)
+    {
+        $transaksi = DB::table('transaksis')
+            ->where('transaksis.kode_transaksi', '=', $id)
+            ->where('transaksis.status_transaksi', '=', 'selesai')
+            ->join('users', 'transaksis.id_user_pembeli', '=', 'users.id')
+            ->join('detail_transaksis', 'transaksis.id', '=', 'detail_transaksis.id_transaksi')
+            ->join('produks', 'detail_transaksis.id_produk', '=', 'produks.id')
+            ->select([
+                'transaksis.kode_transaksi',
+                'users.name as nama_pembeli',
+                'transaksis.biaya_admin',
+                'transaksis.total_harga',
+                'transaksis.tgl_transaksi',
+                'transaksis.status_transaksi',
+                'transaksis.total',
+                'transaksis.ongkir',
+                'detail_transaksis.id as id_detail_transaksi',
+                'detail_transaksis.qty',
+                'produks.nama_produk',
+            ])
+            ->orderByDesc('transaksis.id')
+            ->paginate(30);
+        return response()->json($transaksi);
+    }
+
     public function showPesananDiproses($id)
     {
         $transaksi = DB::table('transaksis')
