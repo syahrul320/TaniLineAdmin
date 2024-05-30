@@ -152,7 +152,7 @@ class TransaksiController extends Controller
     public function showPesananDibatalkan($id)
     {
         $transaksi = DB::table('transaksis')
-            ->where('transaksis.kode_transaksi', '=', $id)
+            ->where('transaksis.id_user_merchant', '=', $id)
             ->where('transaksis.status_transaksi', '=', 'batal')
             ->join('users', 'transaksis.id_user_pembeli', '=', 'users.id')
             ->select([
