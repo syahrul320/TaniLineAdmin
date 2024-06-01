@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\DetailTransaksi;
 use App\Models\Transaksi;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class TransaksiController extends Controller
 {
@@ -23,13 +24,50 @@ class TransaksiController extends Controller
 
     public function showTransaksiMerchant($id)
     {
-        $transaksi = DB::table('transaksis')
-            ->where('transaksis.id_user_merchant', '=', $id)
-            ->select(['transaksis.kode_transaksi', 'produks.nama_produk', 'transaksis.qty', 'transaksis.harga', 'transaksis.biaya_admin', 'transaksis.total_biaya', 'transaksis.tgl_transaksi', 'transaksis.status_transaksi'])
-            ->join('produks', 'transaksis.id_produk', '=', 'produks.id')
+        $transaksi_merchant = DB::table('detail_transaksis')
+            ->where('detail_transaksis.id_user_merchant', '=', $id)
+            ->where('transaksis.status_transaksi', 'diterima')
+            ->select([
+                'transaksis.kode_transaksi',
+                'transaksis.id as id_transaksi',
+                'produks.nama_produk',
+                'detail_transaksis.qty',
+                'produks.image',
+                'detail_transaksis.harga_jual',
+                'transaksis.tgl_transaksi',
+                'transaksis.status_transaksi',
+                'transaksis.id_user_merchant',
+                'transaksis.total',
+                'transaksis.ongkir'
+            ])
+            ->join('produks', 'detail_transaksis.id_produk', '=', 'produks.id')
+            ->join('transaksis', 'detail_transaksis.id_transaksi', '=', 'transaksis.id')
             ->orderByDesc('transaksis.id')
             ->paginate(30);
-        return response()->json($transaksi);
+        return response()->json($transaksi_merchant);
+    }
+
+    public function detailTransaksiMerchant($kode_transaksi)
+    {
+        $transaksi_merchant = DB::table('detail_transaksis')
+            ->where('transaksis.kode_transaksi', '=', $kode_transaksi)
+            ->join('produks', 'detail_transaksis.id_produk', '=', 'produks.id')
+            ->join('transaksis', 'detail_transaksis.id_transaksi', '=', 'transaksis.id')
+            ->join('users', 'transaksis.id_user_pembeli', '=', 'users.id')
+            ->select([
+                'transaksis.kode_transaksi',
+                'produks.nama_produk',
+                'produks.image',
+                'detail_transaksis.qty',
+                'detail_transaksis.harga_jual',
+                'detail_transaksis.id_transaksi',
+                'transaksis.tgl_transaksi',
+                'transaksis.id_user_pembeli',
+                'users.name as nama_pembeli',
+                'users.alamat as alamat_pembeli',
+            ])
+            ->get();
+        return response()->json($transaksi_merchant);
     }
 
     public function showTransaksiByStatus($status, $id)
@@ -44,91 +82,139 @@ class TransaksiController extends Controller
         return response()->json($transaksi);
     }
 
-    public function showDetailTransaksiMerchant($id)
+    public function showPesananDiterima($id)
     {
-        $detailTransaksi = DetailTransaksi::where('id_transaksi', '=', $id)
-            ->join('produks', 'detail_transaksis.id_produk', '=', 'produks.id')
-            ->select(['produks.nama_produk', 'produks.image', 'detail_transaksis.*'])
-            ->get();
-        return response()->json($detailTransaksi);
+        $transaksi = DB::table('transaksis')
+            ->where('transaksis.id_user_merchant', '=', $id)
+            ->where('transaksis.status_transaksi', '=', 'diterima')
+            ->join('users', 'transaksis.id_user_pembeli', '=', 'users.id')
+            ->select([
+                'transaksis.kode_transaksi',
+                'users.name as nama_pembeli',
+                'transaksis.biaya_admin',
+                'transaksis.total_harga',
+                'transaksis.tgl_transaksi',
+                'transaksis.status_transaksi',
+                'transaksis.total',
+                'transaksis.ongkir'
+            ])
+            ->orderByDesc('transaksis.id')
+            ->paginate(30);
+        return response()->json($transaksi);
     }
 
-    public function getDistanceCost(Request $request){
-        $id_user = $request->id_user;
-        $latitude = $request->latitude;
-        $longitude = $request->longitude;
-        $biaya = DB::table('settings')->where('id', '=', 1)->first();
-        $keranjang_by_penjual = DB::table('keranjang_belanjas')
-            ->selectRaw('id_user_merchant, SUM(total_harga) as  total_harga,  ROUND(( 6367 * acos( cos( radians( ? ) ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians( ? ) ) + sin( radians( ? ) ) * sin( radians( latitude ) ) ) )) AS distance', [$latitude, $longitude, $latitude])
-            ->join('users', 'keranjang_belanjas.id_user_merchant', '=', 'users.id')
-            ->where('keranjang_belanjas.id_user', '=', $id_user)
-            ->groupBy('keranjang_belanjas.id_user_merchant')
-            ->get();
+    public function showPesananSelesai($id)
+    {
+        $transaksi = DB::table('transaksis')
+            ->where('transaksis.id_user_merchant', '=', $id)
+            ->where('transaksis.status_transaksi', '=', 'selesai')
+            ->join('users', 'transaksis.id_user_pembeli', '=', 'users.id')
+            ->join('detail_transaksis', 'transaksis.id', '=', 'detail_transaksis.id_transaksi')
+            ->join('produks', 'detail_transaksis.id_produk', '=', 'produks.id')
+            ->select([
+                'transaksis.kode_transaksi',
+                'users.name as nama_pembeli',
+                'transaksis.biaya_admin',
+                'transaksis.total_harga',
+                'transaksis.tgl_transaksi',
+                'transaksis.status_transaksi',
+                'transaksis.total',
+                'transaksis.ongkir',
+                'detail_transaksis.id as id_detail_transaksi',
+                'detail_transaksis.qty',
+                'produks.nama_produk',
+            ])
+            ->orderByDesc('transaksis.id')
+            ->paginate(30);
+        return response()->json($transaksi);
+    }
 
-        $total_barang = 0;
-        $distance = 0;
-        foreach ($keranjang_by_penjual as $key => $value) {
-            $distance += $value->distance-1;
-            $total_barang += $value->total_harga;
+    public function showBillingselesai($id)
+    {
+        $transaksi = DB::table('transaksis')
+            ->where('transaksis.kode_transaksi', '=', $id)
+            ->where('transaksis.status_transaksi', '=', 'selesai')
+            ->join('users', 'transaksis.id_user_pembeli', '=', 'users.id')
+            ->join('detail_transaksis', 'transaksis.id', '=', 'detail_transaksis.id_transaksi')
+            ->join('produks', 'detail_transaksis.id_produk', '=', 'produks.id')
+            ->select([
+                'transaksis.kode_transaksi',
+                'users.name as nama_pembeli',
+                'transaksis.biaya_admin',
+                'transaksis.total_harga',
+                'transaksis.tgl_transaksi',
+                'transaksis.status_transaksi',
+                'transaksis.total',
+                'transaksis.ongkir',
+                'detail_transaksis.id as id_detail_transaksi',
+                'detail_transaksis.qty',
+                'produks.nama_produk',
+            ])
+            ->orderByDesc('transaksis.id')
+            ->paginate(30);
+        return response()->json($transaksi);
+    }
 
+    public function showPesananDiproses($id)
+    {
+        $transaksi = DB::table('transaksis')
+            ->where('transaksis.id_user_merchant', '=', $id)
+            ->where('transaksis.status_transaksi', '=', 'diproses')
+            ->join('users', 'transaksis.id_user_pembeli', '=', 'users.id')
+            ->select([
+                'transaksis.kode_transaksi',
+                'users.name as nama_pembeli',
+                'transaksis.biaya_admin',
+                'transaksis.total_harga',
+                'transaksis.tgl_transaksi',
+                'transaksis.status_transaksi',
+                'transaksis.total',
+                'transaksis.ongkir'
+            ])
+            ->orderByDesc('transaksis.id')
+            ->paginate(30);
+        return response()->json($transaksi);
+    }
+
+    public function showPesananDibatalkan($id)
+    {
+        $transaksi = DB::table('transaksis')
+            ->where('transaksis.id_user_merchant', '=', $id)
+            ->where('transaksis.status_transaksi', '=', 'batal')
+            ->join('users', 'transaksis.id_user_pembeli', '=', 'users.id')
+            ->select([
+                'transaksis.kode_transaksi',
+                'users.name as nama_pembeli',
+                'transaksis.biaya_admin',
+                'transaksis.total_harga',
+                'transaksis.tgl_transaksi',
+                'transaksis.status_transaksi',
+                'transaksis.total',
+                'transaksis.ongkir'
+            ])
+            ->orderByDesc('transaksis.id')
+            ->paginate(30);
+        return response()->json($transaksi);
+    }
+
+    public function updateStatusTransaksi(Request $request, $kode_transaksi)
+    {
+        $validator = Validator::make($request->all(), [
+            'status_transaksi' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 400);
         }
 
-        echo json_encode(array('distance'=> $distance ,'ongkir' => $distance * $biaya->ongkir, 'total_barang'=>$total_barang, 'total'=> $total_barang + ($distance * $biaya->ongkir)));
+        $transaksi = Transaksi::where('kode_transaksi', $kode_transaksi)->first();
+        $transaksi->status_transaksi = $request->status_transaksi;
+        $transaksi->save();
 
+        return response()->json([
+            'message' => 'Status transaksi berhasil diubah',
+            'data' => $transaksi
+        ]);
     }
 
-    public function store(Request $request)
-    {
-        // $transaksi = new Transaksi();
-        // $transaksi->id_user_pembeli = $request->id_user_pembeli;
-        // $transaksi->id_produk = $request->id_produk;
-        // $transaksi->qty = $request->qty;
-        // $transaksi->harga = $request->harga;
-        // $transaksi->biaya_admin = $request->biaya_admin;
-        // $transaksi->total_biaya = $request->total_biaya;
-        // $transaksi->status_transaksi = $request->status_transaksi;
-        $biaya = DB::table('settings')->where('id', '=', 1)->first();
-        $keranjang_by_penjual = DB::table('keranjang_belanjas')
-            ->selectRaw('id_user_merchant, SUM(total_harga) as  total_harga,  ROUND(( 6367 * acos( cos( radians( ? ) ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians( ? ) ) + sin( radians( ? ) ) * sin( radians( latitude ) ) ) )) AS distance', [$latitude, $longitude, $latitude])
-            ->where('keranjang_belanjas.id_user', '=', 4)
-            ->groupBy('keranjang_belanjas.id_user_merchant')
-            ->get();
-
-            foreach ($keranjang_by_penjual as $key => $value) {
-                $jarak_harus_bayar = $value->distance - 1 ;
-                $insert_transaksi = new Transaksi();
-                $insert_transaksi->kode_transaksi = 'TRX'.date('is')."".date('Ymd')."".rand(1000,9999);
-                $insert_transaksi->id_user_pembeli = 4;
-                $insert_transaksi->id_user_merchant = $value->id_user_merchant;
-                $insert_transaksi->biaya_admin = $biaya->biaya_admin;
-                $insert_transaksi->tgl_transaksi = date('Y-m-d H:i:s');
-                $insert_transaksi->ongkir = $biaya->ongkir * $jarak_harus_bayar;
-                $insert_transaksi->total = $value->total_harga;
-                $insert_transaksi->status_transaksi = 'diterima';
-                $insert_transaksi->save();
-                $insert_transaksi_id = $insert_transaksi->id;
-
-                $keranjang = DB::table('keranjang_belanjas')
-                ->where('keranjang_belanjas.id_user', '=', 4)
-                ->where('keranjang_belanjas.id_user_merchant', '=', $insert_transaksi->id_user_merchant)
-                ->join('produks', 'keranjang_belanjas.id_produk', '=', 'produks.id')
-                ->select(['keranjang_belanjas.*', 'keranjang_belanjas.jumlah', 'produks.harga','produks.nama_produk'])
-                ->get();
-
-                foreach ($keranjang as $key => $keranjang) {
-                    $insert_transaksi_detail = new DetailTransaksi();
-                    $insert_transaksi_detail->id_user_merchant = $insert_transaksi->id_user_merchant;
-                    $insert_transaksi_detail->id_transaksi = $insert_transaksi_id;
-                    $insert_transaksi_detail->id_produk = $keranjang->id_produk;
-                    $insert_transaksi_detail->qty = $keranjang->jumlah;
-                    $insert_transaksi_detail->harga_jual = $keranjang->harga;
-                    $insert_transaksi_detail->save();
-                }
-
-            }
-        // $transaksi->save();
-        // return response()->json(['success' => TRUE]);
-
-        print_r(json_decode($keranjang_by_penjual));
-    }
 }

@@ -67,8 +67,8 @@
                         </div>
                         <div class="form-group has-feedback">
                             <b><label>Biaya Kirim</label></b>
-                            <input type="number" class="form-control" value="{{ $setting->biaya_kirim }}"
-                                name="biaya_kirim">
+                            <input type="number" class="form-control" value="{{ $setting->ongkir }}"
+                                name="ongkir">
                         </div>
                     </div>
                     <div class="card-footer text-center col-sm-12">

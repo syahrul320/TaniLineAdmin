@@ -76,6 +76,7 @@ class ProdukMerchantController extends Controller
             $produk->id_user_merchant = $request->id_user_merchant;
             $produk->harga = $request->harga;
             $produk->image = $imageName;
+            $produk->stok = '0';
             $produk->save();
 
             return response()->json($produk, $status = 200);
@@ -92,6 +93,7 @@ class ProdukMerchantController extends Controller
                 'id_kategori' => 'required',
                 'id_user_merchant' => 'required',
                 'harga' => 'required',
+                'stok' => 'required',
             ]);
 
             if ($validator->fails()) {
@@ -117,6 +119,7 @@ class ProdukMerchantController extends Controller
                     'id_user_merchant' => $request->id_user_merchant,
                     'harga' => $request->harga,
                     'image' => $imageName,
+                    'stok' => $request->stok,
                 ]);
             }else if (!$request->hasFile('image')) {
                 $produk->update([
@@ -124,6 +127,7 @@ class ProdukMerchantController extends Controller
                     'id_kategori' => $request->id_kategori,
                     'id_user_merchant' => $request->id_user_merchant,
                     'harga' => $request->harga,
+                    'stok' => $request->stok,
                 ]);
             }
 
