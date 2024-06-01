@@ -23,9 +23,9 @@ Route::post('/logout', [\App\Http\Controllers\Api\LoginUserController::class, 'l
     // Route::get('/produk/detail/{id}', [\App\Http\Controllers\Api\ProdukController::class, 'detail']);
     // Route::get('/kategori', [\App\Http\Controllers\Api\KategoriController::class, 'show']);
     // Route::get('/transaksi/{id}', [\App\Http\Controllers\Api\TransaksiController::class, 'showTransaksi']);
-    // Route::get('/transaksi/status/{status}', [\App\Http\Controllers\Api\TransaksiController::class, 'showTransaksiByStatus']);
-// });
 
+// });
+Route::get('/transaksi/status/{status}/{id}', [\App\Http\Controllers\Api\TransaksiController::class, 'showTransaksiByStatus']);
 Route::get('/produk-terlaris/{lat}/{long}', [\App\Http\Controllers\Api\ProdukController::class, 'produk_terlaris']);
 Route::get('/list-produk/{lat}/{long}', [\App\Http\Controllers\Api\ProdukController::class, 'list_produk']);
 Route::get('/kategori', [\App\Http\Controllers\Api\KategoriController::class, 'show']);
@@ -44,9 +44,10 @@ Route::get('/detail-produk/{id}', [\App\Http\Controllers\Api\ProdukController::c
 
 Route::get('/transaksi/{id}', [\App\Http\Controllers\Api\TransaksiController::class, 'showTransaksi']);
 Route::get('/transaksi/status/{status}', [\App\Http\Controllers\Api\TransaksiController::class, 'showTransaksiByStatus']);
-Route::post('/transaksi', [\App\Http\Controllers\Api\TransaksiController::class, 'store']);
 
+Route::get('/store-transaksi/', [\App\Http\Controllers\Api\TransaksiController::class, 'store']);
 
+Route::post('/distance-cost/', [\App\Http\Controllers\Api\TransaksiController::class, 'getDistanceCost']);
 
 
 Route::post('/registrasi', [\App\Http\Controllers\Api\RegistrasiController::class, 'register']);
@@ -79,7 +80,7 @@ Route::post('/logout-merchant', [\App\Http\Controllers\Api\LoginMerchantControll
     // Flip
     Route::post('/topup', [\App\Http\Controllers\Api\TopupController::class, 'store']);
     Route::post('/topup/notification', [\App\Http\Controllers\Api\TopupController::class, 'notification']);
-    //lokasi 
+    //lokasi
     Route::put('/lokasi-merchant/{id}', [\App\Http\Controllers\Api\LokasiMerchantController::class, 'update']);
 // });
 
