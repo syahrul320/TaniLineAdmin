@@ -103,6 +103,109 @@ class TransaksiController extends Controller
         return response()->json($transaksi);
     }
 
+
+    public function getDistanceCost(Request $request){
+        $id_user = $request->id_user;
+        $latitude = $request->latitude;
+        $longitude = $request->longitude;
+        $biaya = DB::table('settings')->where('id', '=', 1)->first();
+        $keranjang_by_penjual = DB::table('keranjang_belanjas')
+            ->selectRaw('id_user_merchant, SUM(total_harga) as  total_harga,  ROUND(( 6367 * acos( cos( radians( ? ) ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians( ? ) ) + sin( radians( ? ) ) * sin( radians( latitude ) ) ) )) AS distance', [$latitude, $longitude, $latitude])
+            ->join('users', 'keranjang_belanjas.id_user_merchant', '=', 'users.id')
+            ->where('keranjang_belanjas.id_user', '=', $id_user)
+            ->groupBy('keranjang_belanjas.id_user_merchant')
+            ->get();
+
+        $total_barang = 0;
+        $distance = 0;
+        foreach ($keranjang_by_penjual as $key => $value) {
+            $distance += $value->distance-1;
+            $total_barang += $value->total_harga;
+
+        }
+
+        echo json_encode(array('distance'=> $distance ,'ongkir' => $distance * $biaya->ongkir, 'total_barang'=>$total_barang, 'total'=> $total_barang + ($distance * $biaya->ongkir)));
+
+    }
+
+    public function cancelTransaksi(Request $request){
+        $id_transaksi = $request->id_transaksi;
+        $transaksi = Transaksi::where('id', $id_transaksi)->first();
+        $transaksi->status_transaksi = 'batal';
+        $transaksi->save();
+        return response()->json(['success' => TRUE]);
+    }
+
+    public function showDetailTransaksi($id)
+    {
+        $transaksi = DB::table('transaksis')
+            ->where('transaksis.id', '=', $id)->first();
+        $detail_transaksi = DB::table('detail_transaksis')
+            ->where('detail_transaksis.id_transaksi', '=', $id)
+            ->join('produks', 'detail_transaksis.id_produk', '=', 'produks.id')
+            ->select(['produks.nama_produk', 'detail_transaksis.qty', 'detail_transaksis.harga_jual'])
+            ->get();
+        return response()->json($detail_transaksi, array('ongkir' => $transaksi->ongkir, 'total' => $transaksi->total));
+    }
+
+    public function store(Request $request)
+    {
+        // $transaksi = new Transaksi();
+        // $transaksi->id_user_pembeli = $request->id_user_pembeli;
+        // $transaksi->id_produk = $request->id_produk;
+        // $transaksi->qty = $request->qty;
+        // $transaksi->harga = $request->harga;
+        // $transaksi->biaya_admin = $request->biaya_admin;
+        // $transaksi->total_biaya = $request->total_biaya;
+        // $transaksi->status_transaksi = $request->status_transaksi;
+        $biaya = DB::table('settings')->where('id', '=', 1)->first();
+        $keranjang_by_penjual = DB::table('keranjang_belanjas')
+            ->selectRaw('id_user_merchant, SUM(total_harga) as  total_harga,  ROUND(( 6367 * acos( cos( radians( ? ) ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians( ? ) ) + sin( radians( ? ) ) * sin( radians( latitude ) ) ) )) AS distance', [$latitude, $longitude, $latitude])
+            ->where('keranjang_belanjas.id_user', '=', 4)
+            ->groupBy('keranjang_belanjas.id_user_merchant')
+            ->get();
+
+            foreach ($keranjang_by_penjual as $key => $value) {
+                $jarak_harus_bayar = $value->distance - 1 ;
+                $insert_transaksi = new Transaksi();
+                $insert_transaksi->kode_transaksi = 'TRX'.date('is')."".date('Ymd')."".rand(1000,9999);
+                $insert_transaksi->id_user_pembeli = $request->id_user;
+                $insert_transaksi->id_user_merchant = $value->id_user_merchant;
+                $insert_transaksi->biaya_admin = $biaya->biaya_admin;
+                $insert_transaksi->tgl_transaksi = date('Y-m-d H:i:s');
+                $insert_transaksi->ongkir = $biaya->ongkir * $jarak_harus_bayar;
+                $insert_transaksi->total = $value->total_harga+($biaya->ongkir * $jarak_harus_bayar);
+                $insert_transaksi->status_transaksi = 'diterima';
+                $insert_transaksi->save();
+                $insert_transaksi_id = $insert_transaksi->id;
+
+                $keranjang = DB::table('keranjang_belanjas')
+                ->where('keranjang_belanjas.id_user', '=', $request->id_user)
+                ->where('keranjang_belanjas.id_user_merchant', '=', $insert_transaksi->id_user_merchant)
+                ->join('produks', 'keranjang_belanjas.id_produk', '=', 'produks.id')
+                ->select(['keranjang_belanjas.*', 'keranjang_belanjas.jumlah', 'produks.harga','produks.nama_produk'])
+                ->get();
+
+                foreach ($keranjang as $key => $keranjang) {
+                    $insert_transaksi_detail = new DetailTransaksi();
+                    $insert_transaksi_detail->id_user_merchant = $insert_transaksi->id_user_merchant;
+                    $insert_transaksi_detail->id_transaksi = $insert_transaksi_id;
+                    $insert_transaksi_detail->id_produk = $keranjang->id_produk;
+                    $insert_transaksi_detail->qty = $keranjang->jumlah;
+                    $insert_transaksi_detail->harga_jual = $keranjang->harga;
+                    $insert_transaksi_detail->save();
+
+                    DB::table('keranjang_belanjas')->where('id', '=', $keranjang->id)->delete();
+                }
+
+            }
+        // $transaksi->save();
+        // return response()->json(['success' => TRUE]);
+
+        print_r(json_decode($keranjang_by_penjual));
+    }
+
+
     public function showPesananSelesai($id)
     {
         $transaksi = DB::table('transaksis')
@@ -216,5 +319,4 @@ class TransaksiController extends Controller
             'data' => $transaksi
         ]);
     }
-
 }

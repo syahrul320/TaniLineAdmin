@@ -33,6 +33,20 @@ class ProdukController extends Controller
         return response()->json($produk);
     }
 
+    public function list_produk_by_kategori($id_kategori ,$latitude, $longitude)
+    {
+        $produk = DB::table('produks')
+            ->selectRaw('produks.*, kategoris.nama_kategori, users.name as nama_merchant ,  ROUND(( 6367 * acos( cos( radians( ? ) ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians( ? ) ) + sin( radians( ? ) ) * sin( radians( latitude ) ) ) )) AS distance', [$latitude, $longitude, $latitude])
+            ->join('users', 'produks.id_user_merchant', '=', 'users.id')
+            ->join('kategoris', 'produks.id_kategori', '=', 'kategoris.id')
+            ->where('kategoris.id', $id_kategori)
+            ->groupBy('produks.id')
+            ->having('distance', '<', 10)
+            ->orderBy('distance')
+            ->paginate(10);
+
+        return response()->json($produk);
+    }
 
     public function pencarian($keyword, $latitude, $longitude)
     {
@@ -42,7 +56,22 @@ class ProdukController extends Controller
                 ->join('kategoris', 'produks.id_kategori', '=', 'kategoris.id')
                 ->where('produks.nama_produk', 'like', '%' . $keyword . '%')
                 ->groupBy('produks.id')
-                ->having('distance', '<', 30)
+                ->having('distance', '<', 10)
+                ->orderBy('distance')
+                ->paginate(30);
+            return response()->json($produk);
+    }
+
+
+    public function pencarian_by_kategori($id_kategori ,$latitude, $longitude)
+    {
+        $produk = DB::table('produks')
+                ->selectRaw('produks.*, kategoris.nama_kategori, users.name as nama_merchant ,  ROUND(( 6367 * acos( cos( radians( ? ) ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians( ? ) ) + sin( radians( ? ) ) * sin( radians( latitude ) ) ) )) AS distance', [$latitude, $longitude, $latitude])
+                ->join('users', 'produks.id_user_merchant', '=', 'users.id')
+                ->join('kategoris', 'produks.id_kategori', '=', 'kategoris.id')
+                ->where('kategoris.id', $id_kategori)
+                ->groupBy('produks.id')
+                ->having('distance', '<', 10)
                 ->orderBy('distance')
                 ->paginate(30);
             return response()->json($produk);

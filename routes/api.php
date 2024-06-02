@@ -28,6 +28,7 @@ Route::post('/logout', [\App\Http\Controllers\Api\LoginUserController::class, 'l
 Route::get('/transaksi/status/{status}/{id}', [\App\Http\Controllers\Api\TransaksiController::class, 'showTransaksiByStatus']);
 Route::get('/produk-terlaris/{lat}/{long}', [\App\Http\Controllers\Api\ProdukController::class, 'produk_terlaris']);
 Route::get('/list-produk/{lat}/{long}', [\App\Http\Controllers\Api\ProdukController::class, 'list_produk']);
+Route::get('/list-produk-by-kategori/{id}/{lat}/{long}', [\App\Http\Controllers\Api\ProdukController::class, 'list_produk_by_kategori']);
 Route::get('/kategori', [\App\Http\Controllers\Api\KategoriController::class, 'show']);
 Route::get('/informasi-terbaru', [\App\Http\Controllers\Api\InformasiController::class, 'show']);
 
@@ -39,6 +40,7 @@ Route::get('/pesan/{id}', [\App\Http\Controllers\Api\PesananController::class, '
 
 
 Route::get('/pencarian/{keyword}/{lat}/{long}', [\App\Http\Controllers\Api\ProdukController::class, 'pencarian']);
+Route::get('/pencarian-by-kategori/{id_kategori}/{lat}/{long}', [\App\Http\Controllers\Api\ProdukController::class, 'pencarian_by_kategori']);
 Route::get('/detail-produk/{id}', [\App\Http\Controllers\Api\ProdukController::class, 'detail']);
 
 
@@ -48,6 +50,8 @@ Route::get('/transaksi/status/{status}', [\App\Http\Controllers\Api\TransaksiCon
 Route::get('/store-transaksi/', [\App\Http\Controllers\Api\TransaksiController::class, 'store']);
 
 Route::post('/distance-cost/', [\App\Http\Controllers\Api\TransaksiController::class, 'getDistanceCost']);
+Route::post('/cancel-transaksi/', [\App\Http\Controllers\Api\TransaksiController::class, 'cancelTransaksi']);
+Route::get('/detail-transaksi/{id}', [\App\Http\Controllers\Api\TransaksiController::class, 'showDetailTransaksi']);
 
 
 Route::post('/registrasi', [\App\Http\Controllers\Api\RegistrasiController::class, 'register']);
