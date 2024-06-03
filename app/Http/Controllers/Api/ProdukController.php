@@ -25,7 +25,6 @@ class ProdukController extends Controller
             ->selectRaw('produks.*, kategoris.nama_kategori, users.name as nama_merchant ,  ROUND(( 6367 * acos( cos( radians( ? ) ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians( ? ) ) + sin( radians( ? ) ) * sin( radians( latitude ) ) ) )) AS distance', [$latitude, $longitude, $latitude])
             ->join('users', 'produks.id_user_merchant', '=', 'users.id')
             ->join('kategoris', 'produks.id_kategori', '=', 'kategoris.id')
-            ->leftjoin('detail_transaksis', 'produks.id', '=', 'detail_transaksis.id_produk')
             ->groupBy('produks.id')
             ->having('distance', '<', 10)
             ->orderBy('distance')
@@ -34,23 +33,48 @@ class ProdukController extends Controller
         return response()->json($produk);
     }
 
+    public function list_produk_by_kategori($id_kategori ,$latitude, $longitude)
+    {
+        $produk = DB::table('produks')
+            ->selectRaw('produks.*, kategoris.nama_kategori, users.name as nama_merchant ,  ROUND(( 6367 * acos( cos( radians( ? ) ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians( ? ) ) + sin( radians( ? ) ) * sin( radians( latitude ) ) ) )) AS distance', [$latitude, $longitude, $latitude])
+            ->join('users', 'produks.id_user_merchant', '=', 'users.id')
+            ->join('kategoris', 'produks.id_kategori', '=', 'kategoris.id')
+            ->where('kategoris.id', $id_kategori)
+            ->groupBy('produks.id')
+            ->having('distance', '<', 10)
+            ->orderBy('distance')
+            ->paginate(10);
+
+        return response()->json($produk);
+    }
 
     public function pencarian($keyword, $latitude, $longitude)
     {
-        
-        
         $produk = DB::table('produks')
                 ->selectRaw('produks.*, kategoris.nama_kategori, users.name as nama_merchant ,  ROUND(( 6367 * acos( cos( radians( ? ) ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians( ? ) ) + sin( radians( ? ) ) * sin( radians( latitude ) ) ) )) AS distance', [$latitude, $longitude, $latitude])
                 ->join('users', 'produks.id_user_merchant', '=', 'users.id')
                 ->join('kategoris', 'produks.id_kategori', '=', 'kategoris.id')
-                ->leftjoin('detail_transaksis', 'produks.id', '=', 'detail_transaksis.id_produk')
+                ->where('produks.nama_produk', 'like', '%' . $keyword . '%')
                 ->groupBy('produks.id')
-                ->where('nama_produk', 'like', '%'.$keyword.'%')
-                ->limit(30)
                 ->having('distance', '<', 10)
                 ->orderBy('distance')
-                ->get();
-        return response()->json(array('data'=>$produk));
+                ->paginate(30);
+            return response()->json($produk);
+    }
+
+
+    public function pencarian_by_kategori($id_kategori ,$latitude, $longitude)
+    {
+        $produk = DB::table('produks')
+                ->selectRaw('produks.*, kategoris.nama_kategori, users.name as nama_merchant ,  ROUND(( 6367 * acos( cos( radians( ? ) ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians( ? ) ) + sin( radians( ? ) ) * sin( radians( latitude ) ) ) )) AS distance', [$latitude, $longitude, $latitude])
+                ->join('users', 'produks.id_user_merchant', '=', 'users.id')
+                ->join('kategoris', 'produks.id_kategori', '=', 'kategoris.id')
+                ->where('kategoris.id', $id_kategori)
+                ->groupBy('produks.id')
+                ->having('distance', '<', 10)
+                ->orderBy('distance')
+                ->paginate(30);
+            return response()->json($produk);
     }
 
 
@@ -71,11 +95,11 @@ class ProdukController extends Controller
         return response()->json($produk);
     }
 
-    public function detail($id)
+    public function detail($id, $latitude, $longitude)
     {
         $produk = DB::table('produks')
             ->where('produks.id', '=', $id)
-            ->select(['produks.*', 'users.*', 'kategoris.nama_kategori', 'produks.id'])
+            ->selectRaw('produks.*, kategoris.nama_kategori, users.name as nama_merchant ,  ROUND(( 6367 * acos( cos( radians( ? ) ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians( ? ) ) + sin( radians( ? ) ) * sin( radians( latitude ) ) ) )) AS distance', [$latitude, $longitude, $latitude])
             ->join('users', 'produks.id_user_merchant', '=', 'users.id')
             ->join('kategoris', 'produks.id_kategori', '=', 'kategoris.id')
             ->first();
