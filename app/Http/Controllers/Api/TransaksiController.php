@@ -219,8 +219,8 @@ class TransaksiController extends Controller
                     $insert_transaksi_detail->id_produk = $keranjang->id_produk;
                     $insert_transaksi_detail->qty = $keranjang->jumlah;
                     $insert_transaksi_detail->harga_jual = $keranjang->harga;
+                    $insert_transaksi_detail->keterangan = $keranjang->keterangan;
                     $insert_transaksi_detail->save();
-
                     DB::table('keranjang_belanjas')->where('id', '=', $keranjang->id)->delete();
                 }
 
