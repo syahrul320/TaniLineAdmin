@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Models\DetailTransaksi;
+use App\Models\Setting;
 use App\Models\Transaksi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -146,6 +147,31 @@ class TransaksiController extends Controller
             ->select(['produks.nama_produk', 'detail_transaksis.qty', 'detail_transaksis.harga_jual'])
             ->get();
         return response()->json($detail_transaksi, array('ongkir' => $transaksi->ongkir, 'total' => $transaksi->total));
+    }
+
+    public function store_by_produk(Request $request){
+        $biaya = Setting::where('id', 1)->first();
+        $transaksi = new Transaksi();
+        $transaksi->id_user_pembeli = $request->id_user_pembeli;
+        $transaksi->id_user_merchant = $request->id_user_merchant;
+        $transaksi->biaya_admin = $biaya->biaya_admin;
+        $transaksi->tgl_transaksi = date('Y-m-d H:i:s');
+        $transaksi->ongkir = $biaya->ongkir;
+        $transaksi->total = $request->total;
+        $transaksi->status_transaksi = "ditrima";
+        $transaksi->save();
+
+        $transaksi_id = $transaksi->id;
+        $detail_transaksi = new DetailTransaksi();
+        $detail_transaksi->id_user_merchant = $request->id_user_merchant;
+        $detail_transaksi->id_transaksi = $transaksi_id;
+        $detail_transaksi->id_produk = $request->id_produk;
+        $detail_transaksi->qty = $request->qty;
+        $detail_transaksi->harga_jual = $request->harga;
+        $detail_transaksi->catatan = $request->catatan;
+        $detail_transaksi->save();
+
+        return response()->json(['success' => TRUE]);
     }
 
     public function store(Request $request)

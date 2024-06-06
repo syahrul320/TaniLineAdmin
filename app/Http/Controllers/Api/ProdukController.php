@@ -97,12 +97,15 @@ class ProdukController extends Controller
 
     public function detail($id, $latitude, $longitude)
     {
+        $setting = DB::table('settings')->first();
         $produk = DB::table('produks')
             ->where('produks.id', '=', $id)
             ->selectRaw('produks.*, kategoris.nama_kategori, users.name as nama_merchant ,  ROUND(( 6367 * acos( cos( radians( ? ) ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians( ? ) ) + sin( radians( ? ) ) * sin( radians( latitude ) ) ) )) AS distance', [$latitude, $longitude, $latitude])
             ->join('users', 'produks.id_user_merchant', '=', 'users.id')
+            ->having('distance', '<', 10)
             ->join('kategoris', 'produks.id_kategori', '=', 'kategoris.id')
             ->first();
+        $produk->ongkir = $setting->ongkir;
         return response()->json($produk);
     }
 
