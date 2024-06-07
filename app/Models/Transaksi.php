@@ -18,6 +18,7 @@ class Transaksi extends Model
         'total_harga',
         'ongkir',
         'id_user_merchant',
+        'alamat_tujuan',
         'total',
     ];
 }

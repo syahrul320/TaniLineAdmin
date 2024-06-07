@@ -14,6 +14,7 @@ class DetailTransaksi extends Model
         'id_produk',
         'id_transaksi',
         'harga_jual',
+        "keterangan",
         'qty'
     ];
 }
