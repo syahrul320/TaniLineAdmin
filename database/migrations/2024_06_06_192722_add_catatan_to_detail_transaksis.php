@@ -14,7 +14,8 @@ class AddCatatanToDetailTransaksis extends Migration
     public function up()
     {
         Schema::table('detail_transaksis', function (Blueprint $table) {
-            $table->text('catatan')->nullable();
+            $table->text('alamat_tujuan');
+            $table->text('keterangan')->nullable();
         });
     }
 
@@ -26,7 +27,8 @@ class AddCatatanToDetailTransaksis extends Migration
     public function down()
     {
         Schema::table('detail_transaksis', function (Blueprint $table) {
-            $table->dropColumn('catatan');
+            $table->dropColumn('keterangan');
+            $table->dropColumn('alamat_tujuan');
         });
     }
 }

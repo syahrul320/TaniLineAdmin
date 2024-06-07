@@ -168,7 +168,7 @@ class TransaksiController extends Controller
         $detail_transaksi->id_produk = $request->id_produk;
         $detail_transaksi->qty = $request->qty;
         $detail_transaksi->harga_jual = $request->harga;
-        $detail_transaksi->catatan = $request->catatan;
+        $detail_transaksi->keterangan = $request->keterangan;
         $detail_transaksi->save();
 
         return response()->json(['success' => TRUE]);
