@@ -78,6 +78,7 @@ class TransaksiController extends Controller
         $transaksi = DB::table('transaksis')
             ->where('transaksis.status_transaksi', '=', $status)
             ->where('transaksis.id_user_pembeli', '=', $id)
+            ->whereDate('transaksis.tgl_transaksi', '>=', now()->subDays(3))
             ->select(['transaksis.*'])
             ->orderByDesc('transaksis.id')
             ->paginate(30);
