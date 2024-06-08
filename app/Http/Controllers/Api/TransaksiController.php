@@ -171,7 +171,7 @@ class TransaksiController extends Controller
         $detail_transaksi->id_transaksi = $transaksi_id;
         $detail_transaksi->id_produk = $request->id_produk;
         $detail_transaksi->qty = $request->qty;
-        $detail_transaksi->harga_jual = $request->harga * $request->qty;
+        $detail_transaksi->harga_jual = $request->total_harga;
         $detail_transaksi->keterangan = $request->keterangan;
         $detail_transaksi->save();
 
