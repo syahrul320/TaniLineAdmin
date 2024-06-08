@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddCatatanToDetailTransaksis extends Migration
+class AddAlamatTujuanToTransaksis extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AddCatatanToDetailTransaksis extends Migration
      */
     public function up()
     {
-        Schema::table('detail_transaksis', function (Blueprint $table) {
-            $table->text('keterangan')->nullable();
+        Schema::table('transaksis', function (Blueprint $table) {
+            $table->text('alamat_tujuan');
         });
     }
 
@@ -25,8 +25,8 @@ class AddCatatanToDetailTransaksis extends Migration
      */
     public function down()
     {
-        Schema::table('detail_transaksis', function (Blueprint $table) {
-            $table->dropColumn('keterangan');
+        Schema::table('transaksis', function (Blueprint $table) {
+            $table->dropColumn('alamat_tujuan');
         });
     }
 }
