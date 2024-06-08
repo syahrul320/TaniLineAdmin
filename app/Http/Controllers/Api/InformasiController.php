@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -12,6 +13,9 @@ class InformasiController extends Controller
     {
         $informasi = DB::table('informasis')
             ->get('*');
-        return response()->json($informasi);
+
+        $bantuan = Setting::where('id', 1)->first();
+        // $informasi ['helpdesk'] = $bantuan->helpdesk;
+        return response()->json(array('informasi' => $informasi, 'bantuan' => $bantuan->helpdesk), 200);
     }
 }

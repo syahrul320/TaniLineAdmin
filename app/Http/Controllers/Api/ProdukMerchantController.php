@@ -59,6 +59,7 @@ class ProdukMerchantController extends Controller
                 'id_kategori' => 'required',
                 'id_user_merchant' => 'required',
                 'harga' => 'required',
+                'deskripsi' => 'required',
                 'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
             ]);
 
@@ -75,6 +76,7 @@ class ProdukMerchantController extends Controller
             $produk->id_kategori = $request->id_kategori;
             $produk->id_user_merchant = $request->id_user_merchant;
             $produk->harga = $request->harga;
+            $produk->deskripsi = $request->deskripsi;
             $produk->image = $imageName;
             $produk->stok = '0';
             $produk->save();
@@ -94,6 +96,7 @@ class ProdukMerchantController extends Controller
                 'id_user_merchant' => 'required',
                 'harga' => 'required',
                 'stok' => 'required',
+                'deskripsi' => 'required',
             ]);
 
             if ($validator->fails()) {
@@ -118,6 +121,7 @@ class ProdukMerchantController extends Controller
                     'id_kategori' => $request->id_kategori,
                     'id_user_merchant' => $request->id_user_merchant,
                     'harga' => $request->harga,
+                    'deskripsi' => $request->deskripsi,
                     'image' => $imageName,
                     'stok' => $request->stok,
                 ]);
@@ -127,6 +131,7 @@ class ProdukMerchantController extends Controller
                     'id_kategori' => $request->id_kategori,
                     'id_user_merchant' => $request->id_user_merchant,
                     'harga' => $request->harga,
+                    'deskripsi' => $request->deskripsi,
                     'stok' => $request->stok,
                 ]);
             }

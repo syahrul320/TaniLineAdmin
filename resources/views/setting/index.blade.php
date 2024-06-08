@@ -70,6 +70,11 @@
                             <input type="number" class="form-control" value="{{ $setting->ongkir }}"
                                 name="ongkir">
                         </div>
+                        <div class="form-group has-feedback">
+                            <b><label>Helpdesk</label></b>
+                            <input type="text" class="form-control" value="{{ $setting->helpdesk }}"
+                                name="helpdesk">
+                        </div>
                     </div>
                     <div class="card-footer text-center col-sm-12">
                         <button class="btn btn-primary" id="submit">
