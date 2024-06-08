@@ -158,8 +158,9 @@ class TransaksiController extends Controller
         $transaksi->id_user_merchant = $request->id_user_merchant;
         $transaksi->biaya_admin = $biaya->biaya_admin;
         $transaksi->tgl_transaksi = date('Y-m-d H:i:s');
-        $transaksi->ongkir = $biaya->ongkir;
-        $transaksi->total = $request->total;
+        $transaksi->ongkir = $request->ongkir;
+        $transaksi->total_harga = $request->total_harga;
+        $transaksi->total = $request->total_harga + $biaya->ongkir;
         $transaksi->status_transaksi = "diterima";
         $transaksi->alamat_tujuan = $request->alamat_tujuan;
         $transaksi->save();
@@ -202,7 +203,8 @@ class TransaksiController extends Controller
                 $insert_transaksi->biaya_admin = $biaya->biaya_admin;
                 $insert_transaksi->tgl_transaksi = date('Y-m-d H:i:s');
                 $insert_transaksi->ongkir = $biaya->ongkir * $jarak_harus_bayar;
-                $insert_transaksi->total = $value->total_harga;
+                $insert_transaksi->total_harga = $value->total_harga;
+                $insert_transaksi->total = ($value->total_harga + ($biaya->ongkir * $jarak_harus_bayar));
                 $insert_transaksi->status_transaksi = 'diterima';
                 $insert_transaksi->alamat_tujuan = $request->alamat_tujuan;
                 $insert_transaksi->save();
@@ -223,6 +225,7 @@ class TransaksiController extends Controller
                     $insert_transaksi_detail->qty = $keranjang->jumlah;
                     $insert_transaksi_detail->harga_jual = $keranjang->harga * $keranjang->jumlah;
                     $insert_transaksi_detail->keterangan = $keranjang->keterangan;
+
                     $insert_transaksi_detail->save();
 
                     $produk = Produk::find($keranjang->id_produk);
@@ -235,9 +238,7 @@ class TransaksiController extends Controller
             }
         // $transaksi->save();
         // return response()->json(['success' => TRUE]);
-
         print_r(json_decode($keranjang_by_penjual));
-
 
     }
 
