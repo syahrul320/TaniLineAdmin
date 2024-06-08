@@ -202,7 +202,7 @@ class TransaksiController extends Controller
                 $insert_transaksi->biaya_admin = $biaya->biaya_admin;
                 $insert_transaksi->tgl_transaksi = date('Y-m-d H:i:s');
                 $insert_transaksi->ongkir = $biaya->ongkir * $jarak_harus_bayar;
-                $insert_transaksi->total = $value->total_harga+($biaya->ongkir * $jarak_harus_bayar);
+                $insert_transaksi->total = $value->total_harga;
                 $insert_transaksi->status_transaksi = 'diterima';
                 $insert_transaksi->alamat_tujuan = $request->alamat_tujuan;
                 $insert_transaksi->save();
@@ -237,6 +237,8 @@ class TransaksiController extends Controller
         // return response()->json(['success' => TRUE]);
 
         print_r(json_decode($keranjang_by_penjual));
+
+
     }
 
 
