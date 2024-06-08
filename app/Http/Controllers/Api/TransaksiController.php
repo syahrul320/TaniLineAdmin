@@ -159,8 +159,8 @@ class TransaksiController extends Controller
         $transaksi->biaya_admin = $biaya->biaya_admin;
         $transaksi->tgl_transaksi = date('Y-m-d H:i:s');
         $transaksi->ongkir = $request->ongkir;
-        $transaksi->total_harga = $request->total_harga * $request->jumlah;
-        $transaksi->total = (($request->total_harga * $request->jumlah)+ $request->ongkir);
+        $transaksi->total_harga = $request->total_harga;
+        $transaksi->total = (($request->total_harga)+ $request->ongkir);
         $transaksi->status_transaksi = "diterima";
         $transaksi->alamat_tujuan = $request->alamat_tujuan;
         $transaksi->save();
@@ -190,7 +190,7 @@ class TransaksiController extends Controller
         $keranjang_by_penjual = DB::table('keranjang_belanjas')
             ->join('users', 'keranjang_belanjas.id_user_merchant', '=', 'users.id')
             ->selectRaw('id_user_merchant, SUM(total_harga) as  total_harga,  ROUND(( 6367 * acos( cos( radians( ? ) ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians( ? ) ) + sin( radians( ? ) ) * sin( radians( latitude ) ) ) )) AS distance', [$latitude, $longitude, $latitude])
-            ->where('keranjang_belanjas.id_user', '=', 4)
+            ->where('keranjang_belanjas.id_user', '=', $request->id_user)
             ->groupBy('keranjang_belanjas.id_user_merchant')
             ->get();
 
