@@ -160,7 +160,7 @@ class TransaksiController extends Controller
         $transaksi->tgl_transaksi = date('Y-m-d H:i:s');
         $transaksi->ongkir = $request->ongkir;
         $transaksi->total_harga = $request->total_harga * $request->jumlah;
-        $transaksi->total = $request->total_harga;
+        $transaksi->total = $request->total_harga + $request->ongkir;
         $transaksi->status_transaksi = "diterima";
         $transaksi->alamat_tujuan = $request->alamat_tujuan;
         $transaksi->save();
