@@ -15,7 +15,7 @@ class InformasiController extends Controller
             ->get('*');
 
         $bantuan = Setting::where('id', 1)->first();
-        $informasi ['helpdesk'] = $bantuan->helpdesk;
-        return response()->json($informasi);
+        // $informasi ['helpdesk'] = $bantuan->helpdesk;
+        return response()->json(array('informasi' => $informasi, 'bantuan' => $bantuan->helpdesk), 200);
     }
 }
