@@ -21,6 +21,7 @@ class CreateSettingsTable extends Migration
             $table->date('tgl_expired');
             $table->integer('biaya_admin');
             $table->string('ongkir');
+            $table->string('helpdesk');
             $table->timestamps();
         });
 
