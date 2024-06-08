@@ -159,7 +159,7 @@ class TransaksiController extends Controller
         $transaksi->biaya_admin = $biaya->biaya_admin;
         $transaksi->tgl_transaksi = date('Y-m-d H:i:s');
         $transaksi->ongkir = $request->ongkir;
-        $transaksi->total_harga = $request->total_harga;
+        $transaksi->total_harga = $request->total_harga * $request->qty;
         $transaksi->total = $request->total_harga + $biaya->ongkir;
         $transaksi->status_transaksi = "diterima";
         $transaksi->alamat_tujuan = $request->alamat_tujuan;
