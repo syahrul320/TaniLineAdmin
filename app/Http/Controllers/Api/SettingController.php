@@ -63,4 +63,19 @@ class SettingController extends Controller
                 }
         }
     }
+
+    public function update_token(Request $request, $id)
+    {
+        $validator = Validator::make($request->all(), [
+            'token' => 'required',
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()]);
+        } else {
+            $user = User::find($id);
+            $user->token = $request->token;
+            $user->save();
+            return response()->json(['success' => TRUE]);
+        }
+    }
 }
