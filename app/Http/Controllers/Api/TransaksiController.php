@@ -160,7 +160,7 @@ class TransaksiController extends Controller
         $transaksi->tgl_transaksi = date('Y-m-d H:i:s');
         $transaksi->ongkir = $request->ongkir;
         $transaksi->total_harga = $request->total_harga * $request->jumlah;
-        $transaksi->total = $request->total_harga + $request->ongkir;
+        $transaksi->total = (($request->total_harga * $request->jumlah)+ $request->ongkir);
         $transaksi->status_transaksi = "diterima";
         $transaksi->alamat_tujuan = $request->alamat_tujuan;
         $transaksi->save();
@@ -171,7 +171,7 @@ class TransaksiController extends Controller
         $detail_transaksi->id_transaksi = $transaksi_id;
         $detail_transaksi->id_produk = $request->id_produk;
         $detail_transaksi->qty = $request->jumlah;
-        $detail_transaksi->harga_jual = $request->total_harga;
+        $detail_transaksi->harga_jual = $request->harga;
         $detail_transaksi->keterangan = $request->keterangan;
         $detail_transaksi->save();
 
@@ -223,7 +223,7 @@ class TransaksiController extends Controller
                     $insert_transaksi_detail->id_transaksi = $insert_transaksi_id;
                     $insert_transaksi_detail->id_produk = $keranjang->id_produk;
                     $insert_transaksi_detail->qty = $keranjang->jumlah;
-                    $insert_transaksi_detail->harga_jual = $keranjang->harga * $keranjang->jumlah;
+                    $insert_transaksi_detail->harga_jual = $keranjang->harga;
                     $insert_transaksi_detail->keterangan = $keranjang->keterangan;
 
                     $insert_transaksi_detail->save();
@@ -237,8 +237,8 @@ class TransaksiController extends Controller
 
             }
         // $transaksi->save();
-        // return response()->json(['success' => TRUE]);
-        print_r(json_decode($keranjang_by_penjual));
+        return response()->json(['success' => TRUE]);
+        // print_r(json_decode($keranjang_by_penjual));
 
     }
 
