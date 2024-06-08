@@ -49,7 +49,7 @@ Route::post('/store-transaksi-by-produk', [\App\Http\Controllers\Api\TransaksiCo
 Route::get('/transaksi/{id}', [\App\Http\Controllers\Api\TransaksiController::class, 'showTransaksi']);
 Route::get('/transaksi/status/{status}', [\App\Http\Controllers\Api\TransaksiController::class, 'showTransaksiByStatus']);
 
-Route::get('/store-transaksi/', [\App\Http\Controllers\Api\TransaksiController::class, 'store']);
+Route::post('/store-transaksi/', [\App\Http\Controllers\Api\TransaksiController::class, 'store']);
 
 Route::post('/distance-cost/', [\App\Http\Controllers\Api\TransaksiController::class, 'getDistanceCost']);
 Route::post('/cancel-transaksi/', [\App\Http\Controllers\Api\TransaksiController::class, 'cancelTransaksi']);

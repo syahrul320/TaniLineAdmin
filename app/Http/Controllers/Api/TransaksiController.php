@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Models\DetailTransaksi;
+use App\Models\Produk;
 use App\Models\Setting;
 use App\Models\Transaksi;
 use Illuminate\Http\Request;
@@ -139,19 +140,19 @@ class TransaksiController extends Controller
 
     public function showDetailTransaksi($id)
     {
-        $transaksi = DB::table('transaksis')
-            ->where('transaksis.id', '=', $id)->first();
+
         $detail_transaksi = DB::table('detail_transaksis')
             ->where('detail_transaksis.id_transaksi', '=', $id)
             ->join('produks', 'detail_transaksis.id_produk', '=', 'produks.id')
-            ->select(['produks.nama_produk', 'detail_transaksis.qty', 'detail_transaksis.harga_jual'])
+            ->select(['produks.*', 'detail_transaksis.qty', 'detail_transaksis.harga_jual'])
             ->get();
-        return response()->json($detail_transaksi, array('ongkir' => $transaksi->ongkir, 'total' => $transaksi->total));
+        return response()->json($detail_transaksi);
     }
 
     public function store_by_produk(Request $request){
         $biaya = Setting::where('id', 1)->first();
         $transaksi = new Transaksi();
+        $transaksi->kode_transaksi = 'TRX'.date('is')."".date('Ymd')."".rand(1000,9999);
         $transaksi->id_user_pembeli = $request->id_user_pembeli;
         $transaksi->id_user_merchant = $request->id_user_merchant;
         $transaksi->biaya_admin = $biaya->biaya_admin;
@@ -159,6 +160,7 @@ class TransaksiController extends Controller
         $transaksi->ongkir = $biaya->ongkir;
         $transaksi->total = $request->total;
         $transaksi->status_transaksi = "diterima";
+        $transaksi->alamat_tujuan = $request->alamat_tujuan;
         $transaksi->save();
 
         $transaksi_id = $transaksi->id;
@@ -171,21 +173,20 @@ class TransaksiController extends Controller
         $detail_transaksi->keterangan = $request->keterangan;
         $detail_transaksi->save();
 
+        $produk = Produk::find($request->id_produk);
+        $produk->stok -= $request->qty;
+        $produk->save();
+
         return response()->json(['success' => TRUE]);
     }
 
     public function store(Request $request)
     {
-        // $transaksi = new Transaksi();
-        // $transaksi->id_user_pembeli = $request->id_user_pembeli;
-        // $transaksi->id_produk = $request->id_produk;
-        // $transaksi->qty = $request->qty;
-        // $transaksi->harga = $request->harga;
-        // $transaksi->biaya_admin = $request->biaya_admin;
-        // $transaksi->total_biaya = $request->total_biaya;
-        // $transaksi->status_transaksi = $request->status_transaksi;
         $biaya = DB::table('settings')->where('id', '=', 1)->first();
+        $latitude = $request->latitude;
+        $longitude = $request->longitude;
         $keranjang_by_penjual = DB::table('keranjang_belanjas')
+            ->join('users', 'keranjang_belanjas.id_user_merchant', '=', 'users.id')
             ->selectRaw('id_user_merchant, SUM(total_harga) as  total_harga,  ROUND(( 6367 * acos( cos( radians( ? ) ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians( ? ) ) + sin( radians( ? ) ) * sin( radians( latitude ) ) ) )) AS distance', [$latitude, $longitude, $latitude])
             ->where('keranjang_belanjas.id_user', '=', 4)
             ->groupBy('keranjang_belanjas.id_user_merchant')
@@ -202,6 +203,7 @@ class TransaksiController extends Controller
                 $insert_transaksi->ongkir = $biaya->ongkir * $jarak_harus_bayar;
                 $insert_transaksi->total = $value->total_harga+($biaya->ongkir * $jarak_harus_bayar);
                 $insert_transaksi->status_transaksi = 'diterima';
+                $insert_transaksi->alamat_tujuan = $request->alamat_tujuan;
                 $insert_transaksi->save();
                 $insert_transaksi_id = $insert_transaksi->id;
 
@@ -221,6 +223,11 @@ class TransaksiController extends Controller
                     $insert_transaksi_detail->harga_jual = $keranjang->harga;
                     $insert_transaksi_detail->keterangan = $keranjang->keterangan;
                     $insert_transaksi_detail->save();
+
+                    $produk = Produk::find($keranjang->id_produk);
+                    $produk->stok -=  $keranjang->jumlah;
+                    $produk->save();
+
                     DB::table('keranjang_belanjas')->where('id', '=', $keranjang->id)->delete();
                 }
 
