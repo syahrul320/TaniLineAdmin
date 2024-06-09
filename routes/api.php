@@ -122,5 +122,6 @@ Route::post('/logout-merchant', [\App\Http\Controllers\Api\LoginMerchantControll
     Route::get('/pesanan-diproses-merchant/{kode}', [\App\Http\Controllers\Api\TransaksiController::class, 'showPesananDiproses']);
     Route::put('/update-status-transaksi/{kode}', [\App\Http\Controllers\Api\TransaksiController::class, 'updateStatusTransaksi']);
     Route::get('/billing/{kode}', [\App\Http\Controllers\Api\TransaksiController::class, 'showBillingselesai']);
+    Route::get('/saldo-merchant/{id}', [\App\Http\Controllers\Api\SaldoMerchantController::class, 'show']);
 
 // });
