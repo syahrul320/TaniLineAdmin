@@ -12,7 +12,7 @@ class SaldoMerchantController extends Controller
         $saldo = DB::table('users')
             ->where('users.id', '=', $id)
             ->select('users.saldo')
-            ->get();
+            ->first();
         return response()->json($saldo);
     }
 }
