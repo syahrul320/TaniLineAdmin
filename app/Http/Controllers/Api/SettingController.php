@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Setting;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -77,5 +78,13 @@ class SettingController extends Controller
             $user->save();
             return response()->json(['success' => TRUE]);
         }
+    }
+
+    public function show_url_merchant()
+    {
+        $setting = DB::table('settings')
+            ->select('settings.url_merchant')
+            ->first();
+        return response()->json($setting);
     }
 }

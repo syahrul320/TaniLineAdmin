@@ -112,6 +112,7 @@ Route::post('/logout-merchant', [\App\Http\Controllers\Api\LoginMerchantControll
     Route::put('/setting-merchant/{id}', [\App\Http\Controllers\Api\SettingController::class, 'updateSetting']);
     Route::put('/setting-merchant/update-password/{id}', [\App\Http\Controllers\Api\SettingController::class, 'update_password']);
     Route::put('/setting-merchant/update-token/{id}', [\App\Http\Controllers\Api\SettingController::class, 'update_token']);
+    Route::get('/setting-url-merchant', [\App\Http\Controllers\Api\SettingController::class, 'show_url_merchant']);
 
     //transaksi
     Route::get('/transaksi_merchant/{id}', [\App\Http\Controllers\Api\TransaksiController::class, 'showTransaksiMerchant']);
