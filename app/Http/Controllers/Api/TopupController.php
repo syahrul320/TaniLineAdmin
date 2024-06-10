@@ -95,4 +95,14 @@ class TopupController extends Controller
             return response()->json(['message' => $th->getMessage()]);
         }
     }
+
+    public function show_history_topup($id)
+    {
+        $topup = Topup::where('id_user_merchant', $id)
+            ->where('status', 'successful')
+            ->orderBy('created_at', 'desc')
+            ->select('title', 'amount', 'status', 'created_at')
+            ->paginate(10);
+        return response()->json($topup);
+    }
 }
