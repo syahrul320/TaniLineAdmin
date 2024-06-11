@@ -145,7 +145,7 @@ class TransaksiController extends Controller
         $detail_transaksi = DB::table('detail_transaksis')
             ->where('detail_transaksis.id_transaksi', '=', $id)
             ->join('produks', 'detail_transaksis.id_produk', '=', 'produks.id')
-            ->select(['produks.*', 'detail_transaksis.qty', 'detail_transaksis.harga_jual'])
+            ->select(['produks.*', 'detail_transaksis.qty','detail_transaksis.keterangan', 'detail_transaksis.harga_jual'])
             ->get();
         return response()->json($detail_transaksi);
     }
