@@ -31,6 +31,7 @@ class CreateSettingsTable extends Migration
             'tgl_expired' => '2025-12-31',
             'biaya_admin' => 2000,
             'ongkir' => 5000,
+            'helpdesk' => '+6281',
         ]);
     }
 

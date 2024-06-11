@@ -105,6 +105,7 @@ Route::post('/logout-merchant', [\App\Http\Controllers\Api\LoginMerchantControll
     // Flip
     Route::post('/topup', [\App\Http\Controllers\Api\TopupController::class, 'store']);
     Route::post('/topup/notification', [\App\Http\Controllers\Api\TopupController::class, 'notification']);
+    Route::get('/history-topup/{id}', [\App\Http\Controllers\Api\TopupController::class, 'show_history_topup']);
     //lokasi
     Route::put('/lokasi-merchant/{id}', [\App\Http\Controllers\Api\LokasiMerchantController::class, 'update']);
     //setting
@@ -112,6 +113,7 @@ Route::post('/logout-merchant', [\App\Http\Controllers\Api\LoginMerchantControll
     Route::put('/setting-merchant/{id}', [\App\Http\Controllers\Api\SettingController::class, 'updateSetting']);
     Route::put('/setting-merchant/update-password/{id}', [\App\Http\Controllers\Api\SettingController::class, 'update_password']);
     Route::put('/setting-merchant/update-token/{id}', [\App\Http\Controllers\Api\SettingController::class, 'update_token']);
+    Route::get('/setting-url-merchant', [\App\Http\Controllers\Api\SettingController::class, 'show_url_merchant']);
 
     //transaksi
     Route::get('/transaksi_merchant/{id}', [\App\Http\Controllers\Api\TransaksiController::class, 'showTransaksiMerchant']);
@@ -122,5 +124,6 @@ Route::post('/logout-merchant', [\App\Http\Controllers\Api\LoginMerchantControll
     Route::get('/pesanan-diproses-merchant/{kode}', [\App\Http\Controllers\Api\TransaksiController::class, 'showPesananDiproses']);
     Route::put('/update-status-transaksi/{kode}', [\App\Http\Controllers\Api\TransaksiController::class, 'updateStatusTransaksi']);
     Route::get('/billing/{kode}', [\App\Http\Controllers\Api\TransaksiController::class, 'showBillingselesai']);
+    Route::get('/saldo-merchant/{id}', [\App\Http\Controllers\Api\SaldoMerchantController::class, 'show']);
 
 // });
