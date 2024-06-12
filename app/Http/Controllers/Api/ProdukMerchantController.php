@@ -136,7 +136,7 @@ class ProdukMerchantController extends Controller
                 ]);
             }
 
-            return response()->json($produk, $status = 200);
+            return response()->json($produk,['success' => TRUE]);
         } catch (\Throwable $th) {
             return response()->json(['error' => $th->getMessage()], 401);
         }
