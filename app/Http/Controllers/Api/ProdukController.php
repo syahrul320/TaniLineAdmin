@@ -58,7 +58,7 @@ class ProdukController extends Controller
                 ->groupBy('produks.id')
                 ->having('distance', '<', 10)
                 ->orderBy('distance')
-                ->paginate(30);
+                ->paginate(10);
             return response()->json($produk);
     }
 
@@ -74,7 +74,7 @@ class ProdukController extends Controller
                 ->groupBy('produks.id')
                 ->having('distance', '<', 10)
                 ->orderBy('distance')
-                ->paginate(30);
+                ->paginate(10);
             return response()->json($produk);
     }
 
