@@ -55,7 +55,7 @@ class TopupController extends Controller
             $topup->url = $dataResponse->link_url;
             $topup->save();
 
-            return response()->json($response);
+            return response()->json([$response]);
         } catch (\Throwable $th) {
             //throw $th;
             return response()->json(['message' => $th->getMessage()]);
