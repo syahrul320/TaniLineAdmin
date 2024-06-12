@@ -63,13 +63,14 @@ class ProdukController extends Controller
     }
 
 
-    public function pencarian_by_kategori($id_kategori ,$latitude, $longitude)
+    public function pencarian_by_kategori($id_kategori , $keyword, $latitude, $longitude)
     {
         $produk = DB::table('produks')
                 ->selectRaw('produks.*, kategoris.nama_kategori, users.name as nama_merchant ,  ROUND(( 6367 * acos( cos( radians( ? ) ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians( ? ) ) + sin( radians( ? ) ) * sin( radians( latitude ) ) ) )) AS distance', [$latitude, $longitude, $latitude])
                 ->join('users', 'produks.id_user_merchant', '=', 'users.id')
                 ->join('kategoris', 'produks.id_kategori', '=', 'kategoris.id')
                 ->where('kategoris.id', $id_kategori)
+                ->where('produks.nama_produk', 'like', '%' . $keyword . '%')
                 ->groupBy('produks.id')
                 ->having('distance', '<', 10)
                 ->orderBy('distance')
@@ -88,7 +89,6 @@ class ProdukController extends Controller
             ->orderBy('total_penjualan', 'desc')
             ->groupBy('produks.id')
             ->having('distance', '<', 10)
-            ->orderBy('distance')
             ->limit(6)
             ->get();
 

@@ -41,7 +41,7 @@ Route::get('/pesan/{id}', [\App\Http\Controllers\Api\PesananController::class, '
 
 
 Route::get('/pencarian/{keyword}/{lat}/{long}', [\App\Http\Controllers\Api\ProdukController::class, 'pencarian']);
-Route::get('/pencarian-by-kategori/{id_kategori}/{lat}/{long}', [\App\Http\Controllers\Api\ProdukController::class, 'pencarian_by_kategori']);
+Route::get('/pencarian-by-kategori/{id_kategori}/{keyword}/{lat}/{long}', [\App\Http\Controllers\Api\ProdukController::class, 'pencarian_by_kategori']);
 Route::get('/detail-produk/{id}/{lat}/{long}', [\App\Http\Controllers\Api\ProdukController::class, 'detail']);
 Route::post('/store-transaksi-by-produk', [\App\Http\Controllers\Api\TransaksiController::class, 'store_by_produk']);
 
