@@ -20,5 +20,7 @@ class Transaksi extends Model
         'id_user_merchant',
         'alamat_tujuan',
         'total',
+        'notif_pesanan_diterima',
+        'notif_pesanan_selesai'
     ];
 }

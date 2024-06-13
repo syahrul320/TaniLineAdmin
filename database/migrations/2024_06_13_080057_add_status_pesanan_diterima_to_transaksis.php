@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddAlamatTujuanToTransaksis extends Migration
+class AddStatusPesananDiterimaToTransaksis extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,8 @@ class AddAlamatTujuanToTransaksis extends Migration
     public function up()
     {
         Schema::table('transaksis', function (Blueprint $table) {
-            $table->text('alamat_tujuan')->after('total');
+            $table->enum('notif_pesanan_diterima', ['yes', 'no'])->default('no')->after('alamat_tujuan');
+            $table->enum('notif_pesanan_selesai', ['yes', 'no'])->default('no')->after('notif_pesanan_diterima');
         });
     }
 
@@ -26,7 +27,8 @@ class AddAlamatTujuanToTransaksis extends Migration
     public function down()
     {
         Schema::table('transaksis', function (Blueprint $table) {
-            $table->dropColumn('alamat_tujuan');
+            $table->dropColumn('notif_pesanan_diterima');
+            $table->dropColumn('notif_pesanan_selesai');
         });
     }
 }

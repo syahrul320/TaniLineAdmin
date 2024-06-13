@@ -107,7 +107,8 @@ class TransaksiController extends Controller
     }
 
 
-    public function getDistanceCost(Request $request){
+    public function getDistanceCost(Request $request)
+    {
         $id_user = $request->id_user;
         $latitude = $request->latitude;
         $longitude = $request->longitude;
@@ -122,16 +123,15 @@ class TransaksiController extends Controller
         $total_barang = 0;
         $distance = 0;
         foreach ($keranjang_by_penjual as $key => $value) {
-            $distance += $value->distance-1;
+            $distance += $value->distance - 1;
             $total_barang += $value->total_harga;
-
         }
 
-        echo json_encode(array('distance'=> $distance ,'ongkir' => $distance * $biaya->ongkir, 'total_barang'=>$total_barang, 'total'=> $total_barang + ($distance * $biaya->ongkir)));
-
+        echo json_encode(array('distance' => $distance, 'ongkir' => $distance * $biaya->ongkir, 'total_barang' => $total_barang, 'total' => $total_barang + ($distance * $biaya->ongkir)));
     }
 
-    public function cancelTransaksi(Request $request){
+    public function cancelTransaksi(Request $request)
+    {
         $id_transaksi = $request->id_transaksi;
         $transaksi = Transaksi::where('id', $id_transaksi)->first();
         $transaksi->status_transaksi = 'batal';
@@ -145,22 +145,23 @@ class TransaksiController extends Controller
         $detail_transaksi = DB::table('detail_transaksis')
             ->where('detail_transaksis.id_transaksi', '=', $id)
             ->join('produks', 'detail_transaksis.id_produk', '=', 'produks.id')
-            ->select(['produks.*', 'detail_transaksis.qty','detail_transaksis.keterangan', 'detail_transaksis.harga_jual'])
+            ->select(['produks.*', 'detail_transaksis.qty', 'detail_transaksis.keterangan', 'detail_transaksis.harga_jual'])
             ->get();
         return response()->json($detail_transaksi);
     }
 
-    public function store_by_produk(Request $request){
+    public function store_by_produk(Request $request)
+    {
         $biaya = Setting::where('id', 1)->first();
         $transaksi = new Transaksi();
-        $transaksi->kode_transaksi = 'TRX'.date('is')."".date('Ymd')."".rand(1000,9999);
+        $transaksi->kode_transaksi = 'TRX' . date('is') . "" . date('Ymd') . "" . rand(1000, 9999);
         $transaksi->id_user_pembeli = $request->id_user_pembeli;
         $transaksi->id_user_merchant = $request->id_user_merchant;
         $transaksi->biaya_admin = $biaya->biaya_admin;
         $transaksi->tgl_transaksi = date('Y-m-d H:i:s');
         $transaksi->ongkir = $request->ongkir;
         $transaksi->total_harga = $request->total_harga;
-        $transaksi->total = (($request->total_harga)+ $request->ongkir);
+        $transaksi->total = (($request->total_harga) + $request->ongkir);
         $transaksi->status_transaksi = "diterima";
         $transaksi->alamat_tujuan = $request->alamat_tujuan;
         $transaksi->save();
@@ -194,48 +195,47 @@ class TransaksiController extends Controller
             ->groupBy('keranjang_belanjas.id_user_merchant')
             ->get();
 
-            foreach ($keranjang_by_penjual as $key => $value) {
-                $jarak_harus_bayar = $value->distance - 1 ;
-                $insert_transaksi = new Transaksi();
-                $insert_transaksi->kode_transaksi = 'TRX'.date('is')."".date('Ymd')."".rand(1000,9999);
-                $insert_transaksi->id_user_pembeli = $request->id_user;
-                $insert_transaksi->id_user_merchant = $value->id_user_merchant;
-                $insert_transaksi->biaya_admin = $biaya->biaya_admin;
-                $insert_transaksi->tgl_transaksi = date('Y-m-d H:i:s');
-                $insert_transaksi->ongkir = $biaya->ongkir * $jarak_harus_bayar;
-                $insert_transaksi->total_harga = $value->total_harga;
-                $insert_transaksi->total = ($value->total_harga + ($biaya->ongkir * $jarak_harus_bayar));
-                $insert_transaksi->status_transaksi = 'diterima';
-                $insert_transaksi->alamat_tujuan = $request->alamat_tujuan;
-                $insert_transaksi->save();
-                $insert_transaksi_id = $insert_transaksi->id;
+        foreach ($keranjang_by_penjual as $key => $value) {
+            $jarak_harus_bayar = $value->distance - 1;
+            $insert_transaksi = new Transaksi();
+            $insert_transaksi->kode_transaksi = 'TRX' . date('is') . "" . date('Ymd') . "" . rand(1000, 9999);
+            $insert_transaksi->id_user_pembeli = $request->id_user;
+            $insert_transaksi->id_user_merchant = $value->id_user_merchant;
+            $insert_transaksi->biaya_admin = $biaya->biaya_admin;
+            $insert_transaksi->tgl_transaksi = date('Y-m-d H:i:s');
+            $insert_transaksi->ongkir = $biaya->ongkir * $jarak_harus_bayar;
+            $insert_transaksi->total_harga = $value->total_harga;
+            $insert_transaksi->total = ($value->total_harga + ($biaya->ongkir * $jarak_harus_bayar));
+            $insert_transaksi->status_transaksi = 'diterima';
+            $insert_transaksi->alamat_tujuan = $request->alamat_tujuan;
+            $insert_transaksi->save();
+            $insert_transaksi_id = $insert_transaksi->id;
 
-                $keranjang = DB::table('keranjang_belanjas')
+            $keranjang = DB::table('keranjang_belanjas')
                 ->where('keranjang_belanjas.id_user', '=', $request->id_user)
                 ->where('keranjang_belanjas.id_user_merchant', '=', $insert_transaksi->id_user_merchant)
                 ->join('produks', 'keranjang_belanjas.id_produk', '=', 'produks.id')
-                ->select(['keranjang_belanjas.*', 'keranjang_belanjas.jumlah', 'produks.harga','produks.nama_produk'])
+                ->select(['keranjang_belanjas.*', 'keranjang_belanjas.jumlah', 'produks.harga', 'produks.nama_produk'])
                 ->get();
 
-                foreach ($keranjang as $key => $keranjang) {
-                    $insert_transaksi_detail = new DetailTransaksi();
-                    $insert_transaksi_detail->id_user_merchant = $insert_transaksi->id_user_merchant;
-                    $insert_transaksi_detail->id_transaksi = $insert_transaksi_id;
-                    $insert_transaksi_detail->id_produk = $keranjang->id_produk;
-                    $insert_transaksi_detail->qty = $keranjang->jumlah;
-                    $insert_transaksi_detail->harga_jual = $keranjang->harga;
-                    $insert_transaksi_detail->keterangan = $keranjang->keterangan;
+            foreach ($keranjang as $key => $keranjang) {
+                $insert_transaksi_detail = new DetailTransaksi();
+                $insert_transaksi_detail->id_user_merchant = $insert_transaksi->id_user_merchant;
+                $insert_transaksi_detail->id_transaksi = $insert_transaksi_id;
+                $insert_transaksi_detail->id_produk = $keranjang->id_produk;
+                $insert_transaksi_detail->qty = $keranjang->jumlah;
+                $insert_transaksi_detail->harga_jual = $keranjang->harga;
+                $insert_transaksi_detail->keterangan = $keranjang->keterangan;
 
-                    $insert_transaksi_detail->save();
+                $insert_transaksi_detail->save();
 
-                    $produk = Produk::find($keranjang->id_produk);
-                    $produk->stok -=  $keranjang->jumlah;
-                    $produk->save();
+                $produk = Produk::find($keranjang->id_produk);
+                $produk->stok -=  $keranjang->jumlah;
+                $produk->save();
 
-                    DB::table('keranjang_belanjas')->where('id', '=', $keranjang->id)->delete();
-                }
-
+                DB::table('keranjang_belanjas')->where('id', '=', $keranjang->id)->delete();
             }
+        }
         // $transaksi->save();
         return response()->json(['success' => TRUE]);
         // print_r(json_decode($keranjang_by_penjual));
@@ -355,5 +355,51 @@ class TransaksiController extends Controller
             'message' => 'Status transaksi berhasil diubah',
             'data' => $transaksi
         ]);
+    }
+
+    public function notifPesananDiterima(Request $request, $id)
+    {
+        $transaksi = Transaksi::where('id_user_merchant', $id)
+            ->where('notif_pesanan_diterima', 'no')
+            ->where('status_transaksi', 'diterima')
+            ->exists();
+        if ($transaksi) {
+            $transaksi_ada = Transaksi::where('id_user_merchant', $id)
+                ->where('notif_pesanan_diterima', 'no')
+                ->first();
+                if($request->notif_pesanan_diterima == 'yes'){
+                    $transaksi_ada->notif_pesanan_diterima = 'yes';
+                    $transaksi_ada->status_transaksi = 'diproses';
+                    $transaksi_ada->save();
+                    return response()->json(['message' => 'Konfirmasi Pesanan', 'data' => $transaksi_ada]);
+                }else{
+                    $transaksi_ada->status_transaksi = 'batal';
+                    $transaksi_ada->save();
+                    return response()->json(['message' => 'Pesanan Dibatalkan']);
+                }
+        } else {
+            return response()->json(['message' => 'Tidak Ada Pesanan Diterima']);
+        }
+    }
+
+    public function notifPesananSelesai(Request $request, $id)
+    {
+        $transaksi = Transaksi::where('id_user_merchant', $id)
+            ->where('notif_pesanan_selesai', 'no')
+            ->exists();
+        if ($transaksi) {
+            $transaksi_ada = Transaksi::where('id_user_merchant', $id)
+                ->where('notif_pesanan_selesai', 'no')
+                ->first();
+                if($request->notif_pesanan_selesai == 'yes'){
+                    $transaksi_ada->notif_pesanan_selesai = 'yes';
+                    $transaksi_ada->save();
+                    return response()->json(['message' => 'Konfirmasi Pesanan', 'data' => $transaksi_ada]);
+                }else{
+                    return response()->json(['message' => 'Pesanan Dibatalkan']);
+                }
+        } else {
+            return response()->json(['message' => 'Tidak Ada Pesanan Selesai']);
+        }
     }
 }
