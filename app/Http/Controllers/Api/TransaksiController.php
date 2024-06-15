@@ -389,7 +389,7 @@ class TransaksiController extends Controller
     {
         $transaksi = Transaksi::where('id_user_pembeli', $id)
             ->where('notif_pesanan_dikirim', 'no')
-            ->where('status_transaksi', 'diperoses')
+            ->where('status_transaksi', 'diproses')
             ->first();
         if(!empty($transaksi)){
             $transaksi->notif_pesanan_dikirim = 'yes';
