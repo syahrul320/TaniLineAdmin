@@ -126,6 +126,6 @@ Route::post('/logout-merchant', [\App\Http\Controllers\Api\LoginMerchantControll
     Route::get('/billing/{kode}', [\App\Http\Controllers\Api\TransaksiController::class, 'showBillingselesai']);
     Route::get('/saldo-merchant/{id}', [\App\Http\Controllers\Api\SaldoMerchantController::class, 'show']);
     Route::put('/notif-pesanan-diterima/{id}', [\App\Http\Controllers\Api\TransaksiController::class, 'notifPesananDiterima']);
-    Route::put('/notif-pesanan-selesai/{id}', [\App\Http\Controllers\Api\TransaksiController::class, 'notifPesananSelesai']);
+    Route::get('/notif-pesanan-dikirim/{id}', [\App\Http\Controllers\Api\TransaksiController::class, 'notifPesananDikirim']);
 
 // });

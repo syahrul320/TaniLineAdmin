@@ -364,42 +364,46 @@ class TransaksiController extends Controller
             ->where('status_transaksi', 'diterima')
             ->exists();
         if ($transaksi) {
-            $transaksi_ada = Transaksi::where('id_user_merchant', $id)
-                ->where('notif_pesanan_diterima', 'no')
-                ->first();
-                if($request->notif_pesanan_diterima == 'yes'){
-                    $transaksi_ada->notif_pesanan_diterima = 'yes';
-                    $transaksi_ada->status_transaksi = 'diproses';
-                    $transaksi_ada->save();
-                    return response()->json(['message' => 'Konfirmasi Pesanan', 'data' => $transaksi_ada]);
-                }else{
-                    $transaksi_ada->status_transaksi = 'batal';
-                    $transaksi_ada->save();
-                    return response()->json(['message' => 'Pesanan Dibatalkan']);
-                }
+            return response()->json(['status' => True]);
         } else {
-            return response()->json(['message' => 'Tidak Ada Pesanan Diterima']);
+            return response()->json(['status' => False]);
         }
     }
 
-    public function notifPesananSelesai(Request $request, $id)
+    // public function notifPesananDiterima(Request $request, $id)
+    // {
+    //     $transaksi = Transaksi::where('id_user_merchant', $id)
+    //         ->where('notif_pesanan_diterima', 'no')
+    //         ->where('status_transaksi', 'diterima')
+    //         ->exists();
+    //     if ($transaksi) {
+    //         $transaksi_ada = Transaksi::where('id_user_merchant', $id)
+    //             ->where('notif_pesanan_diterima', 'no')
+    //             ->first();
+    //             if($request->notif_pesanan_diterima == 'yes'){
+    //                 $transaksi_ada->notif_pesanan_diterima = 'yes';
+    //                 $transaksi_ada->status_transaksi = 'diproses';
+    //                 $transaksi_ada->save();
+    //                 return response()->json(['message' => 'Konfirmasi Pesanan', 'data' => $transaksi_ada]);
+    //             }else{
+    //                 $transaksi_ada->status_transaksi = 'batal';
+    //                 $transaksi_ada->save();
+    //                 return response()->json(['message' => 'Pesanan Dibatalkan']);
+    //             }
+    //     } else {
+    //         return response()->json(['message' => 'Tidak Ada Pesanan Diterima']);
+    //     }
+    // }
+
+    public function notifPesananDikirim($id)
     {
         $transaksi = Transaksi::where('id_user_merchant', $id)
-            ->where('notif_pesanan_selesai', 'no')
+            ->where('notif_pesanan_dikirim', 'no')
             ->exists();
-        if ($transaksi) {
-            $transaksi_ada = Transaksi::where('id_user_merchant', $id)
-                ->where('notif_pesanan_selesai', 'no')
-                ->first();
-                if($request->notif_pesanan_selesai == 'yes'){
-                    $transaksi_ada->notif_pesanan_selesai = 'yes';
-                    $transaksi_ada->save();
-                    return response()->json(['message' => 'Konfirmasi Pesanan', 'data' => $transaksi_ada]);
-                }else{
-                    return response()->json(['message' => 'Pesanan Dibatalkan']);
-                }
-        } else {
-            return response()->json(['message' => 'Tidak Ada Pesanan Selesai']);
+        if($transaksi){
+            return response()->json(['status' => True]);
+        }else{
+            return response()->json(['status' => False]);
         }
     }
 }

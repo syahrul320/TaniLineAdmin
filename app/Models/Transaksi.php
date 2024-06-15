@@ -21,6 +21,6 @@ class Transaksi extends Model
         'alamat_tujuan',
         'total',
         'notif_pesanan_diterima',
-        'notif_pesanan_selesai'
+        'notif_pesanan_dikirim'
     ];
 }

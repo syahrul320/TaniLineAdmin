@@ -15,7 +15,7 @@ class AddStatusPesananDiterimaToTransaksis extends Migration
     {
         Schema::table('transaksis', function (Blueprint $table) {
             $table->enum('notif_pesanan_diterima', ['yes', 'no'])->default('no')->after('alamat_tujuan');
-            $table->enum('notif_pesanan_selesai', ['yes', 'no'])->default('no')->after('notif_pesanan_diterima');
+            $table->enum('notif_pesanan_dikirim', ['yes', 'no'])->default('no')->after('notif_pesanan_diterima');
         });
     }
 
@@ -28,7 +28,7 @@ class AddStatusPesananDiterimaToTransaksis extends Migration
     {
         Schema::table('transaksis', function (Blueprint $table) {
             $table->dropColumn('notif_pesanan_diterima');
-            $table->dropColumn('notif_pesanan_selesai');
+            $table->dropColumn('notif_pesanan_dikirim');
         });
     }
 }
