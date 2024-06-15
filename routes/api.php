@@ -106,6 +106,7 @@ Route::post('/logout-merchant', [\App\Http\Controllers\Api\LoginMerchantControll
     Route::post('/topup', [\App\Http\Controllers\Api\TopupController::class, 'store']);
     Route::post('/topup/notification', [\App\Http\Controllers\Api\TopupController::class, 'notification']);
     Route::get('/history-topup/{id}', [\App\Http\Controllers\Api\TopupController::class, 'show_history_topup']);
+    Route::get('/history-topup-panding/{id}', [\App\Http\Controllers\Api\TopupController::class, 'showHistoryPanding']);
     //lokasi
     Route::put('/lokasi-merchant/{id}', [\App\Http\Controllers\Api\LokasiMerchantController::class, 'update']);
     //setting

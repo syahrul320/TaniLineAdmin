@@ -105,4 +105,14 @@ class TopupController extends Controller
             ->paginate(10);
         return response()->json($topup);
     }
+
+    public function showHistoryPanding($id)
+    {
+        $topup = Topup::where('id_user_merchant', $id)
+            ->where('status', 'pending')
+            ->orderBy('created_at', 'desc')
+            ->select('title', 'amount', 'status', 'created_at')
+            ->paginate(10);
+        return response()->json($topup);
+    }
 }
