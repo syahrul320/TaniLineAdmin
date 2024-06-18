@@ -379,7 +379,6 @@ class TransaksiController extends Controller
         try{
             $transaksi = Transaksi::where('id', $id)
             ->where('status_transaksi', 'diterima')
-            ->where('notif_pesanan_diterima', 'yes')
             ->first();
             $user = User::find($transaksi->id_user_merchant);
             $setting = Setting::find(1);
