@@ -340,7 +340,7 @@ class TransaksiController extends Controller
         return response()->json($transaksi);
     }
 
-    public function updateStatusTransaksi(Request $request, $kode_transaksi)
+    public function updateStatusTransaksi(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
             'status_transaksi' => 'required',
@@ -350,7 +350,7 @@ class TransaksiController extends Controller
             return response()->json($validator->errors(), 400);
         }
 
-        $transaksi = Transaksi::where('kode_transaksi', $kode_transaksi)->first();
+        $transaksi = Transaksi::where('id', $id)->first();
         $transaksi->status_transaksi = $request->status_transaksi;
         $transaksi->save();
 
