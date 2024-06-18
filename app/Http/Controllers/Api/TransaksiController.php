@@ -101,6 +101,7 @@ class TransaksiController extends Controller
                 'transaksis.tgl_transaksi',
                 'transaksis.status_transaksi',
                 'transaksis.total',
+                'transaksis.id',
                 'transaksis.ongkir'
             ])
             ->orderByDesc('transaksis.id')
