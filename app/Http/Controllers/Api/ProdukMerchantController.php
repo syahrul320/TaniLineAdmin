@@ -89,7 +89,7 @@ class ProdukMerchantController extends Controller
 
     public function update(Request $request, $id)
     {
-        try {
+        // try {
             $validator = Validator::make($request->all(), [
                 'nama_produk' => 'required',
                 'id_kategori' => 'required',
@@ -137,9 +137,9 @@ class ProdukMerchantController extends Controller
             }
 
             return response()->json($produk,['success' => TRUE]);
-        } catch (\Throwable $th) {
-            return response()->json(['error' => $th->getMessage()], 401);
-        }
+        // } catch (\Throwable $th) {
+        //     return response()->json(['error' => $th->getMessage()], 401);
+        // }
     }
 
     public function destroy($id)
