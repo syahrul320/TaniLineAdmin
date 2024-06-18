@@ -50,10 +50,10 @@ class TransaksiController extends Controller
         return response()->json($transaksi_merchant);
     }
 
-    public function detailTransaksiMerchant($kode_transaksi)
+    public function detailTransaksiMerchant($id)
     {
         $transaksi_merchant = DB::table('detail_transaksis')
-            ->where('transaksis.kode_transaksi', '=', $kode_transaksi)
+            ->where('transaksis.id', '=', $id)
             ->join('produks', 'detail_transaksis.id_produk', '=', 'produks.id')
             ->join('transaksis', 'detail_transaksis.id_transaksi', '=', 'transaksis.id')
             ->join('users', 'transaksis.id_user_pembeli', '=', 'users.id')
@@ -149,7 +149,7 @@ class TransaksiController extends Controller
             ->join('produks', 'detail_transaksis.id_produk', '=', 'produks.id')
             ->select(['produks.*', 'detail_transaksis.qty', 'detail_transaksis.keterangan', 'detail_transaksis.harga_jual'])
             ->get();
-        return response()->json(['data' => $detail_transaksi]);
+        return response()->json($detail_transaksi);
     }
 
     public function store_by_produk(Request $request)
