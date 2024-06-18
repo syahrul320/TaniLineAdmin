@@ -128,5 +128,6 @@ Route::post('/logout-merchant', [\App\Http\Controllers\Api\LoginMerchantControll
     Route::get('/saldo-merchant/{id}', [\App\Http\Controllers\Api\SaldoMerchantController::class, 'show']);
     Route::get('/notif-pesanan-diterima/{id}', [\App\Http\Controllers\Api\TransaksiController::class, 'notifPesananDiterima']);
     Route::get('/notif-pesanan-dikirim/{id}', [\App\Http\Controllers\Api\TransaksiController::class, 'notifPesananDikirim']);
+    Route::get('/konfirmasi-pesanan-diterima/{id}', [\App\Http\Controllers\Api\TransaksiController::class, 'konfirmasiPesananDiterima']);
 
 // });

@@ -8,6 +8,7 @@ use App\Models\DetailTransaksi;
 use App\Models\Produk;
 use App\Models\Setting;
 use App\Models\Transaksi;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -375,15 +376,30 @@ class TransaksiController extends Controller
 
     public function konfirmasiPesananDiterima($id)
     {
-         $transaksi = Transaksi::where('id', $id)->first();
-         if(!empty($transaksi)){
-            $transaksi->notif_pesanan_diterima = 'yes';
-            $transaksi->status_transaksi = 'diproses';
-            $transaksi->save();
-            return response()->json(['status' => True]);
-        }else{
-            return response()->json(['status' => False]);
+        try{
+            $transaksi = Transaksi::where('id', $id)
+            ->where('status_transaksi', 'diterima')
+            ->where('notif_pesanan_diterima', 'yes')
+            ->first();
+            $user = User::find($transaksi->id_user_merchant);
+            $setting = Setting::find(1);
+            if(!empty($transaksi)){
+               if($user->saldo < $setting->biaya_admin){
+                   return response()->json(['status' => False, 'message' => 'Saldo anda tidak mencukupi']);
+               }else{
+                   $user->saldo -= $setting->biaya_admin;
+                   $user->save();
+                   $transaksi->status_transaksi = 'diproses';
+                   $transaksi->save();
+                   return response()->json(['status' => True, 'message' => 'Pesanan berhasil dikonfirmasi']);
+               }
+           }else{
+               return response()->json(['status' => False]);
+           }
+        }catch(\Throwable $th){
+            return response()->json(['status' => False, 'message' => $th->getMessage()]);
         }
+          
     }
 
     public function notifPesananDikirim($id)
