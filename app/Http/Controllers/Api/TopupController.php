@@ -44,7 +44,7 @@ class TopupController extends Controller
             $response = curl_exec($ch);
             curl_close($ch);
 
-            // $dataResponse = json_decode($response);
+            echo json_decode($response);
 
             // $topup = new Topup();
             // $topup->id_user_merchant = $request->id_user_merchant;
