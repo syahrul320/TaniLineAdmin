@@ -149,7 +149,7 @@ class TransaksiController extends Controller
             ->join('produks', 'detail_transaksis.id_produk', '=', 'produks.id')
             ->select(['produks.*', 'detail_transaksis.qty', 'detail_transaksis.keterangan', 'detail_transaksis.harga_jual'])
             ->get();
-        return response()->json($detail_transaksi);
+        return response()->json(['data' => $detail_transaksi]);
     }
 
     public function store_by_produk(Request $request)
