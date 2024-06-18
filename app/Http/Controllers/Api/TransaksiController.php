@@ -69,7 +69,8 @@ class TransaksiController extends Controller
                 'users.name as nama_pembeli',
                 'transaksis.alamat_tujuan',
                 'transaksis.ongkir',
-                'transaksis.id'
+                'transaksis.id',
+                'transaksis.total'
             ])
             ->get();
         return response()->json($transaksi_merchant);
