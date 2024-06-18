@@ -73,9 +73,9 @@ Route::middleware('auth:sanctum')->group(function () {
 // merchant
 Route::post('/login-merchant', [\App\Http\Controllers\Api\LoginMerchantController::class, 'login']);
 Route::post('/register-merchant', [\App\Http\Controllers\Api\LoginMerchantController::class, 'register']);
-Route::post('/logout-merchant', [\App\Http\Controllers\Api\LoginMerchantController::class, 'logout']);
 Route::get('/setting-url-merchant', [\App\Http\Controllers\Api\SettingController::class, 'show_url_merchant']);
 Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/logout-merchant', [\App\Http\Controllers\Api\LoginMerchantController::class, 'logout']);
     Route::get('/produk-merchant/{id}', [\App\Http\Controllers\Api\ProdukMerchantController::class, 'show']);
     Route::get('/detail-produk-merchant/{id}', [\App\Http\Controllers\Api\ProdukMerchantController::class, 'detail']);
     Route::get('/kategori-merchant', [\App\Http\Controllers\Api\ProdukMerchantController::class, 'showKategori']);
