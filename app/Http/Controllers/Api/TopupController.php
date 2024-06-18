@@ -44,18 +44,18 @@ class TopupController extends Controller
             $response = curl_exec($ch);
             curl_close($ch);
 
-            $dataResponse = json_decode($response);
+            // $dataResponse = json_decode($response);
 
-            $topup = new Topup();
-            $topup->id_user_merchant = $request->id_user_merchant;
-            $topup->title = $dataResponse->title;
-            $topup->amount = $request->amount;
-            $topup->status = 'pending';
-            $topup->external_id = $dataResponse->link_id;
-            $topup->url = $dataResponse->link_url;
-            $topup->save();
+            // $topup = new Topup();
+            // $topup->id_user_merchant = $request->id_user_merchant;
+            // // $topup->title = $dataResponse->title;
+            // $topup->amount = $request->amount;
+            // $topup->status = 'pending';
+            // // $topup->external_id = $dataResponse->link_id;
+            // // $topup->url = $dataResponse->link_url;
+            // $topup->save();
 
-            return response()->json(['data' => $dataResponse->link_url]);
+            // return response()->json(['data' => $dataResponse->link_url]);
         } catch (\Throwable $th) {
             //throw $th;
             return response()->json(['message' => $th->getMessage()]);
