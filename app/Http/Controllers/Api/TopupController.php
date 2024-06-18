@@ -24,7 +24,7 @@ class TopupController extends Controller
             curl_setopt($ch, CURLOPT_POST, TRUE);
 
             $payloads = [
-                "title" => "Topup Taniline",
+                // "title" => "Topup Taniline",
                 "amount" => $request->amount,
                 "type" => "SINGLE",
                 "redirect_url" => "https://testing.sidikty.com",
