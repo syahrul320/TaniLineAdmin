@@ -111,7 +111,7 @@ class TopupController extends Controller
         $topup = Topup::where('id_user_merchant', $id)
             ->where('status', 'pending')
             ->orderBy('created_at', 'desc')
-            ->select('title', 'amount', 'status', 'created_at')
+            ->select('title', 'amount', 'status', 'created_at', 'url')
             ->paginate(10);
         return response()->json($topup);
     }
