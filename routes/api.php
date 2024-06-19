@@ -74,6 +74,7 @@ Route::middleware('auth:sanctum')->group(function () {
 Route::post('/login-merchant', [\App\Http\Controllers\Api\LoginMerchantController::class, 'login']);
 Route::post('/register-merchant', [\App\Http\Controllers\Api\LoginMerchantController::class, 'register']);
 Route::get('/setting-url-merchant', [\App\Http\Controllers\Api\SettingController::class, 'show_url_merchant']);
+Route::post('/topup/notification', [\App\Http\Controllers\Api\TopupController::class, 'notification']);
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout-merchant', [\App\Http\Controllers\Api\LoginMerchantController::class, 'logout']);
     Route::get('/produk-merchant/{id}', [\App\Http\Controllers\Api\ProdukMerchantController::class, 'show']);
@@ -85,7 +86,6 @@ Route::middleware('auth:sanctum')->group(function () {
     // Route::get('/show-transaksi-merchant/{id}', [\App\Http\Controllers\Api\TransaksiController::class, 'showDetailTransaksiMerchant']);
     // Flip
     Route::post('/topup', [\App\Http\Controllers\Api\TopupController::class, 'store']);
-    Route::post('/topup/notification', [\App\Http\Controllers\Api\TopupController::class, 'notification']);
     Route::get('/history-topup/{id}', [\App\Http\Controllers\Api\TopupController::class, 'show_history_topup']);
     Route::get('/history-topup-panding/{id}', [\App\Http\Controllers\Api\TopupController::class, 'showHistoryPanding']);
     //lokasi
