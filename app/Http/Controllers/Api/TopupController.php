@@ -16,9 +16,9 @@ class TopupController extends Controller
             //code...
             //seckert key bigflip = 'JDJ5JDEzJEdCd2cwbmtrV3JFc2FBUWt2SGNUQU9NMXkvT0E5Y0JQbmV3dnN1VGV6Znd0UHd3bndzVFYy';
             $ch = curl_init();
-            $secret_key = 'Basic ' . base64_encode('JDJ5JDEzJEdCd2cwbmtrV3JFc2FBUWt2SGNUQU9NMXkvT0E5Y0JQbmV3dnN1VGV6Znd0UHd3bndzVFYy:'); // replace 'your_secret_key' with your actual secret key
+            $secret_key = 'Basic ' . base64_encode('JDJ5JDEzJE1RNkdlS25vME9ZcFQ5Y3VHZS5HbU80RjdmSXpZNi5JV3c1ZjRYS1RVR3JWb0pnVUV1WHVp:'); // replace 'your_secret_key' with your actual secret key
 
-            curl_setopt($ch, CURLOPT_URL, "https://bigflip.id/api/v2/pwf/bill");
+            curl_setopt($ch, CURLOPT_URL, "https://bigflip.id/big_sandbox_api/v2/pwf/bill");
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
             curl_setopt($ch, CURLOPT_HEADER, FALSE);
 
