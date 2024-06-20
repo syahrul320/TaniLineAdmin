@@ -26,7 +26,7 @@ class TopupController extends Controller
 
             $payloads = [
                 "title" => "Topup Taniline",
-                "amount" => $request->amount,
+                "amount" => max(10000, $request->amount), // ensure minimum amount is 10000
                 "type" => "SINGLE",
                 "redirect_url" => "https://taniline.id",
                 "is_address_required" => 0,
@@ -50,7 +50,7 @@ class TopupController extends Controller
             $topup = new Topup();
             $topup->id_user_merchant = $request->id_user_merchant;
             $topup->title = $dataResponse->title;
-            $topup->amount = $request->amount;
+            $topup->amount = max(10000, $request->amount); // ensure minimum amount is 10000
             $topup->status = 'pending';
             $topup->external_id = $dataResponse->link_id;
             $topup->url = $dataResponse->link_url;
