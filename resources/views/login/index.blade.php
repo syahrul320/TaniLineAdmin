@@ -18,6 +18,7 @@
     <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/css/icons.css') }}" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/images/logo-icon-2.png') }}">
     <style>
         body {
             width: 100%
