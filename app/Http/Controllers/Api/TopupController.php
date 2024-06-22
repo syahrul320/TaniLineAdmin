@@ -14,10 +14,11 @@ class TopupController extends Controller
     {
         try {
             //code...
+            //seckert key bigflip = 'JDJ5JDEzJEdCd2cwbmtrV3JFc2FBUWt2SGNUQU9NMXkvT0E5Y0JQbmV3dnN1VGV6Znd0UHd3bndzVFYy';
             $ch = curl_init();
-            $secret_key = 'Basic ' . base64_encode('JDJ5JDEzJE1RNkdlS25vME9ZcFQ5Y3VHZS5HbU80RjdmSXpZNi5JV3c1ZjRYS1RVR3JWb0pnVUV1WHVp:'); // replace 'your_secret_key' with your actual secret key
+            $secret_key = 'Basic ' . base64_encode('JDJ5JDEzJEdCd2cwbmtrV3JFc2FBUWt2SGNUQU9NMXkvT0E5Y0JQbmV3dnN1VGV6Znd0UHd3bndzVFYy:'); // replace 'your_secret_key' with your actual secret key
 
-            curl_setopt($ch, CURLOPT_URL, "https://bigflip.id/big_sandbox_api/v2/pwf/bill");
+            curl_setopt($ch, CURLOPT_URL, "https://bigflip.id/api/v2/pwf/bill");
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
             curl_setopt($ch, CURLOPT_HEADER, FALSE);
 
@@ -25,9 +26,9 @@ class TopupController extends Controller
 
             $payloads = [
                 "title" => "Topup Taniline",
-                "amount" => $request->amount,
+                "amount" => max(10000, $request->amount), // ensure minimum amount is 10000
                 "type" => "SINGLE",
-                "redirect_url" => "https://testing.sidikty.com",
+                "redirect_url" => "https://taniline.id",
                 "is_address_required" => 0,
                 "is_phone_number_required" => 0
             ];
@@ -49,13 +50,13 @@ class TopupController extends Controller
             $topup = new Topup();
             $topup->id_user_merchant = $request->id_user_merchant;
             $topup->title = $dataResponse->title;
-            $topup->amount = $request->amount;
+            $topup->amount = max(10000, $request->amount); // ensure minimum amount is 10000
             $topup->status = 'pending';
             $topup->external_id = $dataResponse->link_id;
             $topup->url = $dataResponse->link_url;
             $topup->save();
 
-            return response()->json([$response]);
+            return response()->json(['data'=>$dataResponse->link_url]);
         } catch (\Throwable $th) {
             //throw $th;
             return response()->json(['message' => $th->getMessage()]);
@@ -102,6 +103,16 @@ class TopupController extends Controller
             ->where('status', 'successful')
             ->orderBy('created_at', 'desc')
             ->select('title', 'amount', 'status', 'created_at')
+            ->paginate(10);
+        return response()->json($topup);
+    }
+
+    public function showHistoryPanding($id)
+    {
+        $topup = Topup::where('id_user_merchant', $id)
+            ->where('status', 'pending')
+            ->orderBy('created_at', 'desc')
+            ->select('title', 'amount', 'status', 'created_at', 'url')
             ->paginate(10);
         return response()->json($topup);
     }

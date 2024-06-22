@@ -76,10 +76,12 @@ class Dashboard extends Controller
     {
         $from = Carbon::createFromFormat('Y-m-d', $request->get('start_date'))->startOfDay();
         $to = Carbon::createFromFormat('Y-m-d', $request->get('end_date'))->endOfDay();
-        $topup = Topup::selectRaw('SUM(jumlah) AS result')
-            ->whereBetween('tgl_topup', [$from, $to])
+        $topup = Topup::selectRaw('SUM(amount) AS result')
+            ->where('status', 'successful')
+            ->whereBetween('created_at', [$from, $to])
             ->first()->result;
         $biaya_admin = Transaksi::selectRaw('SUM(biaya_admin) AS result')
+            ->where('status_transaksi', 'selesai')
             ->whereBetween('tgl_transaksi', [$from, $to])
             ->first()->result;
 

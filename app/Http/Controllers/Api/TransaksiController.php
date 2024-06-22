@@ -8,6 +8,7 @@ use App\Models\DetailTransaksi;
 use App\Models\Produk;
 use App\Models\Setting;
 use App\Models\Transaksi;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -49,10 +50,10 @@ class TransaksiController extends Controller
         return response()->json($transaksi_merchant);
     }
 
-    public function detailTransaksiMerchant($kode_transaksi)
+    public function detailTransaksiMerchant($id)
     {
         $transaksi_merchant = DB::table('detail_transaksis')
-            ->where('transaksis.kode_transaksi', '=', $kode_transaksi)
+            ->where('transaksis.id', '=', $id)
             ->join('produks', 'detail_transaksis.id_produk', '=', 'produks.id')
             ->join('transaksis', 'detail_transaksis.id_transaksi', '=', 'transaksis.id')
             ->join('users', 'transaksis.id_user_pembeli', '=', 'users.id')
@@ -66,7 +67,10 @@ class TransaksiController extends Controller
                 'transaksis.tgl_transaksi',
                 'transaksis.id_user_pembeli',
                 'users.name as nama_pembeli',
-                'users.alamat as alamat_pembeli',
+                'transaksis.alamat_tujuan',
+                'transaksis.ongkir',
+                'transaksis.id',
+                'transaksis.total'
             ])
             ->get();
         return response()->json($transaksi_merchant);
@@ -99,6 +103,7 @@ class TransaksiController extends Controller
                 'transaksis.tgl_transaksi',
                 'transaksis.status_transaksi',
                 'transaksis.total',
+                'transaksis.id',
                 'transaksis.ongkir'
             ])
             ->orderByDesc('transaksis.id')
@@ -339,7 +344,7 @@ class TransaksiController extends Controller
         return response()->json($transaksi);
     }
 
-    public function updateStatusTransaksi(Request $request, $kode_transaksi)
+    public function updateStatusTransaksi(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
             'status_transaksi' => 'required',
@@ -349,7 +354,7 @@ class TransaksiController extends Controller
             return response()->json($validator->errors(), 400);
         }
 
-        $transaksi = Transaksi::where('kode_transaksi', $kode_transaksi)->first();
+        $transaksi = Transaksi::where('id', $id)->first();
         $transaksi->status_transaksi = $request->status_transaksi;
         $transaksi->save();
 
@@ -359,47 +364,58 @@ class TransaksiController extends Controller
         ]);
     }
 
-    public function notifPesananDiterima(Request $request, $id)
+    public function notifPesananDiterima($id)
     {
         $transaksi = Transaksi::where('id_user_merchant', $id)
             ->where('notif_pesanan_diterima', 'no')
             ->where('status_transaksi', 'diterima')
-            ->exists();
-        if ($transaksi) {
-            $transaksi_ada = Transaksi::where('id_user_merchant', $id)
-                ->where('notif_pesanan_diterima', 'no')
-                ->first();
-                if($request->notif_pesanan_diterima == 'yes'){
-                    $transaksi_ada->notif_pesanan_diterima = 'yes';
-                    $transaksi_ada->status_transaksi = 'diproses';
-                    $transaksi_ada->save();
-                    return response()->json(['message' => 'Konfirmasi Pesanan', 'data' => $transaksi_ada]);
-                }else{
-                    $transaksi_ada->status_transaksi = 'batal';
-                    $transaksi_ada->save();
-                    return response()->json(['message' => 'Pesanan Dibatalkan']);
-                }
+            ->first();
+        if (!empty($transaksi)) {
+            $transaksi->notif_pesanan_diterima = 'yes';
+            $transaksi->save();
+            return response()->json(['status' => True]);
         } else {
-            return response()->json(['message' => 'Tidak Ada Pesanan Diterima']);
+            return response()->json(['status' => False]);
         }
     }
 
-    public function notifPesananSelesai(Request $request, $id)
+    public function konfirmasiPesananDiterima($id)
     {
-        $transaksi = Transaksi::where('id_user_merchant', $id)
-            ->where('notif_pesanan_selesai', 'no')
-            ->exists();
-        if ($transaksi) {
-            $transaksi_ada = Transaksi::where('id_user_merchant', $id)
-                ->where('notif_pesanan_selesai', 'no')
-                ->first();
-                if($request->notif_pesanan_selesai == 'yes'){
-                    $transaksi_ada->notif_pesanan_selesai = 'yes';
-                    $transaksi_ada->save();
-                    return response()->json(['message' => 'Konfirmasi Pesanan', 'data' => $transaksi_ada]);
-                }else{
-                    return response()->json(['message' => 'Pesanan Dibatalkan']);
-                }
-        } else {
-            return response()->json(['message' => 'Tidak Ada Pesanan Selesai']);
+        try{
+            $transaksi = Transaksi::where('id', $id)
+            ->where('status_transaksi', 'diterima')
+            ->first();
+            $user = User::find($transaksi->id_user_merchant);
+            $setting = Setting::find(1);
+            if(!empty($transaksi)){
+               if($user->saldo < $setting->biaya_admin){
+                   return response()->json(['status' => False, 'message' => 'Saldo anda tidak mencukupi']);
+               }else{
+                   $user->saldo -= $setting->biaya_admin;
+                   $user->save();
+                   $transaksi->status_transaksi = 'diproses';
+                   $transaksi->save();
+                   return response()->json(['status' => True, 'message' => 'Pesanan berhasil dikonfirmasi']);
+               }
+           }else{
+               return response()->json(['status' => False]);
+           }
+        }catch(\Throwable $th){
+            return response()->json(['status' => False, 'message' => $th->getMessage()]);
+        }
+          
+    }
+
+    public function notifPesananDikirim($id)
+    {
+        $transaksi = Transaksi::where('id_user_pembeli', $id)
+            ->where('notif_pesanan_dikirim', 'no')
+            ->where('status_transaksi', 'diproses')
+            ->first();
+        if(!empty($transaksi)){
+            $transaksi->notif_pesanan_dikirim = 'yes';
+            $transaksi->save();
+            return response()->json(['status' => True]);
+        }else{
+            return response()->json(['status' => False]);
         }

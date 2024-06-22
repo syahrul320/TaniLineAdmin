@@ -47,8 +47,8 @@ class SettingController extends Controller
     public function update_password(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
-            'password' => 'required',
-            'new_password' => 'required',
+            'password' => 'required|min:8',
+            'new_password' => 'required|min:8',
         ]);
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()]);

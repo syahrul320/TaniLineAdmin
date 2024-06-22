@@ -18,7 +18,7 @@ class CreateDetailTransaksisTable extends Migration
             $table->foreignId('id_user_merchant')->references('id')->on('users')->onDelete('cascade');
             $table->foreignId('id_produk')->references('id')->on('produks')->onDelete('cascade');
             $table->foreignId('id_transaksi')->references('id')->on('transaksis')->onDelete('cascade');
-            $table->decimal('harga_jual', 8, 2);
+            $table->integer('harga_jual');
             $table->integer('qty');
             $table->timestamps();
         });

@@ -18,94 +18,76 @@ use Illuminate\Http\Request;
 // User
 Route::post('/login', [\App\Http\Controllers\Api\LoginUserController::class, 'login']);
 // Route::post('/register', [\App\Http\Controllers\Api\LoginUserController::class, 'register']);
+Route::post('/registrasi', [\App\Http\Controllers\Api\RegistrasiController::class, 'register']);
 Route::post('/logout', [\App\Http\Controllers\Api\LoginUserController::class, 'logout']);
 // Route::middleware('auth:sanctum')->group(function () {
-    // Route::get('/produk/{id}', [\App\Http\Controllers\Api\ProdukController::class, 'show']);
-    // Route::get('/produk/detail/{id}', [\App\Http\Controllers\Api\ProdukController::class, 'detail']);
-    // Route::get('/kategori', [\App\Http\Controllers\Api\KategoriController::class, 'show']);
-    // Route::get('/transaksi/{id}', [\App\Http\Controllers\Api\TransaksiController::class, 'showTransaksi']);
+// Route::get('/produk/{id}', [\App\Http\Controllers\Api\ProdukController::class, 'show']);
+// Route::get('/produk/detail/{id}', [\App\Http\Controllers\Api\ProdukController::class, 'detail']);
+// Route::get('/kategori', [\App\Http\Controllers\Api\KategoriController::class, 'show']);
+// Route::get('/transaksi/{id}', [\App\Http\Controllers\Api\TransaksiController::class, 'showTransaksi']);
 
 // });
-Route::get('/transaksi/status/{status}/{id}', [\App\Http\Controllers\Api\TransaksiController::class, 'showTransaksiByStatus']);
-Route::get('/produk-terlaris/{lat}/{long}', [\App\Http\Controllers\Api\ProdukController::class, 'produk_terlaris']);
-Route::get('/list-produk/{lat}/{long}', [\App\Http\Controllers\Api\ProdukController::class, 'list_produk']);
-Route::get('/list-produk-by-kategori/{id}/{lat}/{long}', [\App\Http\Controllers\Api\ProdukController::class, 'list_produk_by_kategori']);
-Route::get('/kategori', [\App\Http\Controllers\Api\KategoriController::class, 'show']);
-Route::get('/informasi-terbaru', [\App\Http\Controllers\Api\InformasiController::class, 'show']);
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/transaksi/status/{status}/{id}', [\App\Http\Controllers\Api\TransaksiController::class, 'showTransaksiByStatus']);
+    Route::get('/produk-terlaris/{lat}/{long}', [\App\Http\Controllers\Api\ProdukController::class, 'produk_terlaris']);
+    Route::get('/list-produk/{lat}/{long}', [\App\Http\Controllers\Api\ProdukController::class, 'list_produk']);
+    Route::get('/list-produk-by-kategori/{id}/{lat}/{long}', [\App\Http\Controllers\Api\ProdukController::class, 'list_produk_by_kategori']);
+    Route::get('/kategori', [\App\Http\Controllers\Api\KategoriController::class, 'show']);
+    Route::get('/informasi-terbaru', [\App\Http\Controllers\Api\InformasiController::class, 'show']);
 
-//KERANJANG BELANJA
-Route::get('/keranjang-belanja/{id_user}', [\App\Http\Controllers\Api\KeranjangBelanjaController::class, 'show']);
-Route::post('/tambah-keranjang-belanja', [\App\Http\Controllers\Api\KeranjangBelanjaController::class, 'store']);
-Route::post('/keranjang-belanja-delete', [\App\Http\Controllers\Api\KeranjangBelanjaController::class, 'destroy']);
-Route::get('/pesan/{id}', [\App\Http\Controllers\Api\PesananController::class, 'pesan']);
-
-
-Route::get('/pencarian/{keyword}/{lat}/{long}', [\App\Http\Controllers\Api\ProdukController::class, 'pencarian']);
-Route::get('/pencarian-by-kategori/{id_kategori}/{keyword}/{lat}/{long}', [\App\Http\Controllers\Api\ProdukController::class, 'pencarian_by_kategori']);
-Route::get('/detail-produk/{id}/{lat}/{long}', [\App\Http\Controllers\Api\ProdukController::class, 'detail']);
-Route::post('/store-transaksi-by-produk', [\App\Http\Controllers\Api\TransaksiController::class, 'store_by_produk']);
+    //KERANJANG BELANJA
+    Route::get('/keranjang-belanja/{id_user}', [\App\Http\Controllers\Api\KeranjangBelanjaController::class, 'show']);
+    Route::post('/tambah-keranjang-belanja', [\App\Http\Controllers\Api\KeranjangBelanjaController::class, 'store']);
+    Route::post('/keranjang-belanja-delete', [\App\Http\Controllers\Api\KeranjangBelanjaController::class, 'destroy']);
+    Route::get('/pesan/{id}', [\App\Http\Controllers\Api\PesananController::class, 'pesan']);
 
 
-Route::get('/transaksi/{id}', [\App\Http\Controllers\Api\TransaksiController::class, 'showTransaksi']);
-Route::get('/transaksi/status/{status}', [\App\Http\Controllers\Api\TransaksiController::class, 'showTransaksiByStatus']);
-
-Route::post('/store-transaksi/', [\App\Http\Controllers\Api\TransaksiController::class, 'store']);
-
-Route::post('/distance-cost/', [\App\Http\Controllers\Api\TransaksiController::class, 'getDistanceCost']);
-Route::post('/cancel-transaksi/', [\App\Http\Controllers\Api\TransaksiController::class, 'cancelTransaksi']);
-Route::get('/detail-transaksi/{id}', [\App\Http\Controllers\Api\TransaksiController::class, 'showDetailTransaksi']);
+    Route::get('/pencarian/{keyword}/{lat}/{long}', [\App\Http\Controllers\Api\ProdukController::class, 'pencarian']);
+    Route::get('/pencarian-by-kategori/{id_kategori}/{keyword}/{lat}/{long}', [\App\Http\Controllers\Api\ProdukController::class, 'pencarian_by_kategori']);
+    Route::get('/detail-produk/{id}/{lat}/{long}', [\App\Http\Controllers\Api\ProdukController::class, 'detail']);
+    Route::post('/store-transaksi-by-produk', [\App\Http\Controllers\Api\TransaksiController::class, 'store_by_produk']);
 
 
-Route::post('/registrasi', [\App\Http\Controllers\Api\RegistrasiController::class, 'register']);
-Route::post('/ubah-nama', [\App\Http\Controllers\Api\RegistrasiController::class, 'update_nama']);
-Route::get('/get-nama-pengguna/{id}', [\App\Http\Controllers\Api\RegistrasiController::class, 'get_nama_pengguna']);
-Route::post('/ubah-email', [\App\Http\Controllers\Api\RegistrasiController::class, 'update_email']);
-Route::get('/get-email-pengguna/{id}', [\App\Http\Controllers\Api\RegistrasiController::class, 'get_email_pengguna']);
-Route::post('/ubah-password/{id}', [\App\Http\Controllers\Api\RegistrasiController::class, 'update_password']);
-Route::get('/get-alamat-pengguna/{id}', [\App\Http\Controllers\Api\RegistrasiController::class, 'get_alamat_pengguna']);
-Route::post('/ubah-alamat', [\App\Http\Controllers\Api\RegistrasiController::class, 'update_alamat']);
+    Route::get('/transaksi/{id}', [\App\Http\Controllers\Api\TransaksiController::class, 'showTransaksi']);
+    Route::get('/transaksi/status/{status}', [\App\Http\Controllers\Api\TransaksiController::class, 'showTransaksiByStatus']);
+
+    Route::post('/store-transaksi/', [\App\Http\Controllers\Api\TransaksiController::class, 'store']);
+
+    Route::post('/distance-cost/', [\App\Http\Controllers\Api\TransaksiController::class, 'getDistanceCost']);
+    Route::post('/cancel-transaksi/', [\App\Http\Controllers\Api\TransaksiController::class, 'cancelTransaksi']);
+    Route::get('/detail-transaksi/{id}', [\App\Http\Controllers\Api\TransaksiController::class, 'showDetailTransaksi']);
 
 
-Route::get('/pesanan/{id}', [\App\Http\Controllers\Api\PesananController::class, 'show']);
+    Route::post('/ubah-nama', [\App\Http\Controllers\Api\RegistrasiController::class, 'update_nama']);
+    Route::get('/get-nama-pengguna/{id}', [\App\Http\Controllers\Api\RegistrasiController::class, 'get_nama_pengguna']);
+    Route::post('/ubah-email', [\App\Http\Controllers\Api\RegistrasiController::class, 'update_email']);
+    Route::get('/get-email-pengguna/{id}', [\App\Http\Controllers\Api\RegistrasiController::class, 'get_email_pengguna']);
+    Route::post('/ubah-password/{id}', [\App\Http\Controllers\Api\RegistrasiController::class, 'update_password']);
+    Route::get('/get-alamat-pengguna/{id}', [\App\Http\Controllers\Api\RegistrasiController::class, 'get_alamat_pengguna']);
+    Route::post('/ubah-alamat', [\App\Http\Controllers\Api\RegistrasiController::class, 'update_alamat']);
 
 
-// // merchant
-// Route::post('/login-merchant', [\App\Http\Controllers\Api\LoginMerchantController::class, 'login']);
-// Route::post('/register-merchant', [\App\Http\Controllers\Api\LoginMerchantController::class, 'register']);
-// Route::post('/logout-merchant', [\App\Http\Controllers\Api\LoginMerchantController::class, 'logout']);
-// // Route::middleware('auth:sanctum')->group(function () {
-//     Route::get('/produk-merchant/{id}', [\App\Http\Controllers\Api\ProdukMerchantController::class, 'show']);
-//     Route::get('/detail-produk-merchant/{id}', [\App\Http\Controllers\Api\ProdukMerchantController::class, 'detail']);
-//     Route::get('/kategori-merchant', [\App\Http\Controllers\Api\ProdukMerchantController::class, 'showKategori']);
-//     Route::post('/create-produk-merchant', [\App\Http\Controllers\Api\ProdukMerchantController::class, 'store']);
-//     Route::delete('/destroy-produk-merchant/{id}', [\App\Http\Controllers\Api\ProdukMerchantController::class, 'destroy']);
-//     Route::put('/update-produk-merchant/{id}', [\App\Http\Controllers\Api\ProdukMerchantController::class, 'update']);
-//     Route::get('/show-transaksi-merchant/{id}', [\App\Http\Controllers\Api\TransaksiController::class, 'showDetailTransaksiMerchant']);
-//     // Flip
-//     Route::post('/topup', [\App\Http\Controllers\Api\TopupController::class, 'store']);
-//     Route::post('/topup/notification', [\App\Http\Controllers\Api\TopupController::class, 'notification']);
-//     //lokasi
-//     Route::put('/lokasi-merchant/{id}', [\App\Http\Controllers\Api\LokasiMerchantController::class, 'update']);
-// // });
-
-
+    Route::get('/pesanan/{id}', [\App\Http\Controllers\Api\PesananController::class, 'show']);
+});
 
 // merchant
 Route::post('/login-merchant', [\App\Http\Controllers\Api\LoginMerchantController::class, 'login']);
 Route::post('/register-merchant', [\App\Http\Controllers\Api\LoginMerchantController::class, 'register']);
-Route::post('/logout-merchant', [\App\Http\Controllers\Api\LoginMerchantController::class, 'logout']);
-// Route::middleware('auth:sanctum')->group(function () {
+Route::get('/setting-url-merchant', [\App\Http\Controllers\Api\SettingController::class, 'show_url_merchant']);
+Route::post('/topup/notification', [\App\Http\Controllers\Api\TopupController::class, 'notification']);
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/logout-merchant', [\App\Http\Controllers\Api\LoginMerchantController::class, 'logout']);
     Route::get('/produk-merchant/{id}', [\App\Http\Controllers\Api\ProdukMerchantController::class, 'show']);
     Route::get('/detail-produk-merchant/{id}', [\App\Http\Controllers\Api\ProdukMerchantController::class, 'detail']);
     Route::get('/kategori-merchant', [\App\Http\Controllers\Api\ProdukMerchantController::class, 'showKategori']);
     Route::post('/create-produk-merchant', [\App\Http\Controllers\Api\ProdukMerchantController::class, 'store']);
     Route::delete('/destroy-produk-merchant/{id}', [\App\Http\Controllers\Api\ProdukMerchantController::class, 'destroy']);
     Route::put('/update-produk-merchant/{id}', [\App\Http\Controllers\Api\ProdukMerchantController::class, 'update']);
-    Route::get('/show-transaksi-merchant/{id}', [\App\Http\Controllers\Api\TransaksiController::class, 'showDetailTransaksiMerchant']);
+    // Route::get('/show-transaksi-merchant/{id}', [\App\Http\Controllers\Api\TransaksiController::class, 'showDetailTransaksiMerchant']);
     // Flip
     Route::post('/topup', [\App\Http\Controllers\Api\TopupController::class, 'store']);
-    Route::post('/topup/notification', [\App\Http\Controllers\Api\TopupController::class, 'notification']);
     Route::get('/history-topup/{id}', [\App\Http\Controllers\Api\TopupController::class, 'show_history_topup']);
+    Route::get('/history-topup-panding/{id}', [\App\Http\Controllers\Api\TopupController::class, 'showHistoryPanding']);
     //lokasi
     Route::put('/lokasi-merchant/{id}', [\App\Http\Controllers\Api\LokasiMerchantController::class, 'update']);
     //setting
@@ -113,7 +95,6 @@ Route::post('/logout-merchant', [\App\Http\Controllers\Api\LoginMerchantControll
     Route::put('/setting-merchant/{id}', [\App\Http\Controllers\Api\SettingController::class, 'updateSetting']);
     Route::put('/setting-merchant/update-password/{id}', [\App\Http\Controllers\Api\SettingController::class, 'update_password']);
     Route::put('/setting-merchant/update-token/{id}', [\App\Http\Controllers\Api\SettingController::class, 'update_token']);
-    Route::get('/setting-url-merchant', [\App\Http\Controllers\Api\SettingController::class, 'show_url_merchant']);
 
     //transaksi
     Route::get('/transaksi_merchant/{id}', [\App\Http\Controllers\Api\TransaksiController::class, 'showTransaksiMerchant']);
@@ -125,7 +106,7 @@ Route::post('/logout-merchant', [\App\Http\Controllers\Api\LoginMerchantControll
     Route::put('/update-status-transaksi/{kode}', [\App\Http\Controllers\Api\TransaksiController::class, 'updateStatusTransaksi']);
     Route::get('/billing/{kode}', [\App\Http\Controllers\Api\TransaksiController::class, 'showBillingselesai']);
     Route::get('/saldo-merchant/{id}', [\App\Http\Controllers\Api\SaldoMerchantController::class, 'show']);
-    Route::put('/notif-pesanan-diterima/{id}', [\App\Http\Controllers\Api\TransaksiController::class, 'notifPesananDiterima']);
-    Route::put('/notif-pesanan-selesai/{id}', [\App\Http\Controllers\Api\TransaksiController::class, 'notifPesananSelesai']);
-
-// });
+    Route::get('/notif-pesanan-diterima/{id}', [\App\Http\Controllers\Api\TransaksiController::class, 'notifPesananDiterima']);
+    Route::get('/notif-pesanan-dikirim/{id}', [\App\Http\Controllers\Api\TransaksiController::class, 'notifPesananDikirim']);
+    Route::get('/konfirmasi-pesanan-diterima/{id}', [\App\Http\Controllers\Api\TransaksiController::class, 'konfirmasiPesananDiterima']);
+});

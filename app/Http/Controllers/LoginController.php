@@ -55,4 +55,9 @@ class LoginController extends Controller
 
         return redirect('/');
     }
+
+    public function privacy()
+    {
+        return view('privacy.privacy');
+    }
 }
