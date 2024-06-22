@@ -58,13 +58,13 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/detail-transaksi/{id}', [\App\Http\Controllers\Api\TransaksiController::class, 'showDetailTransaksi']);
 
 
-    Route::post('/ubah-nama', [\App\Http\Controllers\Api\RegistrasiController::class, 'update_nama']);
+    Route::post('/ubah-nama/{id}', [\App\Http\Controllers\Api\RegistrasiController::class, 'update_nama']);
     Route::get('/get-nama-pengguna/{id}', [\App\Http\Controllers\Api\RegistrasiController::class, 'get_nama_pengguna']);
-    Route::post('/ubah-email', [\App\Http\Controllers\Api\RegistrasiController::class, 'update_email']);
+    Route::post('/ubah-email/{id}', [\App\Http\Controllers\Api\RegistrasiController::class, 'update_email']);
     Route::get('/get-email-pengguna/{id}', [\App\Http\Controllers\Api\RegistrasiController::class, 'get_email_pengguna']);
     Route::post('/ubah-password/{id}', [\App\Http\Controllers\Api\RegistrasiController::class, 'update_password']);
     Route::get('/get-alamat-pengguna/{id}', [\App\Http\Controllers\Api\RegistrasiController::class, 'get_alamat_pengguna']);
-    Route::post('/ubah-alamat', [\App\Http\Controllers\Api\RegistrasiController::class, 'update_alamat']);
+    Route::post('/ubah-alamat/{id}', [\App\Http\Controllers\Api\RegistrasiController::class, 'update_alamat']);
 
 
     Route::get('/pesanan/{id}', [\App\Http\Controllers\Api\PesananController::class, 'show']);
