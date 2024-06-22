@@ -81,6 +81,7 @@ class Dashboard extends Controller
             ->whereBetween('created_at', [$from, $to])
             ->first()->result;
         $biaya_admin = Transaksi::selectRaw('SUM(biaya_admin) AS result')
+            ->where('status_transaksi', 'selesai')
             ->whereBetween('tgl_transaksi', [$from, $to])
             ->first()->result;
 
