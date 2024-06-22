@@ -35,7 +35,7 @@ class RegistrasiController extends Controller
         }
     }
 
-    public function update_nama(Request $request)
+    public function update_nama(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required',
@@ -43,7 +43,7 @@ class RegistrasiController extends Controller
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()]);
         } else {
-            $user = User::find(2);
+            $user = User::find($id);
             $user->name = $request->name;
             $user->save();
             return response()->json(['success' => TRUE]);
@@ -56,7 +56,7 @@ class RegistrasiController extends Controller
         return response()->json($user);
     }
 
-    public function update_email(Request $request)
+    public function update_email(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
             'email' => 'required',
@@ -64,7 +64,7 @@ class RegistrasiController extends Controller
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()]);
         } else {
-            $user = User::find(2);
+            $user = User::find($id);
             $user->email = $request->email;
             $user->save();
             return response()->json(['success' => TRUE]);
@@ -88,7 +88,7 @@ class RegistrasiController extends Controller
             return response()->json(['errors' => $validator->errors()]);
         } else {
             $user = User::find($id);
-            if (Hash::check($request->password, $user->password)) { 
+            if (Hash::check($request->password, $user->password)) {
                 $user->fill([
                      'password' => Hash::make($request->new_password)
                  ])->save();
@@ -105,7 +105,7 @@ class RegistrasiController extends Controller
         return response()->json($user);
     }
 
-    public function update_alamat(Request $request)
+    public function update_alamat(Request $request,$id)
     {
         $validator = Validator::make($request->all(), [
             'alamat' => 'required',
@@ -113,7 +113,7 @@ class RegistrasiController extends Controller
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()]);
         } else {
-            $user = User::find(2);
+            $user = User::find($id);
             $user->alamat = $request->alamat;
             $user->save();
             return response()->json(['success' => TRUE]);

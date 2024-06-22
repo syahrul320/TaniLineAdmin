@@ -107,7 +107,9 @@ class TransaksiController extends Controller
     }
 
 
-    public function getDistanceCost(Request $request)
+    public function getDistanceCost(Request $request){
+        $id_user = $request->id_user;
+        $latitud    public function getDistanceCost(Request $request)
     {
         $id_user = $request->id_user;
         $latitude = $request->latitude;
@@ -401,5 +403,3 @@ class TransaksiController extends Controller
         } else {
             return response()->json(['message' => 'Tidak Ada Pesanan Selesai']);
         }
-    }
-}
