@@ -119,7 +119,7 @@ class TransaksiController extends Controller
         $longitude = $request->longitude;
         $biaya = DB::table('settings')->where('id', '=', 1)->first();
         $keranjang_by_penjual = DB::table('keranjang_belanjas')
-            ->selectRaw('id_user_merchant, SUM(total_harga) as  total_harga, stok, jumlah, ROUND(( 6367 * acos( cos( radians( ? ) ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians( ? ) ) + sin( radians( ? ) ) * sin( radians( latitude ) ) ) )) AS distance', [$latitude, $longitude, $latitude])
+            ->selectRaw('keranjang_belanjas.id_user_merchant, SUM(total_harga) as  total_harga, stok, jumlah, ROUND(( 6367 * acos( cos( radians( ? ) ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians( ? ) ) + sin( radians( ? ) ) * sin( radians( latitude ) ) ) )) AS distance', [$latitude, $longitude, $latitude])
             ->join('users', 'keranjang_belanjas.id_user_merchant', '=', 'users.id')
             ->join('produks', 'keranjang_belanjas.id_produk', '=', 'produks.id')
             ->where('keranjang_belanjas.id_user', '=', $id_user)
