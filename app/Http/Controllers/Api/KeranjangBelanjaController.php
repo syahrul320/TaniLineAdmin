@@ -45,6 +45,7 @@ class KeranjangBelanjaController extends Controller
 
     public function store(Request $request)
     {
+
         $keranjang_cek = KeranjangBelanja::where('id_produk', $request->id_produk)->where('id_user', $request->id_user)->first();
         if($keranjang_cek){
             $keranjang_cek->jumlah = $keranjang_cek->jumlah + $request->jumlah;
