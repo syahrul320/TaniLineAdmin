@@ -28,10 +28,10 @@ Route::post('/logout', [\App\Http\Controllers\Api\LoginUserController::class, 'l
 
 // });
 
-Route::get('/keranjang-belanja/{id_user}', [\App\Http\Controllers\Api\KeranjangBelanjaController::class, 'show']);
 
 Route::middleware('auth:sanctum')->group(function () {
 
+    Route::get('/keranjang-belanja/{id_user}', [\App\Http\Controllers\Api\KeranjangBelanjaController::class, 'show']);
     Route::get('/produk-terlaris/{lat}/{long}', [\App\Http\Controllers\Api\ProdukController::class, 'produk_terlaris']);
     Route::get('/transaksi/status/{status}/{id}', [\App\Http\Controllers\Api\TransaksiController::class, 'showTransaksiByStatus']);
     Route::get('/list-produk/{lat}/{long}', [\App\Http\Controllers\Api\ProdukController::class, 'list_produk']);

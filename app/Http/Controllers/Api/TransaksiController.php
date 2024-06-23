@@ -221,7 +221,7 @@ class TransaksiController extends Controller
                 ->where('keranjang_belanjas.id_user_merchant', '=', $insert_transaksi->id_user_merchant)
                 ->join('produks', 'keranjang_belanjas.id_produk', '=', 'produks.id')
                 ->where('produks.stok', '>=', 'keranjang_belanjas.jumlah')
-                ->select(['keranjang_belanjas.*', 'keranjang_belanjas.jumlah', 'produks.harga', 'produks.nama_produk', 'produks.stok', 'produks.stok'])
+                ->select(['keranjang_belanjas.*', 'keranjang_belanjas.jumlah', 'produks.harga', 'produks.nama_produk', 'produks.stok'])
                 ->get();
 
             foreach ($keranjang as $key => $keranjang) {
