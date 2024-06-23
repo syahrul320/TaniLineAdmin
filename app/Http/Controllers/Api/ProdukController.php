@@ -87,7 +87,7 @@ class ProdukController extends Controller
             ->join('kategoris', 'produks.id_kategori', '=', 'kategoris.id')
             ->leftjoin('detail_transaksis', 'produks.id', '=', 'detail_transaksis.id_produk')
             ->orderBy('total_penjualan', 'desc')
-            ->groupBy('produks.id')
+            ->groupBy('produks.id, kategoris.nama_kategori, users.name, distance, produks.nama_produk, produks.harga, produks.image, produks.deskripsi, produks.id_kategori, produks.id_user_merchant, produks.created_at, produks.updated_at, produks.deleted_at, produks.latitude, produks.longitude, produks.stok')
             ->having('distance', '<', 10)
             ->limit(6)
             ->get();
