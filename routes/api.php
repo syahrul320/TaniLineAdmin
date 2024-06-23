@@ -27,9 +27,12 @@ Route::post('/logout', [\App\Http\Controllers\Api\LoginUserController::class, 'l
 // Route::get('/transaksi/{id}', [\App\Http\Controllers\Api\TransaksiController::class, 'showTransaksi']);
 
 // });
-Route::get('/produk-terlaris/{lat}/{long}', [\App\Http\Controllers\Api\ProdukController::class, 'produk_terlaris']);
+
+Route::get('/keranjang-belanja/{id_user}', [\App\Http\Controllers\Api\KeranjangBelanjaController::class, 'show']);
 
 Route::middleware('auth:sanctum')->group(function () {
+
+    Route::get('/produk-terlaris/{lat}/{long}', [\App\Http\Controllers\Api\ProdukController::class, 'produk_terlaris']);
     Route::get('/transaksi/status/{status}/{id}', [\App\Http\Controllers\Api\TransaksiController::class, 'showTransaksiByStatus']);
     Route::get('/list-produk/{lat}/{long}', [\App\Http\Controllers\Api\ProdukController::class, 'list_produk']);
     Route::get('/list-produk-by-kategori/{id}/{lat}/{long}', [\App\Http\Controllers\Api\ProdukController::class, 'list_produk_by_kategori']);
@@ -37,7 +40,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/informasi-terbaru', [\App\Http\Controllers\Api\InformasiController::class, 'show']);
 
     //KERANJANG BELANJA
-    Route::get('/keranjang-belanja/{id_user}', [\App\Http\Controllers\Api\KeranjangBelanjaController::class, 'show']);
     Route::post('/tambah-keranjang-belanja', [\App\Http\Controllers\Api\KeranjangBelanjaController::class, 'store']);
     Route::post('/keranjang-belanja-delete', [\App\Http\Controllers\Api\KeranjangBelanjaController::class, 'destroy']);
     Route::get('/pesan/{id}', [\App\Http\Controllers\Api\PesananController::class, 'pesan']);
