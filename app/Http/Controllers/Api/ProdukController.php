@@ -82,12 +82,12 @@ class ProdukController extends Controller
     public function produk_terlaris($latitude, $longitude)
     {
         $produk = DB::table('produks')
-            ->selectRaw('produks.id, produks.nama_produk,produks.harga, kategoris.nama_kategori, users.name as nama_merchant, COUNT(produks.id) as total_penjualan, ROUND(( 6367 * acos( cos( radians( ? ) ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians( ? ) ) + sin( radians( ? ) ) * sin( radians( latitude ) ) ) )) AS distance', [$latitude, $longitude, $latitude])
+            ->selectRaw('produks.id, produks.nama_produk, produks.image, produks.harga, kategoris.nama_kategori, COUNT(produks.id) as total_penjualan, ROUND(( 6367 * acos( cos( radians( ? ) ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians( ? ) ) + sin( radians( ? ) ) * sin( radians( latitude ) ) ) )) AS distance', [$latitude, $longitude, $latitude])
             ->join('users', 'produks.id_user_merchant', '=', 'users.id')
             ->join('kategoris', 'produks.id_kategori', '=', 'kategoris.id')
             ->leftjoin('detail_transaksis', 'produks.id', '=', 'detail_transaksis.id_produk')
             ->orderBy('total_penjualan', 'desc')
-            ->groupBy(array('produks.id','produks.nama_produk','produks.harga', 'kategoris.nama_kategori', 'users.name', 'latitude', 'longitude'))
+            ->groupBy(array('produks.id','produks.nama_produk','produks.harga', 'kategoris.nama_kategori', 'produks.image', 'latitude', 'longitude'))
             ->having('distance', '<', 10)
             ->limit(6)
             ->get();
