@@ -122,7 +122,7 @@ class TransaksiController extends Controller
             ->selectRaw('id_user_merchant, SUM(total_harga) as  total_harga,  ROUND(( 6367 * acos( cos( radians( ? ) ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians( ? ) ) + sin( radians( ? ) ) * sin( radians( latitude ) ) ) )) AS distance', [$latitude, $longitude, $latitude])
             ->join('users', 'keranjang_belanjas.id_user_merchant', '=', 'users.id')
             ->where('keranjang_belanjas.id_user', '=', $id_user)
-            ->groupBy('keranjang_belanjas.id_user_merchant')
+            ->groupBy(array('keranjang_belanjas.id_user_merchant','total_harga', 'latitude', 'longitude'))
             ->get();
 
         $total_barang = 0;
@@ -197,7 +197,7 @@ class TransaksiController extends Controller
             ->join('users', 'keranjang_belanjas.id_user_merchant', '=', 'users.id')
             ->selectRaw('id_user_merchant, SUM(total_harga) as  total_harga,  ROUND(( 6367 * acos( cos( radians( ? ) ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians( ? ) ) + sin( radians( ? ) ) * sin( radians( latitude ) ) ) )) AS distance', [$latitude, $longitude, $latitude])
             ->where('keranjang_belanjas.id_user', '=', $request->id_user)
-            ->groupBy('keranjang_belanjas.id_user_merchant')
+            ->groupBy(array('keranjang_belanjas.id_user_merchant','total_harga', 'latitude', 'longitude'))
             ->get();
 
         foreach ($keranjang_by_penjual as $key => $value) {
