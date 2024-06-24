@@ -27,9 +27,12 @@ Route::post('/logout', [\App\Http\Controllers\Api\LoginUserController::class, 'l
 // Route::get('/transaksi/{id}', [\App\Http\Controllers\Api\TransaksiController::class, 'showTransaksi']);
 
 // });
+
+
 Route::middleware('auth:sanctum')->group(function () {
-    Route::get('/transaksi/status/{status}/{id}', [\App\Http\Controllers\Api\TransaksiController::class, 'showTransaksiByStatus']);
+
     Route::get('/produk-terlaris/{lat}/{long}', [\App\Http\Controllers\Api\ProdukController::class, 'produk_terlaris']);
+    Route::get('/transaksi/status/{status}/{id}', [\App\Http\Controllers\Api\TransaksiController::class, 'showTransaksiByStatus']);
     Route::get('/list-produk/{lat}/{long}', [\App\Http\Controllers\Api\ProdukController::class, 'list_produk']);
     Route::get('/list-produk-by-kategori/{id}/{lat}/{long}', [\App\Http\Controllers\Api\ProdukController::class, 'list_produk_by_kategori']);
     Route::get('/kategori', [\App\Http\Controllers\Api\KategoriController::class, 'show']);

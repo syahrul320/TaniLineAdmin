@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Models\DetailTransaksi;
+use App\Models\KeranjangBelanja;
 use App\Models\Produk;
 use App\Models\Setting;
 use App\Models\Transaksi;
@@ -117,21 +118,26 @@ class TransaksiController extends Controller
         $id_user = $request->id_user;
         $latitude = $request->latitude;
         $longitude = $request->longitude;
-        $biaya = DB::table('settings')->where('id', '=', 1)->first();
-        $keranjang_by_penjual = DB::table('keranjang_belanjas')
-            ->selectRaw('id_user_merchant, SUM(total_harga) as  total_harga,  ROUND(( 6367 * acos( cos( radians( ? ) ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians( ? ) ) + sin( radians( ? ) ) * sin( radians( latitude ) ) ) )) AS distance', [$latitude, $longitude, $latitude])
+        $biaya = Setting::find(1);    
+        $keranjang_by_penjual = KeranjangBelanja::where('keranjang_belanjas.id_user', '=', $id_user)
             ->join('users', 'keranjang_belanjas.id_user_merchant', '=', 'users.id')
-            ->where('keranjang_belanjas.id_user', '=', $id_user)
-            ->groupBy('keranjang_belanjas.id_user_merchant')
+            ->join('produks', 'keranjang_belanjas.id_produk', '=', 'produks.id')
+            ->selectRaw('keranjang_belanjas.id_user_merchant, SUM(total_harga) as  total_harga, stok, jumlah, ROUND(( 6367 * acos( cos( radians( ? ) ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians( ? ) ) + sin( radians( ? ) ) * sin( radians( latitude ) ) ) )) AS distance', [$latitude, $longitude, $latitude])
+            ->groupBy(array('keranjang_belanjas.id_user_merchant','total_harga', 'latitude', 'longitude', 'stok', 'jumlah'))
             ->get();
 
         $total_barang = 0;
         $distance = 0;
         foreach ($keranjang_by_penjual as $key => $value) {
-            $distance += $value->distance - 1;
-            $total_barang += $value->total_harga;
+            if($value->stok < $value->jumlah){
+                $distance = 0;
+                $total_barang = 0;
+                break;
+            }else{
+                $distance += $value->distance - 1;
+                $total_barang += $value->total_harga;
+            }
         }
-
         echo json_encode(array('distance' => $distance, 'ongkir' => $distance * $biaya->ongkir, 'total_barang' => $total_barang, 'total' => $total_barang + ($distance * $biaya->ongkir)));
     }
 
@@ -181,10 +187,6 @@ class TransaksiController extends Controller
         $detail_transaksi->keterangan = $request->keterangan;
         $detail_transaksi->save();
 
-        $produk = Produk::find($request->id_produk);
-        $produk->stok -= $request->qty;
-        $produk->save();
-
         return response()->json(['success' => TRUE]);
     }
 
@@ -195,9 +197,11 @@ class TransaksiController extends Controller
         $longitude = $request->longitude;
         $keranjang_by_penjual = DB::table('keranjang_belanjas')
             ->join('users', 'keranjang_belanjas.id_user_merchant', '=', 'users.id')
-            ->selectRaw('id_user_merchant, SUM(total_harga) as  total_harga,  ROUND(( 6367 * acos( cos( radians( ? ) ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians( ? ) ) + sin( radians( ? ) ) * sin( radians( latitude ) ) ) )) AS distance', [$latitude, $longitude, $latitude])
+            ->selectRaw('id_user_merchant, SUM(total_harga) as  total_harga, stok, jumlah, ROUND(( 6367 * acos( cos( radians( ? ) ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians( ? ) ) + sin( radians( ? ) ) * sin( radians( latitude ) ) ) )) AS distance', [$latitude, $longitude, $latitude])
             ->where('keranjang_belanjas.id_user', '=', $request->id_user)
-            ->groupBy('keranjang_belanjas.id_user_merchant')
+            ->where('keranjang_belanjas.jumlah', '<=', 'produks.stok')
+            ->join('produks', 'keranjang_belanjas.id_produk', '=', 'produks.id')
+            ->groupBy(array('keranjang_belanjas.id_user_merchant','total_harga', 'latitude', 'longitude', 'stok', 'jumlah'))
             ->get();
 
         foreach ($keranjang_by_penjual as $key => $value) {
@@ -220,7 +224,8 @@ class TransaksiController extends Controller
                 ->where('keranjang_belanjas.id_user', '=', $request->id_user)
                 ->where('keranjang_belanjas.id_user_merchant', '=', $insert_transaksi->id_user_merchant)
                 ->join('produks', 'keranjang_belanjas.id_produk', '=', 'produks.id')
-                ->select(['keranjang_belanjas.*', 'keranjang_belanjas.jumlah', 'produks.harga', 'produks.nama_produk'])
+                ->where('produks.stok', '>=', 'keranjang_belanjas.jumlah')
+                ->select(['keranjang_belanjas.*', 'keranjang_belanjas.jumlah', 'produks.harga', 'produks.nama_produk', 'produks.stok'])
                 ->get();
 
             foreach ($keranjang as $key => $keranjang) {
@@ -231,13 +236,7 @@ class TransaksiController extends Controller
                 $insert_transaksi_detail->qty = $keranjang->jumlah;
                 $insert_transaksi_detail->harga_jual = $keranjang->harga;
                 $insert_transaksi_detail->keterangan = $keranjang->keterangan;
-
                 $insert_transaksi_detail->save();
-
-                $produk = Produk::find($keranjang->id_produk);
-                $produk->stok -=  $keranjang->jumlah;
-                $produk->save();
-
                 DB::table('keranjang_belanjas')->where('id', '=', $keranjang->id)->delete();
             }
         }
