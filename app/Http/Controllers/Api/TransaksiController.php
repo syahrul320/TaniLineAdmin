@@ -139,7 +139,7 @@ class TransaksiController extends Controller
             ->join('users', 'keranjang_belanjas.id_user_merchant', '=', 'users.id')
             ->where('keranjang_belanjas.id_user', '=', $id_user)
             ->whereIn('keranjang_belanjas.id_user_merchant', $id_uniq)
-            ->groupBy(array('keranjang_belanjas.id_user_merchant'))
+            ->groupBy(array('keranjang_belanjas.id_user_merchant', 'latitude', 'longitude'))
             ->having('distance', '<', 10)
             ->get();
 
@@ -241,7 +241,7 @@ class TransaksiController extends Controller
             ->join('users', 'keranjang_belanjas.id_user_merchant', '=', 'users.id')
             ->where('keranjang_belanjas.id_user', '=', $request->id_user)
             ->whereIn('keranjang_belanjas.id_user_merchant', $id_uniq)
-            ->groupBy(array('keranjang_belanjas.id_user_merchant'))
+            ->groupBy(array('keranjang_belanjas.id_user_merchant', 'latitude', 'longitude'))
             ->having('distance', '<', 10)
             ->get();
 
