@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Models\DetailTransaksi;
+use App\Models\KeranjangBelanja;
 use App\Models\Produk;
 use App\Models\Setting;
 use App\Models\Transaksi;
@@ -118,22 +119,41 @@ class TransaksiController extends Controller
         $latitude = $request->latitude;
         $longitude = $request->longitude;
         $biaya = DB::table('settings')->where('id', '=', 1)->first();
+        $penjual = KeranjangBelanja::select(['keranjang_belanjas.id_user_merchant','id_produk','jumlah'])
+        ->join('users', 'keranjang_belanjas.id_user_merchant', '=', 'users.id')->get();
+        $id_merchant = array();
+        foreach ($penjual as $key => $value) {
+            $produk = Produk::where('id', $value->id_produk)->first();
+            if ($value->jumlah <= $produk->stok) {
+                array_push($id_merchant,$value->id_user_merchant);
+            }else{
+                array_push($id_merchant, 0);
+            }
+        }
+
+        $id_uniq = array_unique($id_merchant);
+
         $keranjang_by_penjual = DB::table('keranjang_belanjas')
-            ->selectRaw('keranjang_belanjas.id_user_merchant, SUM(total_harga) as  total_harga, stok, jumlah, ROUND(( 6367 * acos( cos( radians( ? ) ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians( ? ) ) + sin( radians( ? ) ) * sin( radians( latitude ) ) ) )) AS distance', [$latitude, $longitude, $latitude])
-            ->join('users', 'keranjang_belanjas.id_user_merchant', '=', 'users.id')
+            ->selectRaw('keranjang_belanjas.id_user_merchant, SUM(total_harga) as  total_harga, ROUND(( 6367 * acos( cos( radians( ? ) ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians( ? ) ) + sin( radians( ? ) ) * sin( radians( latitude ) ) ) )) AS distance', [$latitude, $longitude, $latitude])
             ->join('produks', 'keranjang_belanjas.id_produk', '=', 'produks.id')
+            ->join('users', 'keranjang_belanjas.id_user_merchant', '=', 'users.id')
             ->where('keranjang_belanjas.id_user', '=', $id_user)
-            ->where('keranjang_belanjas.jumlah', '<=', 'produks.stok')
-            ->groupBy(array('keranjang_belanjas.id_user_merchant','total_harga', 'latitude', 'longitude', 'stok', 'jumlah'))
+            ->whereIn('keranjang_belanjas.id_user_merchant', $id_uniq)
+            ->groupBy(array('keranjang_belanjas.id_user_merchant'))
+            ->having('distance', '<', 10)
             ->get();
 
         $total_barang = 0;
         $distance = 0;
         foreach ($keranjang_by_penjual as $key => $value) {
-            $distance += $value->distance - 1;
+            if ($value->distance < 2) {
+                $distance += 0;
+            }else{
+                $distance += $value->distance - 1;
+            }
+
             $total_barang += $value->total_harga;
         }
-
         echo json_encode(array('distance' => $distance, 'ongkir' => $distance * $biaya->ongkir, 'total_barang' => $total_barang, 'total' => $total_barang + ($distance * $biaya->ongkir)));
     }
 
@@ -191,13 +211,37 @@ class TransaksiController extends Controller
         $biaya = DB::table('settings')->where('id', '=', 1)->first();
         $latitude = $request->latitude;
         $longitude = $request->longitude;
+        // $keranjang_by_penjual = DB::table('keranjang_belanjas')
+        //     ->join('users', 'keranjang_belanjas.id_user_merchant', '=', 'users.id')
+        //     ->selectRaw('id_user_merchant, SUM(total_harga) as  total_harga, stok, jumlah, ROUND(( 6367 * acos( cos( radians( ? ) ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians( ? ) ) + sin( radians( ? ) ) * sin( radians( latitude ) ) ) )) AS distance', [$latitude, $longitude, $latitude])
+        //     ->where('keranjang_belanjas.id_user', '=', $request->id_user)
+        //     ->where('keranjang_belanjas.jumlah', '<=', 'produks.stok')
+        //     ->join('produks', 'keranjang_belanjas.id_produk', '=', 'produks.id')
+        //     ->groupBy(array('keranjang_belanjas.id_user_merchant','total_harga', 'latitude', 'longitude', 'stok', 'jumlah'))
+        //     ->get();
+
+        $penjual = KeranjangBelanja::select(['keranjang_belanjas.id_user_merchant','id_produk','jumlah'])
+                    ->join('users', 'keranjang_belanjas.id_user_merchant', '=', 'users.id')->get();
+                    $id_merchant = array();
+                    foreach ($penjual as $key => $value) {
+                        $produk = Produk::where('id', $value->id_produk)->first();
+                        if ($value->jumlah <= $produk->stok) {
+                            array_push($id_merchant,$value->id_user_merchant);
+                        }else{
+                            array_push($id_merchant, 0);
+                        }
+                    }
+
+        $id_uniq = array_unique($id_merchant);
+
         $keranjang_by_penjual = DB::table('keranjang_belanjas')
-            ->join('users', 'keranjang_belanjas.id_user_merchant', '=', 'users.id')
-            ->selectRaw('id_user_merchant, SUM(total_harga) as  total_harga, stok, jumlah, ROUND(( 6367 * acos( cos( radians( ? ) ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians( ? ) ) + sin( radians( ? ) ) * sin( radians( latitude ) ) ) )) AS distance', [$latitude, $longitude, $latitude])
-            ->where('keranjang_belanjas.id_user', '=', $request->id_user)
-            ->where('keranjang_belanjas.jumlah', '<=', 'produks.stok')
+            ->selectRaw('keranjang_belanjas.id_user_merchant, SUM(total_harga) as  total_harga, ROUND(( 6367 * acos( cos( radians( ? ) ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians( ? ) ) + sin( radians( ? ) ) * sin( radians( latitude ) ) ) )) AS distance', [$latitude, $longitude, $latitude])
             ->join('produks', 'keranjang_belanjas.id_produk', '=', 'produks.id')
-            ->groupBy(array('keranjang_belanjas.id_user_merchant','total_harga', 'latitude', 'longitude', 'stok', 'jumlah'))
+            ->join('users', 'keranjang_belanjas.id_user_merchant', '=', 'users.id')
+            ->where('keranjang_belanjas.id_user', '=', $request->id_user)
+            ->whereIn('keranjang_belanjas.id_user_merchant', $id_uniq)
+            ->groupBy(array('keranjang_belanjas.id_user_merchant'))
+            ->having('distance', '<', 10)
             ->get();
 
         foreach ($keranjang_by_penjual as $key => $value) {
