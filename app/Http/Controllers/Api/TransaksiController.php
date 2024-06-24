@@ -120,16 +120,16 @@ class TransaksiController extends Controller
         $longitude = $request->longitude;
         $biaya = DB::table('settings')->where('id', '=', 1)->first();
         $penjual = KeranjangBelanja::select(['keranjang_belanjas.id_user_merchant','id_produk','jumlah'])
-        ->join('users', 'keranjang_belanjas.id_user_merchant', '=', 'users.id')->get();
-        $id_merchant = array();
-        foreach ($penjual as $key => $value) {
-            $produk = Produk::where('id', $value->id_produk)->first();
-            if ($value->jumlah <= $produk->stok) {
-                array_push($id_merchant,$value->id_user_merchant);
-            }else{
-                array_push($id_merchant, 0);
-            }
-        }
+                    ->join('users', 'keranjang_belanjas.id_user_merchant', '=', 'users.id')->get();
+                    $id_merchant = array();
+                    foreach ($penjual as $key => $value) {
+                        $produk = Produk::where('id', $value->id_produk)->first();
+                        if ($value->jumlah <= $produk->stok) {
+                            array_push($id_merchant,$value->id_user_merchant);
+                        }else{
+                            array_push($id_merchant, 0);
+                        }
+                    }
 
         $id_uniq = array_unique($id_merchant);
 
@@ -246,7 +246,12 @@ class TransaksiController extends Controller
             ->get();
 
         foreach ($keranjang_by_penjual as $key => $value) {
-            $jarak_harus_bayar = $value->distance - 1;
+            if ($value->distance < 2) {
+                $jarak_harus_bayar = 0;
+            }else{
+                $jarak_harus_bayar = $value->distance - 1;
+            }
+
             $insert_transaksi = new Transaksi();
             $insert_transaksi->kode_transaksi = 'TRX' . date('is') . "" . date('Ymd') . "" . rand(1000, 9999);
             $insert_transaksi->id_user_pembeli = $request->id_user;
