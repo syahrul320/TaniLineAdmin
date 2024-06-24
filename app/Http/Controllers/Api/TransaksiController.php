@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Models\DetailTransaksi;
+use App\Models\KeranjangBelanja;
 use App\Models\Produk;
 use App\Models\Setting;
 use App\Models\Transaksi;
@@ -117,23 +118,26 @@ class TransaksiController extends Controller
         $id_user = $request->id_user;
         $latitude = $request->latitude;
         $longitude = $request->longitude;
-        $biaya = DB::table('settings')->where('id', '=', 1)->first();
-        $keranjang_by_penjual = DB::table('keranjang_belanjas')
-            ->selectRaw('keranjang_belanjas.id_user_merchant, SUM(total_harga) as  total_harga, stok, jumlah, ROUND(( 6367 * acos( cos( radians( ? ) ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians( ? ) ) + sin( radians( ? ) ) * sin( radians( latitude ) ) ) )) AS distance', [$latitude, $longitude, $latitude])
+        $biaya = Setting::find(1);    
+        $keranjang_by_penjual = KeranjangBelanja::where('keranjang_belanjas.id_user', '=', $id_user)
             ->join('users', 'keranjang_belanjas.id_user_merchant', '=', 'users.id')
             ->join('produks', 'keranjang_belanjas.id_produk', '=', 'produks.id')
-            ->where('keranjang_belanjas.id_user', '=', $id_user)
-            ->where('keranjang_belanjas.jumlah', '<=', 'produks.stok')
+            ->selectRaw('keranjang_belanjas.id_user_merchant, SUM(total_harga) as  total_harga, stok, jumlah, ROUND(( 6367 * acos( cos( radians( ? ) ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians( ? ) ) + sin( radians( ? ) ) * sin( radians( latitude ) ) ) )) AS distance', [$latitude, $longitude, $latitude])
             ->groupBy(array('keranjang_belanjas.id_user_merchant','total_harga', 'latitude', 'longitude', 'stok', 'jumlah'))
             ->get();
 
         $total_barang = 0;
         $distance = 0;
         foreach ($keranjang_by_penjual as $key => $value) {
-            $distance += $value->distance - 1;
-            $total_barang += $value->total_harga;
+            if($value->stok < $value->jumlah){
+                $distance = 0;
+                $total_barang = 0;
+                break;
+            }else{
+                $distance += $value->distance - 1;
+                $total_barang += $value->total_harga;
+            }
         }
-
         echo json_encode(array('distance' => $distance, 'ongkir' => $distance * $biaya->ongkir, 'total_barang' => $total_barang, 'total' => $total_barang + ($distance * $biaya->ongkir)));
     }
 
