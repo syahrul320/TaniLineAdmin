@@ -141,6 +141,7 @@ class TransaksiController extends Controller
             ->whereIn('keranjang_belanjas.id_user_merchant', $id_uniq)
             ->groupBy(array('keranjang_belanjas.id_user_merchant'))
             ->having('distance', '<', 10)
+            ->get();
 
         $total_barang = 0;
         $distance = 0;
