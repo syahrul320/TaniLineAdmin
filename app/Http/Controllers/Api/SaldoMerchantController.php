@@ -13,6 +13,6 @@ class SaldoMerchantController extends Controller
             ->where('users.id', '=', $id)
             ->select('users.saldo')
             ->first();
-        return response()->json($saldo);
+        return response()->json(number_format($saldo->saldo, 0, ',', '.'));
     }
 }

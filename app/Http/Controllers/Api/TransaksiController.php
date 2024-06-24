@@ -141,7 +141,6 @@ class TransaksiController extends Controller
             ->whereIn('keranjang_belanjas.id_user_merchant', $id_uniq)
             ->groupBy(array('keranjang_belanjas.id_user_merchant'))
             ->having('distance', '<', 10)
-            ->get();
 
         $total_barang = 0;
         $distance = 0;
@@ -153,6 +152,7 @@ class TransaksiController extends Controller
             }
 
             $total_barang += $value->total_harga;
+
         }
         echo json_encode(array('distance' => $distance, 'ongkir' => $distance * $biaya->ongkir, 'total_barang' => $total_barang, 'total' => $total_barang + ($distance * $biaya->ongkir)));
     }
@@ -418,29 +418,34 @@ class TransaksiController extends Controller
 
     public function konfirmasiPesananDiterima($id)
     {
-        try{
+        try {
             $transaksi = Transaksi::where('id', $id)
-            ->where('status_transaksi', 'diterima')
-            ->first();
+                ->where('status_transaksi', 'diterima')
+                ->first();
             $user = User::find($transaksi->id_user_merchant);
             $setting = Setting::find(1);
-            if(!empty($transaksi)){
-               if($user->saldo < $setting->biaya_admin){
-                   return response()->json(['status' => False, 'message' => 'Saldo anda tidak mencukupi']);
-               }else{
-                   $user->saldo -= $setting->biaya_admin;
-                   $user->save();
-                   $transaksi->status_transaksi = 'diproses';
-                   $transaksi->save();
-                   return response()->json(['status' => True, 'message' => 'Pesanan berhasil dikonfirmasi']);
-               }
-           }else{
-               return response()->json(['status' => False]);
-           }
-        }catch(\Throwable $th){
+            $detailproduk = DetailTransaksi::where('id_transaksi', $id)->get();
+            if (!empty($transaksi)) {
+                if ($user->saldo < $setting->biaya_admin) {
+                    return response()->json(['status' => False, 'message' => 'Saldo anda tidak mencukupi']);
+                } else {
+                    foreach ($detailproduk as $key => $value) {
+                        $produk = Produk::find($value->id_produk);
+                        $produk->stok -= $value->qty;
+                        $produk->save();
+                    }
+                    $user->saldo -= $setting->biaya_admin;
+                    $user->save();
+                    $transaksi->status_transaksi = 'diproses';
+                    $transaksi->save();
+                    return response()->json(['status' => True, 'message' => 'Pesanan berhasil dikonfirmasi']);
+                }
+            } else {
+                return response()->json(['status' => False]);
+            }
+        } catch (\Throwable $th) {
             return response()->json(['status' => False, 'message' => $th->getMessage()]);
         }
-
     }
 
     public function notifPesananDikirim($id)
@@ -449,11 +454,11 @@ class TransaksiController extends Controller
             ->where('notif_pesanan_dikirim', 'no')
             ->where('status_transaksi', 'diproses')
             ->first();
-        if(!empty($transaksi)){
+        if (!empty($transaksi)) {
             $transaksi->notif_pesanan_dikirim = 'yes';
             $transaksi->save();
             return response()->json(['status' => True]);
-        }else{
+        } else {
             return response()->json(['status' => False]);
         }
     }
