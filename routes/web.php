@@ -35,6 +35,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [LoginController::class, 'index'])->name('login')->middleware('guest');
 Route::post('/auth', [LoginController::class, 'authenticate'])->name('auth')->middleware('guest');
 Route::get('/privacy-policy', [LoginController::class, 'privacy'])->name('privacy-policy')->middleware('guest');
+Route::get('/privacy-policy-merchant', [LoginController::class, 'privacyMerchant'])->name('privacy-policy-merchant')->middleware('guest');
 
 // admin
 Route::get('/dashboard', [Dashboard::class, 'index'])->name('dashboard')->middleware(['cekrole:admin']);
