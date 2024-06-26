@@ -121,6 +121,10 @@ class ProdukController extends Controller
             ->having('distance', '<', 10)
             ->join('kategoris', 'produks.id_kategori', '=', 'kategoris.id')
             ->first();
+            if($produk->distance < 2){
+                $produk->distance = 1;
+            }
+            
             $produk->ongkir = $setting->ongkir;
         }
         return response()->json($produk);
