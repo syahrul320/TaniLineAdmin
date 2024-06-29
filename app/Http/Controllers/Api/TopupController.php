@@ -54,6 +54,7 @@ class TopupController extends Controller
             $topup->status = 'pending';
             $topup->external_id = $dataResponse->link_id;
             $topup->url = $dataResponse->link_url;
+            $topup->tanggal_topup = date('Y-m-d');
             $topup->save();
 
             return response()->json(['data'=>$dataResponse->link_url]);
@@ -102,7 +103,7 @@ class TopupController extends Controller
         $topup = Topup::where('id_user_merchant', $id)
             ->where('status', 'successful')
             ->orderBy('created_at', 'desc')
-            ->select('title', 'amount', 'status', 'created_at')
+            ->select('title', 'amount', 'status', 'tanggal_topup as created_at')
             ->paginate(10);
         return response()->json($topup);
     }
@@ -112,7 +113,7 @@ class TopupController extends Controller
         $topup = Topup::where('id_user_merchant', $id)
             ->where('status', 'pending')
             ->orderBy('created_at', 'desc')
-            ->select('title', 'amount', 'status', 'created_at', 'url')
+            ->select('title', 'amount', 'status', 'tanggal_topup as created_at', 'url')
             ->paginate(10);
         return response()->json($topup);
     }
