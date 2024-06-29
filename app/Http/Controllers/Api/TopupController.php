@@ -102,7 +102,7 @@ class TopupController extends Controller
     {
         $topup = Topup::where('id_user_merchant', $id)
             ->where('status', 'successful')
-            ->orderBy('created_at', 'desc')
+            ->orderBy('tanggal_topup', 'desc')
             ->select('title', 'amount', 'status', 'tanggal_topup as created_at')
             ->paginate(10);
         return response()->json($topup);
@@ -112,7 +112,7 @@ class TopupController extends Controller
     {
         $topup = Topup::where('id_user_merchant', $id)
             ->where('status', 'pending')
-            ->orderBy('created_at', 'desc')
+            ->orderBy('tanggal_topup', 'desc')
             ->select('title', 'amount', 'status', 'tanggal_topup as created_at', 'url')
             ->paginate(10);
         return response()->json($topup);
