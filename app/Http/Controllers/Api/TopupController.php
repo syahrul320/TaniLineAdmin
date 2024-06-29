@@ -77,13 +77,14 @@ class TopupController extends Controller
                 $topup->save();
                 if ($topup->status == 'successful') {
                     $merchant = User::find($topup->id_user_merchant);
+                    $topupbaru = $topup->amount - 2000;
                     $merchant->update([
-                        'saldo' => $merchant->saldo + $topup->amount
+                        'saldo' => $merchant->saldo + $topupbaru
                     ]);
 
                     $mutasi = MutasiMerchant::create([
                         'id_user_merchant' => $topup->id_user_merchant,
-                        'debet' => $topup->amount,
+                        'debet' => $topupbaru,
                         'kredit' => 0,
                         'keterangan' => "TOPUP " . $data->status
                     ]);
