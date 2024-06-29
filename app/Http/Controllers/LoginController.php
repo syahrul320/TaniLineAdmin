@@ -60,4 +60,9 @@ class LoginController extends Controller
     {
         return view('privacy.privacy');
     }
+
+    public function privacyMerchant()
+    {
+        return view('privacy.privacy_merchant');
+    }
 }

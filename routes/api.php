@@ -37,6 +37,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/list-produk-by-kategori/{id}/{lat}/{long}', [\App\Http\Controllers\Api\ProdukController::class, 'list_produk_by_kategori']);
     Route::get('/kategori', [\App\Http\Controllers\Api\KategoriController::class, 'show']);
     Route::get('/informasi-terbaru', [\App\Http\Controllers\Api\InformasiController::class, 'show']);
+    Route::post('/distance-cost/', [\App\Http\Controllers\Api\TransaksiController::class, 'getDistanceCost']);
+
 
     //KERANJANG BELANJA
     Route::get('/keranjang-belanja/{id_user}', [\App\Http\Controllers\Api\KeranjangBelanjaController::class, 'show']);
@@ -56,7 +58,6 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::post('/store-transaksi/', [\App\Http\Controllers\Api\TransaksiController::class, 'store']);
 
-    Route::post('/distance-cost/', [\App\Http\Controllers\Api\TransaksiController::class, 'getDistanceCost']);
     Route::post('/cancel-transaksi/', [\App\Http\Controllers\Api\TransaksiController::class, 'cancelTransaksi']);
     Route::get('/detail-transaksi/{id}', [\App\Http\Controllers\Api\TransaksiController::class, 'showDetailTransaksi']);
 
