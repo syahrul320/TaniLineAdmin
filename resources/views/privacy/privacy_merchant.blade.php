@@ -1,110 +1,72 @@
 <!DOCTYPE html>
-    <html>
-    <head>
-      <meta charset='utf-8'>
-      <meta name='viewport' content='width=device-width'>
-      <title>Privacy Policy</title>
-      <style> body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; padding:1em; } </style>
-    </head>
-    <body>
-    <strong>Privacy Policy</strong> <p>
-                  Taniline Merchant built the Taniline Merchant app as
-                  a Free app. This SERVICE is provided by
-                  Taniline Merchant at no cost and is intended for use as
-                  is.
-                </p> <p>
-                  This page is used to inform visitors regarding our
-                  policies with the collection, use, and disclosure of Personal
-                  Information if anyone decided to use our Service.
-                </p> <p>
-                  If you choose to use our Service, then you agree to
-                  the collection and use of information in relation to this
-                  policy. The Personal Information that we collect is
-                  used for providing and improving the Service. We will not use or share your information with
-                  anyone except as described in this Privacy Policy.
-                </p> <p>
-                  The terms used in this Privacy Policy have the same meanings
-                  as in our Terms and Conditions, which are accessible at
-                  Taniline Merchant unless otherwise defined in this Privacy Policy.
-                </p> <p><strong>Information Collection and Use</strong></p> <p>
-                  For a better experience, while using our Service, we
-                  may require you to provide us with certain personally
-                  identifiable information, including but not limited to Pondok Pesantren. The information that
-                  we request will be retained by us and used as described in this privacy policy.
-                </p> <div><p>
-                    The app does use third-party services that may collect
-                    information used to identify you.
-                  </p> <p>
-                    Link to the privacy policy of third-party service providers used
-                    by the app
-                  </p> <ul><li><a href="https://www.google.com/policies/privacy/" target="_blank" rel="noopener noreferrer">Google Play Services</a></li><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----></ul></div> <p><strong>Log Data</strong></p> <p>
-                  We want to inform you that whenever you
-                  use our Service, in a case of an error in the app
-                  we collect data and information (through third-party
-                  products) on your phone called Log Data. This Log Data may
-                  include information such as your device Internet Protocol
-                  (“IP”) address, device name, operating system version, the
-                  configuration of the app when utilizing our Service,
-                  the time and date of your use of the Service, and other
-                  statistics.
-                </p> <p><strong>Cookies</strong></p> <p>
-                  Cookies are files with a small amount of data that are
-                  commonly used as anonymous unique identifiers. These are sent
-                  to your browser from the websites that you visit and are
-                  stored on your device's internal memory.
-                </p> <p>
-                  This Service does not use these “cookies” explicitly. However,
-                  the app may use third-party code and libraries that use
-                  “cookies” to collect information and improve their services.
-                  You have the option to either accept or refuse these cookies
-                  and know when a cookie is being sent to your device. If you
-                  choose to refuse our cookies, you may not be able to use some
-                  portions of this Service.
-                </p> <p><strong>Service Providers</strong></p> <p>
-                  We may employ third-party companies and
-                  individuals due to the following reasons:
-                </p> <ul><li>To facilitate our Service;</li> <li>To provide the Service on our behalf;</li> <li>To perform Service-related services; or</li> <li>To assist us in analyzing how our Service is used.</li></ul> <p>
-                  We want to inform users of this Service
-                  that these third parties have access to their Personal
-                  Information. The reason is to perform the tasks assigned to
-                  them on our behalf. However, they are obligated not to
-                  disclose or use the information for any other purpose.
-                </p> <p><strong>Security</strong></p> <p>
-                  We value your trust in providing us your
-                  Personal Information, thus we are striving to use commercially
-                  acceptable means of protecting it. But remember that no method
-                  of transmission over the internet, or method of electronic
-                  storage is 100% secure and reliable, and we cannot
-                  guarantee its absolute security.
-                </p> <p><strong>Links to Other Sites</strong></p> <p>
-                  This Service may contain links to other sites. If you click on
-                  a third-party link, you will be directed to that site. Note
-                  that these external sites are not operated by us.
-                  Therefore, we strongly advise you to review the
-                  Privacy Policy of these websites. We have
-                  no control over and assume no responsibility for the content,
-                  privacy policies, or practices of any third-party sites or
-                  services.
-                </p> <p><strong>Children’s Privacy</strong></p> <div><p>
-                    These Services do not address anyone under the age of 13.
-                    We do not knowingly collect personally
-                    identifiable information from children under 13 years of age. In the case
-                    we discover that a child under 13 has provided
-                    us with personal information, we immediately
-                    delete this from our servers. If you are a parent or guardian
-                    and you are aware that your child has provided us with
-                    personal information, please contact us so that
-                    we will be able to do the necessary actions.
-                  </p></div> <!----> <p><strong>Changes to This Privacy Policy</strong></p> <p>
-                  We may update our Privacy Policy from
-                  time to time. Thus, you are advised to review this page
-                  periodically for any changes. We will
-                  notify you of any changes by posting the new Privacy Policy on
-                  this page.
-                </p> <p>This policy is effective as of 2023-02-16</p> <p><strong>Contact Us</strong></p> <p>
-                  If you have any questions or suggestions about our
-                  Privacy Policy, do not hesitate to contact us at tanilineofficial@gmail.com.
-                </p> <p>This privacy policy page was created at <a href="https://privacypolicytemplate.net" target="_blank" rel="noopener noreferrer">privacypolicytemplate.net </a>and modified/generated by <a href="https://app-privacy-policy-generator.nisrulz.com/" target="_blank" rel="noopener noreferrer">App Privacy Policy Generator</a></p>
-    </body>
-    </html>
-      
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy - Taniline Merchant</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        h1, h2 {
+            color: #333;
+        }
+    </style>
+    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/images/logo-icon-23.png') }}">
+</head>
+<body>
+    <h1>Privacy Policy - Taniline Merchant</h1>
+    <p><strong>Updated on:</strong> 01 Juli 2024</p>
+
+    <p>At Taniline, we respect your privacy and are committed to protecting your personal information. This Privacy Policy explains how we collect, use, and safeguard the information you provide when using the Taniline Merchant mobile App.</p>
+
+    <h2>1. Information We Collect</h2>
+    <p>
+        a. <strong>Information You Provide</strong>: When you register and use the App, we may collect personal information such as your name, email address, phone number, and other information you provide.<br>
+        b. <strong>Usage Information</strong>: We may collect information about how you interact with the App, including but not limited to, which pages you visit, which features you use, and the time and duration of your usage.<br>
+        c. <strong>Location Information</strong>: With your consent, we may collect and process your geographic location information.<br>
+        d. <strong>Device Information</strong>: We may collect information about the device you use to access the App, such as the device type, operating system, unique device identifiers, and mobile network information.
+    </p>
+
+    <h2>2. Use of Information</h2>
+    <p>
+        We use the information we collect to:
+        <ul>
+            <li>Provide, operate, and maintain the App.</li>
+            <li>Improve and personalize your experience with the App.</li>
+            <li>Send notifications, updates, and other communications related to the App.</li>
+            <li>Analyze usage and trends to enhance the quality of the App.</li>
+            <li>Respond to your inquiries, comments, and requests.</li>
+        </ul>
+    </p>
+
+    <h2>3. Sharing of Information</h2>
+    <p>
+        We will not sell, trade, or rent your personal information to third parties without your consent, except in the following situations:
+        <ul>
+            <li>With third-party service providers who assist us in operating the App.</li>
+            <li>To comply with applicable laws, regulations, or legal processes.</li>
+            <li>To protect the rights, property, or safety of us or others.</li>
+        </ul>
+    </p>
+
+    <h2>4. Information Security</h2>
+    <p>We take reasonable steps to protect your personal information from unauthorized access, use, or disclosure. However, no method of transmission over the internet or method of electronic storage is completely secure, so we cannot guarantee absolute security.</p>
+
+    <h2>5. Your Rights</h2>
+    <p>You have the right to access, update, and delete your personal information that we hold. You may also object to or restrict the processing of your personal information under certain circumstances. To exercise these rights, please contact us using the contact information provided below.</p>
+
+    <h2>6. Changes to This Privacy Policy</h2>
+    <p>We may update this Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on the App and updating the "Updated on" date at the top of this document. We encourage you to review this Privacy Policy periodically.</p>
+
+    <h2>7. Contact Us</h2>
+    <p>If you have any questions or comments about this Privacy Policy, please contact us at:</p>
+    <p><strong>Email:</strong> tanilineofficial@gmail.com<br>
+    <strong>Address:</strong> Jl. TGKH. Zainuddin Abdul Majid, Pancor, Lombok Timur, Nusa Tenggara Barat</p>
+
+    <p>By using the Taniline Merchant App, you agree to the collection and use of information as described in this Privacy Policy.</p>
+</body>
+</html>
