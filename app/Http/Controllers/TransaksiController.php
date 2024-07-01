@@ -47,6 +47,7 @@ class TransaksiController extends Controller
                 ->join('produks', 'detail_transaksis.id_produk', '=', 'produks.id')
                 ->join('transaksis', 'detail_transaksis.id_transaksi', '=', 'transaksis.id')
                 ->select('users.name', 'produks.nama_produk', 'detail_transaksis.qty', 'detail_transaksis.harga_jual', 'transaksis.*')
+                ->where('transaksis.id', decrypt($request->id))
                 ->where('users.level', 'merchant');
             return DataTables::of($data)
                 ->addIndexColumn()
