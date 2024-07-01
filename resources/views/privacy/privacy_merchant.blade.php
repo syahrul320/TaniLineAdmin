@@ -21,7 +21,7 @@
     <h1>Privacy Policy - Taniline Merchant</h1>
     <p><strong>Updated on:</strong> 01 Juli 2024</p>
 
-    <p>At Taniline, we respect your privacy and are committed to protecting your personal information. This Privacy Policy explains how we collect, use, and safeguard the information you provide when using the Taniline Merchant mobile App.</p>
+    <p>At Taniline Merchant, we respect your privacy and are committed to protecting your personal information. This Privacy Policy explains how we collect, use, and safeguard the information you provide when using the Taniline Merchant mobile App.</p>
 
     <h2>1. Information We Collect</h2>
     <p>

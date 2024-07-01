@@ -30,19 +30,19 @@ class Dashboard extends Controller
     {
         $from = Carbon::createFromFormat('Y-m-d', $request->get('start_date'))->startOfDay();
         $to = Carbon::createFromFormat('Y-m-d', $request->get('end_date'))->endOfDay();
-        $transaksi_selesai = Transaksi::selectRaw('SUM(harga) AS result')
+        $transaksi_selesai = Transaksi::selectRaw('SUM(total_harga) AS result')
             ->whereBetween('tgl_transaksi', [$from, $to])
             ->where('status_transaksi', 'selesai')
             ->first()->result;
-        $transaksi_diproses = Transaksi::selectRaw('SUM(harga) AS result')
+        $transaksi_diproses = Transaksi::selectRaw('SUM(total_harga) AS result')
             ->whereBetween('tgl_transaksi', [$from, $to])
             ->where('status_transaksi', 'diproses')
             ->first()->result;
-        $transaksi_diterima = Transaksi::selectRaw('SUM(harga) AS result')
+        $transaksi_diterima = Transaksi::selectRaw('SUM(total_harga) AS result')
             ->whereBetween('tgl_transaksi', [$from, $to])
             ->where('status_transaksi', 'diterima')
             ->first()->result;
-        $transaksi_batal = Transaksi::selectRaw('SUM(harga) AS result')
+        $transaksi_batal = Transaksi::selectRaw('SUM(total_harga) AS result')
             ->whereBetween('tgl_transaksi', [$from, $to])
             ->where('status_transaksi', 'batal')
             ->first()->result;
