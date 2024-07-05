@@ -427,7 +427,6 @@ class TransaksiController extends Controller
     {
         try {
             $validator = Validator::make($request->all(), [
-                'id' => 'required',
                 'status_transaksi' => 'required',
             ]);
 
