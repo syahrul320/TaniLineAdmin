@@ -439,15 +439,16 @@ class TransaksiController extends Controller
                 ->first();
             $user = User::find($transaksi->id_user_merchant);
             $setting = Setting::find(1);
-            if (!empty($transaksi)) {
-                $user->saldo += $setting->biaya_admin;
-                $user->save();
-                $transaksi->status_transaksi = 'batal';
-                $transaksi->save();
-                return response()->json(['status' => True, 'message' => 'Pesanan berhasil dibatalkan']);
-            } else {
-                return response()->json(['status' => False]);
-            }
+            echo $transaksi;
+            // if (!empty($transaksi)) {
+            //     $user->saldo += $setting->biaya_admin;
+            //     $user->save();
+            //     $transaksi->status_transaksi = 'batal';
+            //     $transaksi->save();
+            //     return response()->json(['status' => True, 'message' => 'Pesanan berhasil dibatalkan']);
+            // } else {
+            //     return response()->json(['status' => False]);
+            // }
         } catch (\Throwable $th) {
             return response()->json(['status' => False, 'message' => $th->getMessage()]);
         }
