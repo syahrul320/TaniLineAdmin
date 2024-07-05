@@ -435,24 +435,22 @@ class TransaksiController extends Controller
             }
             
             $transaksi = Transaksi::where('id', $id)
-                ->where('status_transaksi', $request->status_transaksi == 'diproses')
+                ->where('status_transaksi', 'diproses')
                 ->first();
             $user = User::find($transaksi->id_user_merchant);
             $setting = Setting::find(1);
-            echo $transaksi;
-            // if (!empty($transaksi)) {
-            //     $user->saldo += $setting->biaya_admin;
-            //     $user->save();
-            //     $transaksi->status_transaksi = 'batal';
-            //     $transaksi->save();
-            //     return response()->json(['status' => True, 'message' => 'Pesanan berhasil dibatalkan']);
-            // } else {
-            //     return response()->json(['status' => False]);
-            // }
+            if (!empty($transaksi)) {
+                $user->saldo += $setting->biaya_admin;
+                $user->save();
+                $transaksi->status_transaksi = 'batal';
+                $transaksi->save();
+                return response()->json(['status' => True, 'message' => 'Pesanan berhasil dibatalkan']);
+            } else {
+                return response()->json(['status' => False]);
+            }
         } catch (\Throwable $th) {
             return response()->json(['status' => False, 'message' => $th->getMessage()]);
         }
-        
     }
 
     public function konfirmasiPesananDiterima($id)
