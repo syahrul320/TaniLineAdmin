@@ -435,7 +435,7 @@ class TransaksiController extends Controller
             }
             
             $transaksi = Transaksi::where('id', $id)
-                ->where('status_transaksi', $request->status_transaksi == 'diproces')
+                ->where('status_transaksi', $request->status_transaksi == 'diproses')
                 ->first();
             $user = User::find($transaksi->id_user_merchant);
             $setting = Setting::find(1);
