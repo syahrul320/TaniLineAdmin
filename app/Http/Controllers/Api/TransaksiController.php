@@ -401,7 +401,7 @@ class TransaksiController extends Controller
             $transaksi = Transaksi::where('id', $id)->first();
             $transaksi->status_transaksi = $request->status_transaksi;
             $transaksi->save();
-            if($transaksi->status_transaksi == 'batal'){
+            if($request->status_transaksi == 'batal'){
                 $user = User::where('id', $transaksi->id_user_pembeli)->first();
                 $user->saldo += $transaksi->biaya_admin;
                 $user->save();
