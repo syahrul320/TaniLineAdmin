@@ -397,23 +397,15 @@ class TransaksiController extends Controller
         if ($validator->fails()) {
             return response()->json($validator->errors(), 400);
         }
-        try {
-            $transaksi = Transaksi::where('id', $id)->first();
-            $transaksi->status_transaksi = $request->status_transaksi;
-            $transaksi->save();
-            if($request->status_transaksi == 'batal'){
-                $user = User::where('id', $transaksi->id_user_pembeli)->first();
-                $user->saldo += $transaksi->biaya_admin;
-                $user->save();
-            } 
-    
-            return response()->json([
-                'message' => 'Status transaksi berhasil diubah',
-                'data' => $transaksi
-            ]);
-        } catch (\Throwable $th) {
-            return response()->json(['message' => $th->getMessage()]);
-        }
+
+        $transaksi = Transaksi::where('id', $id)->first();
+        $transaksi->status_transaksi = $request->status_transaksi;
+        $transaksi->save();
+
+        return response()->json([
+            'message' => 'Status transaksi berhasil diubah',
+            'data' => $transaksi
+        ]);
     }
 
     public function notifPesananDiterima($id)
