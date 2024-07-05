@@ -435,7 +435,6 @@ class TransaksiController extends Controller
             }
             
             $transaksi = Transaksi::where('id', $id)
-                ->join('users', 'transaksis.id_user_merchant', '=', 'users.id')
                 ->where('status_transaksi', $request->status_transaksi == 'batal')
                 ->first();
             $user = User::find($transaksi->id_user_merchant);
