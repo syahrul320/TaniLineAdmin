@@ -339,6 +339,9 @@ class TransaksiController extends Controller
                 'detail_transaksis.id as id_detail_transaksi',
                 'detail_transaksis.qty',
                 'produks.nama_produk',
+                'transaksis.alamat_tujuan',
+                'transaksis.id',
+
             ])
             ->orderByDesc('transaksis.id')
             ->paginate(30);
@@ -360,7 +363,10 @@ class TransaksiController extends Controller
                 'transaksis.status_transaksi',
                 'transaksis.total',
                 'transaksis.ongkir',
-                'transaksis.id'
+                'transaksis.id',
+                'transaksis.alamat_tujuan'
+                
+
             ])
             ->orderByDesc('transaksis.id')
             ->paginate(30);
@@ -381,7 +387,10 @@ class TransaksiController extends Controller
                 'transaksis.tgl_transaksi',
                 'transaksis.status_transaksi',
                 'transaksis.total',
-                'transaksis.ongkir'
+                'transaksis.ongkir',
+                'transaksis.id',
+                'transaksis.alamat_tujuan'
+
             ])
             ->orderByDesc('transaksis.id')
             ->paginate(30);
