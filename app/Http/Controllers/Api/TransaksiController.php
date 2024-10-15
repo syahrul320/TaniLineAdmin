@@ -105,7 +105,8 @@ class TransaksiController extends Controller
                 'transaksis.status_transaksi',
                 'transaksis.total',
                 'transaksis.id',
-                'transaksis.ongkir'
+                'transaksis.ongkir',
+                'transaksis.alamat_tujuan'
             ])
             ->orderByDesc('transaksis.id')
             ->paginate(30);
@@ -313,6 +314,8 @@ class TransaksiController extends Controller
                 'detail_transaksis.id as id_detail_transaksi',
                 'detail_transaksis.qty',
                 'produks.nama_produk',
+                'transaksis.alamat_tujuan',
+                'transaksis.id',
             ])
             ->orderByDesc('transaksis.id')
             ->paginate(30);
@@ -339,6 +342,9 @@ class TransaksiController extends Controller
                 'detail_transaksis.id as id_detail_transaksi',
                 'detail_transaksis.qty',
                 'produks.nama_produk',
+                'transaksis.alamat_tujuan',
+                'transaksis.id',
+
             ])
             ->orderByDesc('transaksis.id')
             ->paginate(30);
@@ -360,7 +366,10 @@ class TransaksiController extends Controller
                 'transaksis.status_transaksi',
                 'transaksis.total',
                 'transaksis.ongkir',
-                'transaksis.id'
+                'transaksis.id',
+                'transaksis.alamat_tujuan'
+                
+
             ])
             ->orderByDesc('transaksis.id')
             ->paginate(30);
@@ -381,7 +390,10 @@ class TransaksiController extends Controller
                 'transaksis.tgl_transaksi',
                 'transaksis.status_transaksi',
                 'transaksis.total',
-                'transaksis.ongkir'
+                'transaksis.ongkir',
+                'transaksis.id',
+                'transaksis.alamat_tujuan'
+
             ])
             ->orderByDesc('transaksis.id')
             ->paginate(30);
@@ -420,6 +432,36 @@ class TransaksiController extends Controller
             return response()->json(['status' => True]);
         } else {
             return response()->json(['status' => False]);
+        }
+    }
+
+    public function batalPesananDikirim(Request $request, $id)
+    {
+        try {
+            $validator = Validator::make($request->all(), [
+                'status_transaksi' => 'required',
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json($validator->errors(), 400);
+            }
+            
+            $transaksi = Transaksi::where('id', $id)
+                ->where('status_transaksi', 'diproses')
+                ->first();
+            $user = User::find($transaksi->id_user_merchant);
+            $setting = Setting::find(1);
+            if (!empty($transaksi)) {
+                $user->saldo += $setting->biaya_admin;
+                $user->save();
+                $transaksi->status_transaksi = 'batal';
+                $transaksi->save();
+                return response()->json(['status' => True, 'message' => 'Pesanan berhasil dibatalkan']);
+            } else {
+                return response()->json(['status' => False]);
+            }
+        } catch (\Throwable $th) {
+            return response()->json(['status' => False, 'message' => $th->getMessage()]);
         }
     }
 

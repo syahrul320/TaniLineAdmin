@@ -113,4 +113,5 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/notif-pesanan-diterima/{id}', [\App\Http\Controllers\Api\TransaksiController::class, 'notifPesananDiterima']);
     Route::get('/notif-pesanan-dikirim/{id}', [\App\Http\Controllers\Api\TransaksiController::class, 'notifPesananDikirim']);
     Route::get('/konfirmasi-pesanan-diterima/{id}', [\App\Http\Controllers\Api\TransaksiController::class, 'konfirmasiPesananDiterima']);
+    Route::put('/batal-pesanan-dikirim/{id}', [\App\Http\Controllers\Api\TransaksiController::class, 'batalPesananDikirim']);
 });
