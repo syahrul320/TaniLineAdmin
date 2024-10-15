@@ -12,7 +12,7 @@ class TopupController extends Controller
 {
     public function store(Request $request)
     {
-        try {
+        // try {
             //code...
             //seckert key bigflip = 'JDJ5JDEzJEdCd2cwbmtrV3JFc2FBUWt2SGNUQU9NMXkvT0E5Y0JQbmV3dnN1VGV6Znd0UHd3bndzVFYy';
             $ch = curl_init();
@@ -46,22 +46,22 @@ class TopupController extends Controller
             curl_close($ch);
 
             $dataResponse = json_decode($response);
+            dd($dataResponse);
+            // $topup = new Topup();
+            // $topup->id_user_merchant = $request->id_user_merchant;
+            // $topup->title = $dataResponse->title;
+            // $topup->amount = max(10000, $request->amount); // ensure minimum amount is 10000
+            // $topup->status = 'pending';
+            // $topup->external_id = $dataResponse->link_id;
+            // $topup->url = $dataResponse->link_url;
+            // $topup->tanggal_topup = date('Y-m-d');
+            // $topup->save();
 
-            $topup = new Topup();
-            $topup->id_user_merchant = $request->id_user_merchant;
-            $topup->title = $dataResponse->title;
-            $topup->amount = max(10000, $request->amount); // ensure minimum amount is 10000
-            $topup->status = 'pending';
-            $topup->external_id = $dataResponse->link_id;
-            $topup->url = $dataResponse->link_url;
-            $topup->tanggal_topup = date('Y-m-d');
-            $topup->save();
-
-            return response()->json(['data'=>$dataResponse->link_url]);
-        } catch (\Throwable $th) {
-            //throw $th;
-            return response()->json(['message' => $th->getMessage()]);
-        }
+        //     return response()->json(['data'=>$dataResponse->link_url]);
+        // } catch (\Throwable $th) {
+        //     //throw $th;
+        //     return response()->json(['message' => $th->getMessage()]);
+        // }
     }
 
     function notification(Request $request)
