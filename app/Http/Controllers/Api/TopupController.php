@@ -54,7 +54,7 @@ class TopupController extends Controller
             $topup->status = 'pending';
             $topup->external_id = $dataResponse->link_id;
             $topup->url = $dataResponse->link_url;
-            $topup->tanggal_topup = date('Y-m-d');
+            // $topup->tanggal_topup = date('Y-m-d');
             $topup->save();
 
             return response()->json(['data'=>$dataResponse->link_url]);
